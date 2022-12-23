@@ -1,7 +1,7 @@
  <template>
   <!---category component model start---->
     <v-row justify="start">
-     <v-dialog v-model="dialog" persistent max-width="500">
+     <v-dialog v-model="dialog"  persistent max-width="500">
        <template v-slot:activator="{ props }">
          <div v-if="type=='Create'">
            <v-btn  color="success" class="ma-4" v-bind="props">{{ type }}</v-btn>
@@ -23,6 +23,7 @@
             <v-row>
                <v-col>
                  <v-text-field
+                  v-model="name"
                    label="Category Name*"
                    placeholder="Enter Category Name"
                    required
@@ -32,6 +33,7 @@
              <v-row no-gutters>
                <v-col>
                  <v-select
+                 v-model="category"
                  :items="['Expense', 'Income']"
                  label="Category type*"
                    required
@@ -56,7 +58,9 @@
              color="white"
              :style="{ backgroundColor: 'blue' }"
             elevation="4"
-             @click="dialog = false"
+            :disabled="disablebtn"
+
+             @click="dialog=false"
            >
              Save
            </v-btn>
@@ -73,14 +77,19 @@ export default {
   data() {
     return {
       dialog: false,
+      name:"",
+      category:"",
     };
   },
   methods: {},
-  // computed: {
-  //     myfunc() {
-  //         return console.log("myname3")
-  //     }
-  // }
+  computed: {
+      disablebtn() {
+       return(this.name=="" || this.category =="")
+
+      },
+     
+      }
+  
 };
 </script>
 <style scope>

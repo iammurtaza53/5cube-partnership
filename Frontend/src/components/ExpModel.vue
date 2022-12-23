@@ -23,12 +23,13 @@
           <v-card-text>
             <v-container>
               <v-row>
-                <v-text-field
+                <v-select
                 v-model="Name"
+                 :items="['Office Rent', 'Laptop Repair','Bill']"
                   label="Expense Name*"
-                  placeholder="Enter Expense Name"
+                  
                   required
-                ></v-text-field>
+                ></v-select>
               </v-row>
               <v-row>
                 <v-textarea 
@@ -78,12 +79,12 @@
           <v-card-text>
             <v-container>
               <v-row>
-                <v-text-field
+                <v-select
                 v-model="Name"
+                 :items="['Client']"
                   label=" Name*"
-                  placeholder="Enter Name"
                   required
-                ></v-text-field>
+                ></v-select>
               </v-row>
               <v-row>
                 <v-textarea
