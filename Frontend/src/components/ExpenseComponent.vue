@@ -4,6 +4,7 @@
   <div class="page">
     <div class="d-flex page box p-3">Expense Details</div>
     <div class="page content shadow p-3 position-relative">
+      <ExpModel type="Create" comp='Expense'/>
       <v-table>
         <thead>
           <tr>
@@ -24,7 +25,7 @@
             <td>Rs {{ item.amount  }}/-</td>
             <td>{{ Date() }}</td>
             <td>
-              <AppModal type="Edit" />
+              <ExpModel type="Edit" comp='Expense'/>
             </td>
             <td>
               <v-btn outlined plain size="x-small" icon>
@@ -38,7 +39,7 @@
   </div>
 </template>
 <script>
-import AppModal from "./AppModal.vue";
+import ExpModel from "./ExpModel.vue";
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue"
 export default {
@@ -46,7 +47,7 @@ name: "ExpenseComponent",
 components: {
 AppSidebar,
   AppHeader,
-  AppModal,
+  ExpModel,
 },
 data() {
 return {

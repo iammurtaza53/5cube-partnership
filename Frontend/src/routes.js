@@ -5,6 +5,9 @@ import CategoryComponent from "./components/CategoryComponent.vue";
 import ExpenseComponent from "./components/ExpenseComponent.vue";
 import IncomeComponent from "./components/IncomeComponent.vue";
 import LogIn from "./components/LogIn.vue";
+import ShareComponent from "./components/ShareComponent.vue";
+import ReportComponent from "./components/ReportComponent.vue";
+
 const routes = [
     {
         name: "dashboard",
@@ -30,7 +33,18 @@ const routes = [
         name: "income",
         path: "/income",
         component:IncomeComponent,
+    },
+    {
+        name: "share",
+        path: "/share",
+        component:ShareComponent,
+    },
+    {
+        name: "report",
+        path: "/report",
+        component:ReportComponent,
     }
+   
 ]
 
 const router = createRouter({
