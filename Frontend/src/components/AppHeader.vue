@@ -6,12 +6,12 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn to="/login" class="text-color">
-      <span >Exit</span>
+      <span>Exit</span>
       <v-icon>mdi-exit-to-app</v-icon>
     </v-btn>
   </v-app-bar>
 </template>
-<script >
+<script>
 
 export default {
   components: {

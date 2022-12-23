@@ -20,7 +20,7 @@ const routes = [
         name: "category",
         path: "/category",
         component:CategoryComponent,
-    },
+    },  
     {
         name: "expense",
         path: "/expense",

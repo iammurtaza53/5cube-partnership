@@ -28,7 +28,8 @@
             <td>{{ item.name }}</td>
             <td>{{ item.type }}</td>
             <td>
-              <AppModal type="Edit" />
+                <AppModal type="Edit" />
+              <!-- <AppModal type="Edit" /> -->
             </td>
             <td>
               <v-btn outlined plain size="x-small" icon>
@@ -54,6 +55,7 @@ export default {
   },
   data() {
     return {
+      
       category: [
         {
           name: "Food",
