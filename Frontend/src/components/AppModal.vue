@@ -1,10 +1,11 @@
-<template>
-  <v-row justify="start">
-    <v-dialog v-model="dialog" persistent max-width="500">
-      <template v-slot:activator="{ props }">
-        <div v-if="type=='Create'">
-          <v-btn  color="success" class="ma-4" v-bind="props">{{ type }}</v-btn>
-        </div>
+ <template>
+  <!---category component model start---->
+    <v-row justify="start">
+     <v-dialog v-model="dialog" persistent max-width="500">
+       <template v-slot:activator="{ props }">
+         <div v-if="type=='Create'">
+           <v-btn  color="success" class="ma-4" v-bind="props">{{ type }}</v-btn>
+         </div>
         <div v-if="type=='Edit'">
            <v-btn outlined plain size="x-small" icon v-bind="props">
              <v-icon color="indigo">mdi-pencil</v-icon>
@@ -20,20 +21,20 @@
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col>
-                <v-text-field
-                  label="Category Name*"
-                  placeholder="Enter Category Name"
-                  required
-                ></v-text-field>
-              </v-col>
+               <v-col>
+                 <v-text-field
+                   label="Category Name*"
+                   placeholder="Enter Category Name"
+                   required
+                 ></v-text-field>
+             </v-col>
             </v-row>
-            <v-row no-gutters>
-              <v-col>
-                <v-select
-                  :items="['Expense', 'Income']"
-                  label="Category type*"
-                  required
+             <v-row no-gutters>
+               <v-col>
+                 <v-select
+                 :items="['Expense', 'Income']"
+                 label="Category type*"
+                   required
                 ></v-select>
               </v-col>
             </v-row>
@@ -56,11 +57,11 @@
              color="white"
              :style="{ backgroundColor: 'blue' }"
             elevation="4"
-            @click="dialog = false"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
+             @click="dialog = false"
+           >
+             Save
+           </v-btn>
+         </v-card-actions>
       </v-card>
      </v-dialog>
   </v-row>
@@ -78,31 +79,14 @@ export default {
         type: "",
       },
       dialog: false,
-      error: [],
     };
   },
-  methods: {
-    saveCategory() {
-      // this.categories = [];
-      this.error = [];
-      for (let i in this.catForm) {
-        
-        if (this.catForm[i] == "" || this.catForm[i].length == 0) {
-          this.error.push(i);
-          
-        }
-      }
-      console.log("aasasa",this.error);
-      this.categories.push(this.catForm);
-      console.log("categories", this.categories);
-      
-      this.$refs.cname.reset();
-      this.$refs.ctype.reset();
-      
-      // this.catForm.reset();  
-    },
-  },
- 
+  methods: {},
+  // computed: {
+  //     myfunc() {
+  //         return console.log("myname3")
+  //     }
+  // }
 };
 </script>
 <style scope>
