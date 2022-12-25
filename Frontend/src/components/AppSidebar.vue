@@ -55,7 +55,8 @@ export default {
         },
         { path: "/expense", name: "Expense", icon: "mdi-arrow-left-circle" },
         { path: "/income", name: "Income", icon: "mdi-arrow-right-circle" },
-        //   { path: "/report", name: "Report", icon: "mdi-account" },
+        { path: "/share", name: "Share", icon: "mdi-currency-usd"},
+        { path:"/report", name: "Report", icon: "mdi-chart-line-variant"},
       ],
       rail: false,
     };
@@ -67,24 +68,24 @@ export default {
 
 .routes-list-item {
   color: #dc8c8c;
-  /* #aa1a21 */
+  /* #aa1a21rgb(250, 224, 228) */
   /* font-size: 0.6rem; */
   font-weight: 100;
   letter-spacing: 1px;
   text-decoration: none;
   text-underline-offset: none;
 }
-.mycol {
+/* .mycol {
   border: 1px solid red;
   align-items: center;
-}
+} */
 .routes-list {
   margin-top: 40px;
 }
-.theme--light.v-list-item--active:before,
+/* .theme--light.v-list-item--active:before,
 .theme--light.v-list-item--active:hover:before{
   color:#510f13
-}
+} */
 .v-list-item--active {
      color: white;
   }
