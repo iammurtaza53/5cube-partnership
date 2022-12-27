@@ -8,7 +8,6 @@
   <div app class="page">
     <div class="d-flex page box p-3">Categories</div>
     <div class="content page shadow p-3 position-relative">
-      
       <!-- app-modal component is used to show the modal to create category with type="Create" and to edit category with type="Edit" -->
 
       <AppModal type="Create" />
@@ -28,7 +27,7 @@
             <td>{{ item.name }}</td>
             <td>{{ item.type }}</td>
             <td>
-                <AppModal type="Edit" />
+              <AppModal type="Edit" />
               <!-- <AppModal type="Edit" /> -->
             </td>
             <td>
@@ -41,8 +40,10 @@
       </v-table>
     </div>
   </div>
+
 </template>
 <script>
+import axios from "axios";
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
 import AppModal from "./AppModal.vue";
@@ -53,39 +54,44 @@ export default {
     AppHeader,
     AppModal,
   },
+  async mounted() {
+    let category = await axios.get("http://127.0.0.1:8000/catinfo/");
+    console.log(category.data.data);
+    this.catlist = category.data.data;
+  },
   data() {
     return {
-      
-      category: [
-        {
-          name: "Food",
-          type: "Expense",
-        },
-        {
-          name: "Client",
-          type: "Income",
-        },
-        {
-          name: "Salary",
-          type: "Expense",
-        },
-        {
-          name: "Transport",
-          type: "Expense",
-        },
-        {
-          name: "Rent",
-          type: "Expense",
-        },
-        {
-          name: "Bills",
-          type: "Expense",
-        },
-        {
-          name: "Other",
-          type: "Expense",
-        },
-      ],
+      catlist:[],
+      // category: [
+      //   {
+      //     name: "Food",
+      //     type: "Expense",
+      //   },
+      //   {
+      //     name: "Client",
+      //     type: "Income",
+      //   },
+      //   {
+      //     name: "Salary",
+      //     type: "Expense",
+      //   },
+      //   {
+      //     name: "Transport",
+      //     type: "Expense",
+      //   },
+      //   {
+      //     name: "Rent",
+      //     type: "Expense",
+      //   },
+      //   {
+      //     name: "Bills",
+      //     type: "Expense",
+      //   },
+      //   {
+      //     name: "Other",
+      //     type: "Expense",
+      //   },
+      // ],
     };
   },
 };
