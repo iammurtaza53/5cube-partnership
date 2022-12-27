@@ -1,0 +1,44 @@
+{
+  "category": [
+    {
+      "name": "Food",
+      "type": "Expense",
+      "id": 1
+    },
+    {
+      "name": "Client",
+      "type": "Income",
+      "id": 2
+    },
+    {
+      "name": "Salary",
+      "type": "Expense",
+      "id": 3
+    },
+    {
+      "name": "Transport",
+      "type": "Expense",
+      "id": 4
+    },
+    {
+      "name": "Rent",
+      "type": "Expense",
+      "id": 5
+    },
+    {
+      "name": "Bills",
+      "type": "Expense",
+      "id": 6
+    },
+    {
+      "name": "others",
+      "type": "Expense",
+      "id": 7
+    },
+    {
+      "name": "mantainance",
+      "type": "Expense",
+      "id": 8
+    }
+  ]
+}

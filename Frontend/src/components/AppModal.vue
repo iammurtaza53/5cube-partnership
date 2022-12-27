@@ -3,11 +3,11 @@
     <v-row justify="start">
      <v-dialog v-model="dialog" persistent max-width="500">
        <template v-slot:activator="{ props }">
-         <div v-if="type=='Create'">
-           <v-btn  color="success" class="ma-4" v-bind="props">{{ type }}</v-btn>
+         <div v-if="types=='Create'">
+           <v-btn  color="success" class="ma-4" v-bind="props">{{ types }}</v-btn>
          </div>
-        <div v-if="type=='Edit'">
-           <v-btn outlined plain size="x-small" icon v-bind="props">
+        <div v-if="types=='Edit'">
+           <v-btn v-on:click="updateData(item.id)" outlined plain size="x-small" icon v-bind="props">
              <v-icon color="indigo">mdi-pencil</v-icon>
           </v-btn>
          </div>
@@ -15,11 +15,11 @@
 
        <v-card>
         <v-card-title>
-          <span class="text-h5">{{ type }} Category</span>
-        </v-card-title>
-        <v-divider color="white" class="divider"></v-divider>
-        <v-card-text>
-          <v-container>
+           <span class="text-h5">{{ types }} Category</span>
+         </v-card-title>
+         <v-divider color="white" class="divider"></v-divider>
+         <v-card-text>
+           <v-container>
             <v-row>
                <v-col>
                  <v-text-field
@@ -32,6 +32,7 @@
              <v-row no-gutters>
                <v-col>
                  <v-select
+                 v-model="type"
                  :items="['Expense', 'Income']"
                  label="Category type*"
                    required
@@ -57,7 +58,8 @@
              color="white"
              :style="{ backgroundColor: 'blue' }"
             elevation="4"
-             @click="dialog = false"
+            :disabled="disablebtn"
+             @click="sendData"
            >
              Save
            </v-btn>
@@ -67,9 +69,10 @@
   </v-row>
 </template>
 <script>
+import axios from "axios";
 export default {
   props: {
-    type: String,
+    types: String,
   },
   data() {
     return {
@@ -79,15 +82,39 @@ export default {
         type: "",
       },
       dialog: false,
+      name:"",
+      type:"",
     };
   },
-  methods: {},
-  // computed: {
-  //     myfunc() {
-  //         return console.log("myname3")
-  //     }
-  // }
-};
+   
+  methods: {
+    
+       
+
+
+    async sendData(){
+
+      console.log(this.name,this.type);
+      let result= await axios.post("http://localhost:3000/category",{
+        name:this.name,
+        type:this.type,
+      });
+      console.warn("result",result);
+    },
+ 
+    
+  
+  computed: {
+      disablebtn() {
+       return(this.name=="" || this.category =="")
+
+      },
+     
+     },
+}
+      
+} 
+
 </script>
 <style scope>
 .aaa {
