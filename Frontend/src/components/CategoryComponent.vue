@@ -10,7 +10,8 @@
     <div class="content page shadow p-3 position-relative">
       <!-- app-modal component is used to show the modal to create category with type="Create" and to edit category with type="Edit" -->
 
-      <AppModal types="Create" />
+      <AppModal types="Create" :getCategories="getCategories"/>
+      <!--  @get-categories="getCategories" -->
       <v-table>
         <thead>
           <tr>
@@ -22,17 +23,22 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, i) in type" :key="item.name">
-            <td>{{ i + 1 }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.type}}</td>
+          <tr v-for="item in categoryList" :key="item.id">
+            <td>{{ item.id }}</td>
+            <td>{{ item.cname }}</td>
+            <td>{{ item.ctype }}</td>
             <td>
-              <AppModal type="Edit" />
+              <AppModal types="Edit" />
             </td>
             <td>
-              <v-btn v-on:click="deleteData(item.id)" outlined plain size="x-small" icon>
+              <v-btn
+                v-on:click="deleteCategories(item.id)"
+                outlined
+                plain
+                size="x-small"
+                icon
+              >
                 <v-icon color="error">mdi-delete</v-icon>
-               
               </v-btn>
             </td>
           </tr>
@@ -40,7 +46,6 @@
       </v-table>
     </div>
   </div>
-
 </template>
 <script>
 import AppSidebar from "./AppSidebar.vue";
@@ -54,68 +59,34 @@ export default {
     AppHeader,
     AppModal,
   },
-  async mounted() {
-    let category = await axios.get("http://127.0.0.1:8000/catinfo/");
-    console.log(category.data.data);
-    this.catlist = category.data.data;
-  },
+
   data() {
     return {
-      category: [
-        {
-          name: "Food",
-          type: "Expense",
-        },
-        {
-          name: "Client",
-          type: "Income",
-        },
-        {
-          name: "Salary",
-          type: "Expense",
-        },
-        {
-          name: "Transport",
-          type: "Expense",
-        },
-        {
-          name: "Rent",
-          type: "Expense",
-        },
-        {
-          name: "Bills",
-          type: "Expense",
-        },
-        {
-          name: "Other",
-          type: "Expense",
-        },
-      ],
+      categoryList: [],
     };
-
   },
-  async mounted(){
-    let result=await axios.get("http://localhost:3000/category");
-    
-    this.type = result.data;
-    console.warn("Api data", this.type);
-  
-
+  mounted() {
+    this.getCategories();
   },
-  methods:{
-     async deleteData(id){
-
-     let result = await axios.delete("http://localhost:3000/category/"+id);
-     if(result.status==200)
-          console.warn("result",result);
-      
-
-     
+  methods: {
+    async getCategories() {
+      let getCategoryURL = await axios.get(
+        "http://127.0.0.1:8000/category_list/"
+      );
+      this.categoryList = getCategoryURL.data;
     },
-  
-},
-}
-</script>
 
+    async deleteCategories(id) {
+      console.log("deleteCategories", id);
+      await axios.delete("http://127.0.0.1:8000/category_delete", {
+        data: {
+          id: id,
+        },
+      });
+      this.getCategories();
+    },
+  },
+};
+</script>
 
 <style></style>
