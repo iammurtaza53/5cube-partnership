@@ -28,7 +28,7 @@
             <td>{{ item.cname }}</td>
             <td>{{ item.ctype }}</td>
             <td>
-              <AppModal types="Edit" />
+              <AppModal types="Edit" :getCategories="getCategories"/>
             </td>
             <td>
               <v-btn

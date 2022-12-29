@@ -24,22 +24,21 @@
             <v-container>
               <v-row>
                 <v-select
-                v-model="Name"
-                 :items="['Office Rent', 'Laptop Repair','Bill']"
+                  :items="categoryList"
                   label="Expense Name*"
-                  
                   required
                 ></v-select>
               </v-row>
               <v-row>
-                <v-textarea 
-                v-model="Detail"
-                label="Expense Detail*"
-                 rows="1"></v-textarea>
+                <v-textarea
+                  v-model="Detail"
+                  label="Expense Detail*"
+                  rows="1"
+                ></v-textarea>
               </v-row>
               <v-row>
                 <v-text-field
-                v-model="Amount"
+                  v-model="Amount"
                   label=" Expense Amount*"
                   placeholder="Enter Expense Amount"
                   required
@@ -80,21 +79,22 @@
             <v-container>
               <v-row>
                 <v-select
-                v-model="Name"
-                 :items="['Client']"
+                  v-model="Name"
+                  :items="['Client']"
                   label=" Name*"
                   required
                 ></v-select>
               </v-row>
               <v-row>
                 <v-textarea
-                v-model="Detail"
-                 label=" Detail*"
-                  rows="1"></v-textarea>
+                  v-model="Detail"
+                  label=" Detail*"
+                  rows="1"
+                ></v-textarea>
               </v-row>
               <v-row>
-                <v-text-field 
-                v-model="Amount"
+                <v-text-field
+                  v-model="Amount"
                   label=" Amount*"
                   placeholder="Enter Amount"
                   required
@@ -113,7 +113,7 @@
               @click="dialog = false"
               >Close</v-btn
             >
-<!-- :disabled="select" -->
+            <!-- :disabled="select" -->
             <v-btn
               color="white"
               :style="{ backgroundColor: 'blue' }"
@@ -124,19 +124,16 @@
           </v-card-actions>
         </v-card>
       </div>
-       <!-----income model component end ------->
-      
-
+      <!-----income model component end ------->
     </v-dialog>
   </v-row>
-
- 
-
-
-
 </template>
 <script>
+import axios from "axios";
 export default {
+  mounted() {
+    this.getCategories();
+  },
   props: {
     type: String,
     comp: String,
@@ -147,15 +144,28 @@ export default {
       Name: "",
       Detail: "",
       Amount: "",
+      categoryList: [],
     };
   },
   methods: {
+    async getCategories() {
+      let getCategoryURL = await axios.get(
+        "http://127.0.0.1:8000/category_list/"
+      );
+      this.categoryList = getCategoryURL.data;
+
+      this.categoryList = this.categoryList.map((item) => {
+        if (item.ctype == "Expense") {
+          return item.cname;
+        }
+      });
+      this.categoryList = this.categoryList.filter((item) => item != null);
+    },
   },
-computed:{
-  disablebtn(){
-    console.log("asas")
-      return(this.Name == "" || this.Detail == "" || this.Amount == "")
-     },
-}
-}
+  computed: {
+    disablebtn() {
+      return this.Name == "" || this.Detail == "" || this.Amount == "";
+    },
+  },
+};
 </script>
