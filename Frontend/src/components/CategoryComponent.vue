@@ -23,8 +23,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in categoryList" :key="item.id">
-            <td>{{ item.id }}</td>
+          <tr v-for="(item,i) in categoryList" :key="item.id">
+            <td>{{ i+1 }}</td>
             <td>{{ item.cname }}</td>
             <td>{{ item.ctype }}</td>
             <td>

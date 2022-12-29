@@ -27,8 +27,12 @@ def category_detail(request,pk):
     json_data=JSONRenderer().render(serializer.data)#convert the python object into json
     return HttpResponse(json_data,content_type='application/json')#send the json data to the browser/client side 
 
+
 #Query - set All cateory data 
 def category_list(request):
+    
+#   type = request.params['ctype']
+#   cat=Category.objects.filter(ctype=type).all()
     cat=Category.objects.all()#get the data from database by primary key through url
     serializer=CategorySerializer(cat,many=True)#convert the queryset into python object
     json_data=JSONRenderer().render(serializer.data)#convert the python object into json
@@ -39,10 +43,8 @@ def category_list(request):
 @csrf_exempt
 def category_create(request):
     if request.method=='POST':
-        json_data = request.body
-        stream = io.BytesIO(json_data)
-        pythondata = JSONParser().parse(stream)
-        serializer = CategorySerializer(data=pythondata,partial=True)
+        json_data = eval(request.body)
+        serializer = CategorySerializer(data=json_data,partial=True)
         if serializer.is_valid():
          serializer.save()
          res={'msg':'data created'}
@@ -54,12 +56,15 @@ def category_create(request):
 @csrf_exempt
 def category_update(request):
     if request.method=='PUT':
-        json_data = request.body # get the data from client side
-        stream = io.BytesIO(json_data) # convert the data into stream
-        pythondata = JSONParser().parse(stream) # convert the stream into python object
-        id = pythondata.get('id') # get the id from python object
-        cat = Category.objects.get(id=id) # get the data from database
-        serializer = CategorySerializer(cat,data=pythondata,partial=True) # convert the data into python object
+        # json_data = request.body # get the data from client side
+        # stream = io.BytesIO(json_data) # convert the data into stream
+        # pythondata = JSONParser().parse(stream) # convert the stream into python object
+        # id = pythondata.get('id') # get the id from python object
+        # cat = Category.objects.get(id=id) # get the data from database
+        # serializer = CategorySerializer(cat,data=pythondata,partial=True) # convert the data into python object
+        json_data = eval(request.body) # get the data from client side
+        cat = Income.objects.get(id=json_data['id']) # get the data from database
+        serializer = IncomeSerializer(cat,data=json_data,partial=True) # convert the data into python object
         if serializer.is_valid(): # check the data is valid or not
          serializer.save() # save the data into database
          res={'msg':'data updated'}
@@ -111,12 +116,9 @@ def expense_create(request):
 @csrf_exempt
 def expense_update(request):
     if request.method=='PUT':
-        json_data = request.body # get the data from client side
-        stream = io.BytesIO(json_data) # convert the data into stream
-        pythondata = JSONParser().parse(stream) # convert the stream into python object
-        id = pythondata.get('id') # get the id from python object
-        exp = Expense.objects.get(id=id) # get the data from database
-        serializer = ExpenseSerializer(exp,data=pythondata,partial=True) # convert the data into python object
+        json_data = eval(request.body) # get the data from client side
+        exp = Income.objects.get(id=json_data['id']) # get the data from database
+        serializer = IncomeSerializer(exp,data=json_data,partial=True) # convert the data into python object
         if serializer.is_valid(): # check the data is valid or not
          serializer.save() # save the data into database
          res={'msg':'data updated'}
@@ -167,13 +169,10 @@ def income_create(request):
 
 @csrf_exempt
 def income_update(request):
-    if request.method=='PUT':
-        json_data = request.body # get the data from client side
-        stream = io.BytesIO(json_data) # convert the data into stream
-        pythondata = JSONParser().parse(stream) # convert the stream into python object
-        id = pythondata.get('id') # get the id from python object
-        inc = Income.objects.get(id=id) # get the data from database
-        serializer = IncomeSerializer(inc,data=pythondata,partial=True) # convert the data into python object
+    if request.method == 'PUT':
+        json_data = eval(request.body) # get the data from client side
+        inc = Income.objects.get(id=json_data['id']) # get the data from database
+        serializer = IncomeSerializer(inc,data=json_data,partial=True) # convert the data into python object
         if serializer.is_valid(): # check the data is valid or not
          serializer.save() # save the data into database
          res={'msg':'data updated'}
