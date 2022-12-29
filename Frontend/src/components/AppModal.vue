@@ -151,9 +151,6 @@ export default {
   },
 
   methods: {
-    
-     
-  
     async updateCategories() {
       await axios.put("http://127.0.0.1:8000/category_update", {
         cname: this.cname,
