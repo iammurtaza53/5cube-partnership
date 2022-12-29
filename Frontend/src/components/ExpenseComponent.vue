@@ -4,7 +4,11 @@
   <div class="page">
     <div class="d-flex page box p-3">Expense Details</div>
     <div class="page content shadow p-3 position-relative">
+<<<<<<< HEAD
       <ExpModel type="Create" :isEdit="!isEdit" />
+=======
+      <ExpModel type="Create" comp="Expense" />
+>>>>>>> 0a3632e84cf5264616d4118dab32cb5aa6cbeca3
       <v-table>
         <thead>
           <tr>
@@ -25,7 +29,11 @@
             <td>Rs {{ item.amount }}/-</td>
             <td>{{ Date() }}</td>
             <td>
+<<<<<<< HEAD
               <ExpModel type="" :isEdit="isEdit" />
+=======
+              <ExpModel type="Edit" comp="Expense" />
+>>>>>>> 0a3632e84cf5264616d4118dab32cb5aa6cbeca3
             </td>
             <td>
               <v-btn outlined plain size="x-small" icon>
@@ -42,6 +50,10 @@
 import ExpModel from "./ExpModel.vue";
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0a3632e84cf5264616d4118dab32cb5aa6cbeca3
 export default {
   name: "ExpenseComponent",
   components: {
@@ -49,6 +61,10 @@ export default {
     AppHeader,
     ExpModel,
   },
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> 0a3632e84cf5264616d4118dab32cb5aa6cbeca3
   data() {
     return {
       expense: [
@@ -58,6 +74,7 @@ export default {
           amount: 4000,
         },
       ],
+<<<<<<< HEAD
       isEdit: true,
     };
   },
@@ -66,3 +83,13 @@ export default {
 
 <style>
 </style>
+=======
+      categoryList: [],
+    };
+  },
+  
+};
+</script>
+
+<style></style>
+>>>>>>> 0a3632e84cf5264616d4118dab32cb5aa6cbeca3
