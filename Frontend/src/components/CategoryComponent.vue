@@ -10,12 +10,8 @@
     <div class="content page shadow p-3 position-relative">
       <!-- app-modal component is used to show the modal to create category with type="Create" and to edit category with type="Edit" -->
 
-<<<<<<< HEAD
-      <AppModal types="Create" :isEdit="!isEdit" />
-=======
       <AppModal types="Create" :getCategories="getCategories"/>
       <!--  @get-categories="getCategories" -->
->>>>>>> 0a3632e84cf5264616d4118dab32cb5aa6cbeca3
       <v-table>
         <thead>
           <tr>
@@ -27,30 +23,16 @@
           </tr>
         </thead>
         <tbody>
-<<<<<<< HEAD
-          <tr v-for="item in type" :key="item.cname">
-            <td>{{ item.id }}</td>
-            <td>{{ item.cname }}</td>
-            <td>{{ item.ctype }}</td>
-            <td>
-              <AppModal types="Edit" :isEdit="isEdit" />
-=======
           <tr v-for="(item,i) in categoryList" :key="item.id">
             <td>{{ i+1 }}</td>
             <td>{{ item.cname }}</td>
             <td>{{ item.ctype }}</td>
             <td>
               <AppModal types="Edit" :getCategories="getCategories"/>
->>>>>>> 0a3632e84cf5264616d4118dab32cb5aa6cbeca3
             </td>
             <td>
               <v-btn
-                v-on:click="deleteCategories(item.id)"
-                outlined
-                plain
-                size="x-small"
-                icon
-              >
+                v-on:click="deleteCategories(item.id)" outlined plainsize="x-small" icon>
                 <v-icon color="error">mdi-delete</v-icon>
               </v-btn>
             </td>
@@ -60,16 +42,11 @@
     </div>
   </div>
 </template>
-<<<<<<< HEAD
-
-=======
->>>>>>> 0a3632e84cf5264616d4118dab32cb5aa6cbeca3
 <script>
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
 import AppModal from "./AppModal.vue";
 import axios from "axios";
-
 export default {
   name: "CategoryComponent",
   components: {
@@ -80,28 +57,6 @@ export default {
 
   data() {
     return {
-<<<<<<< HEAD
-      type: [],
-      isEdit: true,
-    };
-  },
-  mounted() {
-    this.getApi();
-  },
-  methods: {
-    async getApi() {
-      let result = await axios.get("http://127.0.0.1:8000/category_list/");
-
-      this.type = result.data;
-      console.warn("Api data", this.type);
-    },
-    async deleteData(id) {
-      let result = await axios.delete("http://127.0.0.1:8000/category_delete", {
-        data: { id: id },
-      });
-      console.log(id);
-      if (result.status == 200) console.warn("result", result);
-=======
       categoryList: [],
     };
   },
@@ -114,7 +69,6 @@ export default {
         "http://127.0.0.1:8000/category_list/"
       );
       this.categoryList = getCategoryURL.data;
->>>>>>> 0a3632e84cf5264616d4118dab32cb5aa6cbeca3
     },
 
     async deleteCategories(id) {

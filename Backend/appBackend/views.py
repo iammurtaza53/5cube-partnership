@@ -1,11 +1,11 @@
+import io
 from django.shortcuts import render, HttpResponse
-from appBackend.models import Category
+from appBackend.models import Category, Expense, Income
+from .serializers import CategorySerializer, ExpenseSerializer, IncomeSerializer
 from rest_framework.renderers import JSONRenderer
 from django.http import HttpResponse, JsonResponse
-from .serializers import CategorySerializer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
-import io
 # from datetime import datetime
 
 # Create your views here.
@@ -27,53 +27,44 @@ def category_detail(request,pk):
     json_data=JSONRenderer().render(serializer.data)#convert the python object into json
     return HttpResponse(json_data,content_type='application/json')#send the json data to the browser/client side 
 
-#Quesry - set All cateory data 
+
+#Query - set All cateory data 
 def category_list(request):
+    
+#   type = request.params['ctype']
+#   cat=Category.objects.filter(ctype=type).all()
     cat=Category.objects.all()#get the data from database by primary key through url
     serializer=CategorySerializer(cat,many=True)#convert the queryset into python object
     json_data=JSONRenderer().render(serializer.data)#convert the python object into json
-    return HttpResponse(json_data,content_type='application/json')#send the json data to the
-
+    return HttpResponse(json_data,content_type='application/json')#send the json data to the 
     # or
     # return JsonResponse(serializer.data,safe=False)
 
 @csrf_exempt
 def category_create(request):
- if request.method=='POST':
-    json_data = request.body
-    stream = io.BytesIO(json_data)
-    pythondata = JSONParser().parse(stream)
-    serializer = CategorySerializer(data=pythondata,partial=True)
-    if serializer.is_valid():
-     serializer.save()
-     res={'msg':'data created'}
-     json_data=JSONRenderer().render(res)
-     return HttpResponse(json_data,content_type='application/json') 
-    json_data=JSONRenderer().render(serializer.errors)
-    return HttpResponse(json_data,content_type='application/json')
-
-@csrf_exempt 
-def category_delete(request):
-    if request.method == 'DELETE':
-        json_data = request.body
-        stream = io.BytesIO(json_data)
-        pythondata = JSONParser().parse(stream)
-        id = pythondata.get('id')
-        cat = Category.objects.get(id=id)
-        cat.delete()
-        res={'msg':'data deleted!!'}
-        json_data=JSONRenderer().render(res)
-        return HttpResponse(json_data,content_type='application/json')  
+    if request.method=='POST':
+        json_data = eval(request.body)
+        serializer = CategorySerializer(data=json_data,partial=True)
+        if serializer.is_valid():
+         serializer.save()
+         res={'msg':'data created'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json') 
+        json_data=JSONRenderer().render(serializer.errors)
+        return HttpResponse(json_data,content_type='application/json')
 
 @csrf_exempt
 def category_update(request):
     if request.method=='PUT':
-        json_data = request.body # get the data from client side
-        stream = io.BytesIO(json_data) # convert the data into stream
-        pythondata = JSONParser().parse(stream) # convert the stream into python object
-        id = pythondata.get('id') # get the id from python object
-        cat = Category.objects.get(id=id) # get the data from database
-        serializer = CategorySerializer(cat,data=pythondata,partial=True) # convert the data into python object
+        # json_data = request.body # get the data from client side
+        # stream = io.BytesIO(json_data) # convert the data into stream
+        # pythondata = JSONParser().parse(stream) # convert the stream into python object
+        # id = pythondata.get('id') # get the id from python object
+        # cat = Category.objects.get(id=id) # get the data from database
+        # serializer = CategorySerializer(cat,data=pythondata,partial=True) # convert the data into python object
+        json_data = eval(request.body) # get the data from client side
+        cat = Income.objects.get(id=json_data['id']) # get the data from database
+        serializer = IncomeSerializer(cat,data=json_data,partial=True) # convert the data into python object
         if serializer.is_valid(): # check the data is valid or not
          serializer.save() # save the data into database
          res={'msg':'data updated'}
@@ -81,19 +72,126 @@ def category_update(request):
          return HttpResponse(json_data,content_type='application/json') 
         json_data=JSONRenderer().render(serializer.errors)
         return HttpResponse(json_data,content_type='application/json')
+    
+@csrf_exempt 
+def category_delete(request):
+    if request.method == 'DELETE':
+        json_data = request.body
+        stream = io.BytesIO(json_data)
+        pythondata = JSONParser().parse(stream)
+        id = pythondata.get('id')# get the id from python object
+        cat = Category.objects.get(id=id)
+        cat.delete()
+        res={'msg':'data deleted!!'}
+        json_data=JSONRenderer().render(res)
+        return HttpResponse(json_data,content_type='application/json')     
+      
 
-# def category(request):
-#     if request.method=="POST":
-#         name=request.POST.get('name')
-#         type=request.POST.get('type')
-#         date=request.POST.get('date')
-#         print(name,type,date)
-#         category=Category(cname=name,ctype=type,cdate=date)
-#         category.save()
-#     return render(request,"category.html")
-# class CategoryApiView(APIView):
-#     def get(self,request):
-#         category=Category.objects.all.value()
-        
-#         return Response(serializer.data)
+
+# -----------------------------------Expense----------------------------------------
+#Query - set All cateory data 
+def expense_list(request):
+    exp=Expense.objects.all()#get the data from database by primary key through url
+    serializer=ExpenseSerializer(exp,many=True)#convert the queryset into python object
+    json_data=JSONRenderer().render(serializer.data)#convert the python object into json
+    return HttpResponse(json_data,content_type='application/json')#send the json data to the 
+    # or
+    # return JsonResponse(serializer.data,safe=False)
+
+@csrf_exempt
+def expense_create(request):
+    if request.method=='POST':
+        json_data = request.body
+        stream = io.BytesIO(json_data)
+        pythondata = JSONParser().parse(stream)
+        serializer = ExpenseSerializer(data=pythondata,partial=True)
+        if serializer.is_valid():
+         serializer.save()
+         res={'msg':'data created'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json') 
+        json_data=JSONRenderer().render(serializer.errors)
+        return HttpResponse(json_data,content_type='application/json')
+
+@csrf_exempt
+def expense_update(request):
+    if request.method=='PUT':
+        json_data = eval(request.body) # get the data from client side
+        exp = Income.objects.get(id=json_data['id']) # get the data from database
+        serializer = IncomeSerializer(exp,data=json_data,partial=True) # convert the data into python object
+        if serializer.is_valid(): # check the data is valid or not
+         serializer.save() # save the data into database
+         res={'msg':'data updated'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json') 
+        json_data=JSONRenderer().render(serializer.errors)
+        return HttpResponse(json_data,content_type='application/json')
+    
+@csrf_exempt 
+def expense_delete(request):
+    if request.method == 'DELETE':
+        json_data = request.body
+        stream = io.BytesIO(json_data)
+        pythondata = JSONParser().parse(stream)
+        id = pythondata.get('id')# get the id from python object
+        exp = Expense.objects.get(id=id)
+        exp.delete()
+        res={'msg':'data deleted!!'}
+        json_data=JSONRenderer().render(res)
+        return HttpResponse(json_data,content_type='application/json')     
+     
+
+
+# -----------------------------------Income----------------------------------------
+#Query - set All cateory data 
+def income_list(request):
+    inc=Income.objects.all()#get the data from database by primary key through url
+    serializer=IncomeSerializer(inc,many=True)#convert the queryset into python object
+    json_data=JSONRenderer().render(serializer.data)#convert the python object into json
+    return HttpResponse(json_data,content_type='application/json')#send the json data to the 
+    # or
+    # return JsonResponse(serializer.data,safe=False)
+
+@csrf_exempt
+def income_create(request):
+    if request.method=='POST':
+        json_data = request.body
+        stream = io.BytesIO(json_data)
+        pythondata = JSONParser().parse(stream)
+        serializer = IncomeSerializer(data=pythondata,partial=True)
+        if serializer.is_valid():
+         serializer.save()
+         res={'msg':'data created'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json') 
+        json_data=JSONRenderer().render(serializer.errors)
+        return HttpResponse(json_data,content_type='application/json')
+
+@csrf_exempt
+def income_update(request):
+    if request.method == 'PUT':
+        json_data = eval(request.body) # get the data from client side
+        inc = Income.objects.get(id=json_data['id']) # get the data from database
+        serializer = IncomeSerializer(inc,data=json_data,partial=True) # convert the data into python object
+        if serializer.is_valid(): # check the data is valid or not
+         serializer.save() # save the data into database
+         res={'msg':'data updated'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json') 
+        json_data=JSONRenderer().render(serializer.errors)
+        return HttpResponse(json_data,content_type='application/json')
+    
+@csrf_exempt 
+def income_delete(request):
+    if request.method == 'DELETE':
+        json_data = request.body
+        stream = io.BytesIO(json_data)
+        pythondata = JSONParser().parse(stream)
+        id = pythondata.get('id')# get the id from python object
+        inc = Income.objects.get(id=id)
+        inc.delete()
+        res={'msg':'data deleted!!'}
+        json_data=JSONRenderer().render(res)
+        return HttpResponse(json_data,content_type='application/json')     
+ 
     
