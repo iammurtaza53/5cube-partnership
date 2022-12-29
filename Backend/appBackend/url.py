@@ -11,6 +11,8 @@ urlpatterns=[
     path('category_create',views.category_create),
     path('category_delete',views.category_delete),
     path('category_update',views.category_update),
+    path('category_type',views.category_type),
+    
     
     path('expense_list/',views.expense_list),
     path('expense_create',views.expense_create),
