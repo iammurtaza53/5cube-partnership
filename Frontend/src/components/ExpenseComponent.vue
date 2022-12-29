@@ -1,10 +1,10 @@
 <template>
-  <AppSidebar/>
-  <AppHeader/> 
+  <AppSidebar />
+  <AppHeader />
   <div class="page">
     <div class="d-flex page box p-3">Expense Details</div>
     <div class="page content shadow p-3 position-relative">
-      <ExpModel type="Create" comp='Expense'/>
+      <ExpModel type="Create" :isEdit="!isEdit" />
       <v-table>
         <thead>
           <tr>
@@ -22,10 +22,10 @@
             <td>{{ i + 1 }}.</td>
             <td>{{ item.name }}</td>
             <td>{{ item.detail }}</td>
-            <td>Rs {{ item.amount  }}/-</td>
+            <td>Rs {{ item.amount }}/-</td>
             <td>{{ Date() }}</td>
             <td>
-              <ExpModel type="Edit" comp='Expense'/>
+              <ExpModel type="" :isEdit="isEdit" />
             </td>
             <td>
               <v-btn outlined plain size="x-small" icon>
@@ -41,28 +41,28 @@
 <script>
 import ExpModel from "./ExpModel.vue";
 import AppSidebar from "./AppSidebar.vue";
-import AppHeader from "./AppHeader.vue"
+import AppHeader from "./AppHeader.vue";
 export default {
-name: "ExpenseComponent",
-components: {
-AppSidebar,
-  AppHeader,
-  ExpModel,
-},
-data() {
-return {
-  expense: [
+  name: "ExpenseComponent",
+  components: {
+    AppSidebar,
+    AppHeader,
+    ExpModel,
+  },
+  data() {
+    return {
+      expense: [
         {
           name: "Laptop",
           detail: "Hp Battery 4000",
           amount: 4000,
         },
       ],
-}
-}
+      isEdit: true,
+    };
+  },
 };
 </script>
 
 <style>
-
 </style>

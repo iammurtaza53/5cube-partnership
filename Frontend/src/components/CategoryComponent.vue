@@ -11,7 +11,7 @@
       
       <!-- app-modal component is used to show the modal to create category with type="Create" and to edit category with type="Edit" -->
 
-      <AppModal types="Create" />
+      <AppModal types="Create" :isEdit="!isEdit"/>
       <v-table>
         <thead>
           <tr>
@@ -23,12 +23,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, i) in type" :key="item.name">
-            <td>{{ i + 1 }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.type}}</td>
+          <tr v-for="(item) in type" :key="item.cname">
+            <td>{{ item.id }}</td>
+            <td>{{ item.cname }}</td>
+            <td>{{ item.ctype}}</td>
             <td>
-              <AppModal types="Edit" />
+              <AppModal types="Edit" :isEdit="isEdit" />
             </td>
             <td>
               <v-btn v-on:click="deleteData(item.id)" outlined plain size="x-small" icon>
@@ -58,21 +58,26 @@ export default {
   data() {
     return {
       type: [],
+      isEdit:true,
     };
 
   },
-  async mounted(){
-    let result=await axios.get("http://localhost:3000/category");
+   mounted(){
+    this.getApi()
+  },
+  methods:{
+    async getApi(){
+
+       let result=await axios.get("http://127.0.0.1:8000/category_list/");
     
     this.type = result.data;
     console.warn("Api data", this.type);
-  
 
-  },
-  methods:{
+    },
      async deleteData(id){
-
-     let result = await axios.delete("http://localhost:3000/category/"+id);
+     
+     let result = await axios.delete("http://127.0.0.1:8000/category_delete",{data:{id:id}});
+     console.log(id)
      if(result.status==200)
           console.warn("result",result);
       
