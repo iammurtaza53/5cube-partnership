@@ -1,4 +1,4 @@
- <template>
+<template>
   <!---category component model start---->
    
      <v-dialog v-model="dialog"  persistent max-width="500">
@@ -10,7 +10,7 @@
            <v-btn  outlined plain size="x-small" icon v-bind="props">
              <v-icon color="indigo">mdi-pencil</v-icon>
           </v-btn>
-         </div>
+        </div>
       </template>
       <!---start create dialog box ----->
       
@@ -168,7 +168,6 @@ export default {
         cname:this.cname,
         ctype:this.ctype,
       });
-      console.warn("result",result);
     },
     async updateData(id,edit){
       let result= await axios.put("http://127.0.0.1:8000/category_update"+id,{edit:edit});

@@ -53,6 +53,9 @@
 import axios from "axios";
 
 export default {
+  mounted() {
+    this.getCategories();
+  },
   props: {
     type: String,
     isEdit: Boolean,

@@ -8,10 +8,9 @@
   <div app class="page">
     <div class="d-flex page box p-3">Categories</div>
     <div class="content page shadow p-3 position-relative">
-      
       <!-- app-modal component is used to show the modal to create category with type="Create" and to edit category with type="Edit" -->
 
-      <AppModal types="Create" :isEdit="!isEdit"/>
+      <AppModal types="Create" :isEdit="!isEdit" />
       <v-table>
         <thead>
           <tr>
@@ -23,17 +22,22 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item) in type" :key="item.cname">
+          <tr v-for="item in type" :key="item.cname">
             <td>{{ item.id }}</td>
             <td>{{ item.cname }}</td>
-            <td>{{ item.ctype}}</td>
+            <td>{{ item.ctype }}</td>
             <td>
               <AppModal types="Edit" :isEdit="isEdit" />
             </td>
             <td>
-              <v-btn v-on:click="deleteData(item.id)" outlined plain size="x-small" icon>
+              <v-btn
+                v-on:click="deleteCategories(item.id)"
+                outlined
+                plain
+                size="x-small"
+                icon
+              >
                 <v-icon color="error">mdi-delete</v-icon>
-               
               </v-btn>
             </td>
           </tr>
@@ -42,12 +46,13 @@
     </div>
   </div>
 </template>
-<script>
 
+<script>
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
 import AppModal from "./AppModal.vue";
 import axios from "axios";
+
 export default {
   name: "CategoryComponent",
   components: {
@@ -55,39 +60,42 @@ export default {
     AppHeader,
     AppModal,
   },
+
   data() {
     return {
       type: [],
-      isEdit:true,
+      isEdit: true,
     };
-
   },
-   mounted(){
-    this.getApi()
+  mounted() {
+    this.getApi();
   },
-  methods:{
-    async getApi(){
+  methods: {
+    async getApi() {
+      let result = await axios.get("http://127.0.0.1:8000/category_list/");
 
-       let result=await axios.get("http://127.0.0.1:8000/category_list/");
-    
-    this.type = result.data;
-    console.warn("Api data", this.type);
-
+      this.type = result.data;
+      console.warn("Api data", this.type);
     },
-     async deleteData(id){
-     
-     let result = await axios.delete("http://127.0.0.1:8000/category_delete",{data:{id:id}});
-     console.log(id)
-     if(result.status==200)
-          console.warn("result",result);
-      
-
-     
+    async deleteData(id) {
+      let result = await axios.delete("http://127.0.0.1:8000/category_delete", {
+        data: { id: id },
+      });
+      console.log(id);
+      if (result.status == 200) console.warn("result", result);
     },
-  
-},
-}
+
+    async deleteCategories(id) {
+      console.log("deleteCategories", id);
+      await axios.delete("http://127.0.0.1:8000/category_delete", {
+        data: {
+          id: id,
+        },
+      });
+      this.getCategories();
+    },
+  },
+};
 </script>
-
 
 <style></style>

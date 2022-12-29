@@ -1,6 +1,6 @@
 <template>
   <v-container class="container mt-12">
-    <v-sheet class="pb-12 login-sheet" elevation="4" shaped>
+    <v-sheet class="pb-12 login-sheet" elevation="4">
       <v-row align="center" justify="center">
         <v-col cols="12" sm="4" class="loginfield ma-12 pa-5">
           <v-img src="../assets/5CUBE-logo.png" ></v-img>
@@ -42,7 +42,7 @@
 <style scoped>
 
 .container {
-    width: 38%;
+    width: 34%;
   /* border : 1px solid green; */
 }
 .login-sheet{

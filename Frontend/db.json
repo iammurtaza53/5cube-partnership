@@ -1,0 +1,16 @@
+{
+  "categorylist": [
+    {
+      "id": 3,
+      "cname": "laptop",
+      "ctype": "expense",
+      "cdate": "2022-12-25"
+    },
+    {
+      "id": 3,
+      "cname": "client",
+      "ctype": "Income",
+      "cdate": "2022-12-26"
+    }
+  ]
+}
