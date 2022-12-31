@@ -13,13 +13,13 @@
 
     <v-card>
       <v-card-title> 
-        <span class="text-h5">{{ type }} {{ isEdit ? "Expense":"Expenses" }}</span>
+        <span class="text-h5">{{ type }} {{ isEdit ? "Income":"Income Detail" }}</span>
       </v-card-title>
       <v-divider color="white" class="divider"></v-divider>
       <v-card-text>
         <v-container>
           <v-row>
-            <v-select v-model="Name" :items="categories" label="Name*" required>
+            <v-select v-model="Name" :items="Incategories" label="Name*" required>
             </v-select>
            
           </v-row>
@@ -51,37 +51,37 @@
   </v-dialog>
 </template>
 <script>
-import axios from "axios";
 
+import axios from 'axios'
 export default {
-  mounted() {
-    this.getCategories();
-  },
-  props: {
-    type: String,
-    isEdit:Boolean,
-  },
-  data() {
-    return {
-      dialog: false,
+    mounted(){
+        this.getincome()
+    },
+
+    props:{
+        type:String,
+        isEdit:Boolean,
+    },
+    data(){
+        return{
+     dialog: false,
       Name: "",
       Detail: "",
       Amount: "",
-      categories: [],
-    };
-  },
-  
-  methods: {
-    async getCategories() {
-      let result = await axios.get(
-        "http://localhost:8000/category_type?type=Expense"
-      ); 
-      this.categories = result.data;
-      this.categories = this.categories.map((item)=>(item.cname)
-      )
-        console.log(this.categories)    
+      Incategories: [],
+    };  
     },
-    async postCategories(){
+    methods:{
+        async getincome(){
+      let result = await axios.get(
+        "http://localhost:8000/category_type?type=Income"
+      ); 
+      this.Incategories = result.data;
+      this.Incategories = this.Incategories.map((item)=>(item.cname)
+      )
+        console.log(this.Incategories) 
+        },
+         async postInCategories(){
      let result = await axios.post("http://127.0.0.1:8000/expense_create",{
         ename: this.Name,
         eamount:this.Amount,
@@ -92,18 +92,16 @@ export default {
 
        
     },
-     reset() {
-      this.Name = "";
-      this.Detail = "";
-      this.Amount = "";
-    },
-  },
+        
 
-    computed: {
-      disablebtn() {
-        return (this.Name == "" || this.Detail == "" || this.Amount == "");
-      },
+
     },
-  };
+    computed:{
+      disablebtn(){
+       return (this.Name == "" || this.Detail == "" || this.Amount == "");
+        
+      }
+    },
+};
 
 </script>

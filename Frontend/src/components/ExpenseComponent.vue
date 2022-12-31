@@ -20,15 +20,16 @@
         <tbody>
           <tr v-for="(item, i) in expense" :key="item.name">
             <td>{{ i + 1 }}.</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.detail }}</td>
-            <td>Rs {{ item.amount }}/-</td>
+            <td>{{ item.ename }}</td>
+            <td>{{ item.edetail }}</td>
+            <td>Rs {{ item.eamount }}/-</td>
             <td>{{ Date() }}</td>
             <td>
               <ExpModel type="Edit" :isEdit="isEdit" />
             </td>
             <td>
-              <v-btn outlined plain size="x-small" icon>
+              <v-btn 
+                 v-on:click="deldetails(item.id)" outlined plain size="x-small" icon>
                 <v-icon color="error">mdi-delete</v-icon>
               </v-btn>
             </td>
@@ -42,8 +43,13 @@
 import ExpModel from "./ExpModel.vue";
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
+import axios from 'axios';
 
 export default {
+  mounted(){
+    this.getdetails()
+  },
+  
   name: "ExpenseComponent",
   components: {
     AppSidebar,
@@ -54,15 +60,27 @@ export default {
   data() {
     return {
       isEdit:true,
-      expense: [
-        {
-          name: "Laptop",
-          detail: "Hp Battery 4000",
-          amount: 4000,
-        },
-      ],
-      categoryList: [],
+      expense: [],
+     
     };
+  },
+  methods:{
+    async getdetails(){
+      let result= await axios.get("http://127.0.0.1:8000/expense_list/");
+      this.expense=result.data
+      console.log(this.expense)
+    },
+    async deldetails(id){
+       await axios.delete("http://127.0.0.1:8000/expense_delete",{
+        data:{
+          id:id,
+        },
+      });
+      this.getdetails()
+
+    }
+
+
   },
   
 };

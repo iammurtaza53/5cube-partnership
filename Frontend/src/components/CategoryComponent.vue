@@ -10,7 +10,7 @@
     <div class="content page shadow p-3 position-relative">
       <!-- app-modal component is used to show the modal to create category with type="Create" and to edit category with type="Edit" -->
 
-      <AppModal types="Create" :getCategories="getCategories"/>
+      <AppModal types="Create" :isEdit="!isEdit" :getCategories="getCategories"/>
       <!--  @get-categories="getCategories" -->
       <v-table>
         <thead>
@@ -28,11 +28,11 @@
             <td>{{ item.cname }}</td>
             <td>{{ item.ctype }}</td>
             <td>
-              <AppModal types="Edit" :getCategories="getCategories"/>
+              <AppModal types="Edit" :isEdit="isEdit" :getCategories="getCategories"/>
             </td>
             <td>
               <v-btn
-                v-on:click="deleteCategories(item.id)" outlined plainsize="x-small" icon>
+                v-on:click="deleteCategories(item.id)" outlined plain size="x-small" icon>
                 <v-icon color="error">mdi-delete</v-icon>
               </v-btn>
             </td>
@@ -58,6 +58,7 @@ export default {
   data() {
     return {
       categoryList: [],
+      isEdit:true,
     };
   },
   mounted() {
