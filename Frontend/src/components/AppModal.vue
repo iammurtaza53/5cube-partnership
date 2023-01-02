@@ -85,19 +85,18 @@
               <v-row>
                 <v-col>
                   <v-text-field
-                    label="Category Name*"
+                    :value="category.cname"
                     placeholder="Enter Category Name"
                     required
-                    v-model="cname"
+                    
                   ></v-text-field>
                 </v-col>
               </v-row>
               <v-row no-gutters>
                 <v-col>
                   <v-select
-                    v-model="ctype"
+                  :value="category.ctype"
                     :items="['Expense', 'Income']"
-                    label="Category type*"
                     required
                   ></v-select>
                 </v-col>
@@ -141,7 +140,15 @@ export default {
   props: {
     types: String,
     getCategories: Function,
+    category: Object,
   },
+  mounted() {
+    
+    // if (this.types == "Edit") {
+      // this.getCategoryById(this.categoryId);
+    // }
+  }
+  ,
   data() {
     return {
       dialog: false,
@@ -149,8 +156,12 @@ export default {
       ctype: "",
     };
   },
-
   methods: {
+    // async getCategoryById(id) {
+    //   await axios.get("http://127.0.0.1:8000/catinfo/" + id)
+        
+    // }
+    
     async updateCategories() {
       await axios.put("http://127.0.0.1:8000/category_update", {
         cname: this.cname,

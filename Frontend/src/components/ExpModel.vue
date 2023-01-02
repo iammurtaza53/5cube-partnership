@@ -65,7 +65,7 @@
                 color="white"
                 :style="{ backgroundColor: 'blue' }"
                 elevation="4"
-                :disabled="disablebtn"
+                :disabled="false"
                 @click="dialog = false"
                 >save</v-btn
               >
@@ -142,7 +142,7 @@
                 <v-row>
                   <v-select
                     :v-model="iname"
-                    :items="['Client']"
+                    :items="categoryList"
                     label="Name*"
                     required
                   ></v-select>
@@ -162,7 +162,7 @@
                     required
                   ></v-text-field>
                 </v-row>
-              </v-container>
+              </v-container>  
               <small>*indicates required field</small>
             </v-card-text>
             <v-divider color="white" class="divider"></v-divider>
@@ -252,6 +252,7 @@ import axios from "axios";
 export default {
   mounted() {
     this.getCategories();
+   
   },
   props: {
     type: String,
@@ -264,22 +265,21 @@ export default {
       edetail: "",
       eamount: null,
       expenseList: [],
+      categoryList: [],
+      
     };
   },
   methods: {
     async getCategories() {
       let getCategoryURL = await axios.get(
-        "http://127.0.0.1:8000/category_list/"
+        "http://127.0.0.1:8000/category_type?type=" + this.comp
       );
       this.categoryList = getCategoryURL.data;
-
-      this.categoryList = this.categoryList.map((item) => {
-        if (item.ctype == "Expense") {
-          return item.cname;
-        }
+      this.categoryList=this.categoryList.map((item) => {
+        return item.cname
       });
-      this.categoryList = this.categoryList.filter((item) => item != null);
     },
+    
   },
   computed: {
     disablebtn() {
