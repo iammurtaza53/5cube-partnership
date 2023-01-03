@@ -5,7 +5,9 @@
   <v-spacer class="page">
     <v-spacer class="d-flex page box p-3">Report</v-spacer>
     <v-spacer class="page content shadow p-3">
+    
       <v-table class="border-bottom">
+        
         <thead class="bg">
           <tr class="font-weight-bold">
             <th class="text-left">#</th>
@@ -25,8 +27,9 @@
             <td>Rs {{ getexpenses() }}/-</td>
           </tr>
         </tbody>
+      
       </v-table>
-     
+      
       <v-table class="border-bottom">
         <thead class="bg">
           <tr class="font-weight-bold">
@@ -92,6 +95,7 @@
           </v-table>
         </v-col>
       </v-row>
+      
     </v-spacer>
   </v-spacer>
 </template>
