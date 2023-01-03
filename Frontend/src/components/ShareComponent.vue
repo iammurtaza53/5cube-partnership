@@ -51,12 +51,12 @@ export default {
        share:[
 
    {
-      person:"Alex",
+      person:"Tom",
       salary:10000,
       share:40,
    },
    {
-      person:"Tanzeema",
+      person:"John",
       salary:10000,
       share:60,
    }
