@@ -7,7 +7,7 @@ class CategorySerializer(serializers.Serializer):
     id=serializers.IntegerField()
     cname = serializers.CharField(max_length=100)
     ctype = serializers.CharField(max_length=100)
-    cdate = serializers.DateField(default=datetime.date.today)
+    cdate = serializers.DateField(("Date"), default=datetime.date.today)
     def create(self,validated_data):
         return Category.objects.create(**validated_data)
     
@@ -27,7 +27,7 @@ class ExpenseSerializer(serializers.Serializer):
     ename = serializers.CharField(max_length=100)
     edetail = serializers.CharField(max_length=100)
     eamount = serializers.IntegerField()
-    edate = serializers.DateField(default=datetime.date.today)
+    edate = serializers.DateField(("Date"), default=datetime.date.today)
     def create(self,validated_data):
         return Expense.objects.create(**validated_data)
     
