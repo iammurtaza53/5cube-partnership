@@ -18,17 +18,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, i) in income" :key="item.name">
+          <tr v-for="(item, i) in income" :key="item.iname">
             <td>{{ i + 1 }}.</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.detail }}</td>
-            <td>Rs {{ item.amount  }}/-</td>
+            <td>{{ item.iname }}</td>
+            <td>{{ item.idetail }}</td>
+            <td>Rs {{ item.iamount  }}/-</td>
             <td>{{ Date() }}</td>
             <td>
               <IncomeModal type="Edit" :isEdit="isEdit"/>
             </td>
             <td>
-              <v-btn outlined plain size="x-small" icon>
+              <v-btn v-on:click="deldetails(item.id)" outlined plain size="x-small" icon>
                 <v-icon color="error">mdi-delete</v-icon>
               </v-btn>
             </td>
@@ -38,11 +38,17 @@
     </div>
   </div>
 </template>
+
 <script>
+import axios from 'axios';
 import IncomeModal from "./IncomeModal.vue";
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue"
 export default {
+  mounted(){
+    this.getincomeDetails()
+  },
+
 name: "IncomeComponent",
 components: {
 AppSidebar,
@@ -52,15 +58,29 @@ AppSidebar,
 data() {
 return {
   isEdit:true,
-  income: [
-        {
-          name: "Client",
-          detail: "John Doe",
-          amount: 200000,
-        },
-      ],
+  income: [],
+      
 }
-}
+},
+methods:{
+  async getincomeDetails(){
+  let result = await axios.get("http://127.0.0.1:8000/income_list");
+    this.income=result.data
+    console.log(this.income)
+  },
+  async deldetails(id){
+     await axios.delete("http://127.0.0.1:8000/income_delete",{
+      data:{
+      id:id
+      }
+     });
+     this.getincomeDetails()
+  }
+  
+    
+
+},
+
 };
 </script>
 

@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" persistent max-width="500">
     <template v-slot:activator="{ props }">
       <div v-if="!isEdit">
-        <v-btn color="success" class="ma-4" v-bind="props">Create</v-btn>
+        <v-btn color="success" class="ma-4" v-bind="props">{{ type }}</v-btn>
       </div>
       <div v-if="isEdit">
         <v-btn outlined plain size="x-small" icon v-bind="props">
@@ -43,7 +43,7 @@
         <v-btn color="white" :style="{ backgroundColor: '#e91e62' }" elevation="4"
           @click="dialog = false">Close</v-btn>
         <v-btn color="white" :style="{ backgroundColor: 'blue' }" elevation="4" 
-           :disabled="disablebtn" @click="postCategories(); dialog=false;">save</v-btn>
+           :disabled="disablebtn" @click="postIncome(); dialog=false;">save</v-btn>
       </v-card-actions>
     </v-card> -->
 
@@ -81,14 +81,14 @@ export default {
       )
         console.log(this.Incategories) 
         },
-         async postInCategories(){
-     let result = await axios.post("http://127.0.0.1:8000/expense_create",{
-        ename: this.Name,
-        eamount:this.Amount,
-        edetail:this.Detail,
+         async postIncome(){
+     let result = await axios.post("http://127.0.0.1:8000/income_create",{
+        iname: this.Name,
+        iamount:this.Amount,
+        idetail:this.Detail,
       });
-      this.postCategories= result.data;
-      console.log (this.postCategories)
+      this.postIncome= result.data;
+      console.log (this.postIncome)
 
        
     },
