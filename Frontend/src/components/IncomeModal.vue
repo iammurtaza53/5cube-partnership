@@ -79,7 +79,6 @@ export default {
       this.Incategories = result.data;
       this.Incategories = this.Incategories.map((item)=>(item.cname)
       )
-        console.log(this.Incategories) 
         },
          async postIncome(){
      let result = await axios.post("http://127.0.0.1:8000/income_create",{
@@ -88,9 +87,6 @@ export default {
         idetail:this.Detail,
       });
       this.postIncome= result.data;
-      console.log (this.postIncome)
-
-       
     },
         
 

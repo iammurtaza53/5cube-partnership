@@ -28,6 +28,7 @@
                     v-model="start_date"
                     class="date-picker"
                     placeholder="Select Starting Date"
+                    format="YYYY-MM-DD"
                   />
                 </v-col>
               </v-row>
@@ -37,6 +38,7 @@
                     v-model="end_date"
                     class="date-picker"
                     placeholder="Select Ending Date"
+                    format="YYYY-MM-DD"
                   />
                 </v-col>
               </v-row>

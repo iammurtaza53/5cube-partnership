@@ -66,7 +66,6 @@ methods:{
   async getincomeDetails(){
   let result = await axios.get("http://127.0.0.1:8000/income_list");
     this.income=result.data
-    console.log(this.income)
   },
   async deldetails(id){
      await axios.delete("http://127.0.0.1:8000/income_delete",{

@@ -68,7 +68,6 @@ export default {
     async getdetails(){
       let result= await axios.get("http://127.0.0.1:8000/expense_list/");
       this.expense=result.data
-      console.log(this.expense)
     },
     async deldetails(id){
        await axios.delete("http://127.0.0.1:8000/expense_delete",{

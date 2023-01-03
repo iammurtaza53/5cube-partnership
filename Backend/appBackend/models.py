@@ -33,8 +33,8 @@ class Category(models.Model):
     
 class Group(models.Model):
     gname= models.CharField(max_length=100)
-    start_date= models.DateField(("Date"), default=datetime.date.today) 
-    end_date= models.DateField()   
+    start_date= models.DateField(("Date")) 
+    end_date= models.DateField(("Date"))   
     
     def __str__(self):
         return self.gname

@@ -68,8 +68,8 @@ def category_update(request):
         # cat = Category.objects.get(id=id) # get the data from database
         # serializer = CategorySerializer(cat,data=pythondata,partial=True) # convert the data into python object
         json_data = eval(request.body) # get the data from client side
-        cat = Income.objects.get(id=json_data['id']) # get the data from database
-        serializer = IncomeSerializer(cat,data=json_data,partial=True) # convert the data into python object
+        cat = Category.objects.get(id=json_data['id']) # get the data from database
+        serializer = CategorySerializer(cat,data=json_data,partial=True) # convert the data into python object
         if serializer.is_valid(): # check the data is valid or not
          serializer.save() # save the data into database
          res={'msg':'data updated'}

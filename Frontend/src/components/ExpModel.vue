@@ -79,7 +79,6 @@ export default {
       this.categories = result.data;
       this.categories = this.categories.map((item)=>(item.cname)
       )
-        console.log(this.categories)    
     },
     async postCategories(){
      let result = await axios.post("http://127.0.0.1:8000/expense_create",{
@@ -88,7 +87,6 @@ export default {
         edetail:this.Detail,
       });
       this.postCategories= result.data;
-      console.log (this.postCategories)
          this.reset()
        
     },
