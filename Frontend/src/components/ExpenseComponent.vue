@@ -23,7 +23,7 @@
             <td>{{ item.ename }}</td>
             <td>{{ item.edetail }}</td>
             <td>Rs {{ item.eamount }}/-</td>
-            <td>{{ Date() }}</td>
+            <td>{{ today.getDate() }}</td>
             <td>
               <ExpModel type="Edit" :isEdit="isEdit" />
             </td>

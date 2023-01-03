@@ -106,7 +106,6 @@ export default {
     async prefillForm(category) {
       this.cname = category.cname;
       this.ctype = category.ctype;
-      console.log("this.categoryList", category);
     },
     async createCategories() {
       await axios.post("http://127.0.0.1:8000/category_create", {

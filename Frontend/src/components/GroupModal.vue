@@ -1,26 +1,31 @@
 <template>
   <!---category component model start---->
-  <v-row justify="start">
-    <v-dialog v-model="dialog" persistent max-width="500">
-      <template v-slot:activator="{ props }">
-        <div v-if="types == 'Create'">
-          <v-btn color="success" class="ma-4" v-bind="props">{{ types }}</v-btn>
-          <!--  -->
-        </div>
-        <div v-if="types == 'Edit'">
-          <v-btn outlined plain size="x-small" icon v-bind="props">
-            <v-icon color="indigo">mdi-pencil</v-icon>
-          </v-btn>
-        </div>
-      </template>
 
-      <div v-if="types == 'Create'">
-        <v-card>
-          <v-card-title>
-            <span class="text-h5">Create Category</span>
-          </v-card-title>
-          <v-divider color="white" class="divider"></v-divider>
-          <v-card-text>
+  <v-dialog v-model="dialog" persistent max-width="500">
+    <template v-slot:activator="{ props }">
+      <div v-if="!isEdit">
+        <v-btn color="success" class="ma-4" v-bind="props">{{ types }}</v-btn>
+      </div>
+      <div v-if="isEdit">
+        <v-btn
+          outlined
+          plain
+          size="x-small"
+          icon
+          v-bind="props"
+          @click="prefillForm(group)"
+        >
+          <v-icon color="indigo">mdi-pencil</v-icon>
+        </v-btn>
+      </div>
+    </template>
+    <v-card>
+      <v-card-title>
+        <span class="text-h5">{{ types }} Group </span>
+        <!-- {{!isEdit ? "Edit":"Category"}} -->
+      </v-card-title>
+      <v-divider color="white" class="divider"></v-divider>
+      <v-card-text>
             <v-container>
               <v-row>
                 <v-col>
@@ -28,7 +33,8 @@
                     v-model="start_date"
                     class="date-picker"
                     placeholder="Select Starting Date"
-                    format="YYYY-MM-DD"
+                    format="yyyy-MM-dd"
+                    
                   />
                 </v-col>
               </v-row>
@@ -38,7 +44,8 @@
                     v-model="end_date"
                     class="date-picker"
                     placeholder="Select Ending Date"
-                    format="YYYY-MM-DD"
+                    format="yyyy-MM-dd"
+                   
                   />
                 </v-col>
               </v-row>
@@ -49,108 +56,47 @@
                     placeholder="Enter Group Name"
                     required
                     v-model="gname"
+                    
                   ></v-text-field>
                 </v-col>
               </v-row>
-
               <br />
               <br />
-           
-             
             </v-container>
             <!-- </form> -->
             <small>*indicates required field</small>
           </v-card-text>
-          <v-divider color="white" class="divider"></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="white"
-              :style="{ backgroundColor: '#e91e62' }"
-              elevation="4"
-              @click="dialog = false"
-            >
-              Close
-            </v-btn>
-            <v-btn
-              color="white"
-              :style="{ backgroundColor: 'blue' }"
-              elevation="4"
-              :disabled="disablebtn"
-              @click="
-                createGroup();
-                dialog = false;
-              "
-            >
-              <!-- @click="$emit('create-categories')" -->
-              Save
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </div>
-
-      <div v-if="types == 'Edit'">
-        <v-card>
-          <v-card-title>
-            <span class="text-h5">Edit Category</span>
-          </v-card-title>
-          <v-divider color="white" class="divider"></v-divider>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col>
-                  <v-text-field
-                    :value="category.cname"
-                    placeholder="Enter Category Name"
-                    required
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row no-gutters>
-                <v-col>
-                  <v-select
-                    :value="category.ctype"
-                    :items="['Expense', 'Income']"
-                    required
-                  ></v-select>
-                </v-col>
-              </v-row>
-            </v-container>
-            <!-- </form> -->
-            <small>*indicates required field</small>
-          </v-card-text>
-          <v-divider color="white" class="divider"></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="white"
-              :style="{ backgroundColor: '#e91e62' }"
-              elevation="4"
-              @click="dialog = false"
-            >
-              Close
-            </v-btn>
-            <v-btn
-              color="white"
-              :style="{ backgroundColor: 'blue' }"
-              elevation="4"
-              :disabled="disablebtn"
-              @click="
-                createCategories();
-                dialog = false;
-              "
-            >
-              Save
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </div>
-    </v-dialog>
-  </v-row>
+      <v-divider color="white" class="divider"></v-divider>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          color="white"
+          :style="{ backgroundColor: '#e91e62' }"
+          elevation="4"
+          @click="dialog = false"
+          >Close</v-btn
+        >
+        <v-btn
+          color="white"
+          :style="{ backgroundColor: 'blue' }"
+          elevation="4"
+          :disabled="disablebtn"
+          @click="
+            isEdit ? updateGroup(group.id) :  createGroup();
+            dialog = false;
+          "
+          >Save</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
+
+
+
+
 <script>
 import axios from "axios";
-// import Datepicker from "  ";
 import Datepicker from "vue3-datepicker";
 export default {
   components: {
@@ -159,45 +105,48 @@ export default {
   },
   props: {
     types: String,
-    getCategories: Function,
-    category: Object,
+    getGroup: Function,
+    group: Object,
+    isEdit: Boolean,
   },
 
-  mounted() {
-    // if (this.types == "Ed") {
-    // this.getCategoryById(this.categoryId);
-    // }
-  },
   data() {
     return {
       dialog: false,
       gname: "",
-      start_date: Date,
-      end_date: Date,
+      start_date: null ,
+      end_date:null,
     };
   },
   methods: {
-    // async getCategoryById(id) {
-    //   await axios.get("http://127.0.0.1:8000/catinfo/" + id)
-    // }
-
-    async updateCategories() {
-      await axios.put("http://127.0.0.1:8000/category_update", {
-        cname: this.cname,
-        ctype: this.ctype,
+    prefillForm(group) {
+      this.gname = group.gname;
+      this.start_date = group.start_date;
+      this.end_date = group.end_date;
+    },
+    async updateGroup(id) {
+      await axios.put("http://127.0.0.1:8000/group_update", {
+        id:id,
+        gname:this.gname,
+        start_date: this.start_date.toISOString().substring(0, 10),
+        end_date: this.end_date.toISOString().substring(0, 10),
       });
+      this.getGroup();
     },
     async createGroup() {
       await axios.post("http://127.0.0.1:8000/group_create", {
         gname:this.gname,
-        start_date: this.start_date,
-        end_date: this.end_date,
+        start_date: this.start_date.toISOString().substring(0, 10),
+        end_date: this.end_date.toISOString().substring(0, 10),
       });
-      // this.reset();
+      this.getGroup();
+      this.reset();
     },
-    // reset() {
-    //   this.gname = "";
-    // },
+    reset() {
+      this.gname = "";
+      this.start_date = null;
+      this.end_date = null;
+    },
   },
   computed: {
     disablebtn() {

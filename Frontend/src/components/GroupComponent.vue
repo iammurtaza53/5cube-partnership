@@ -1,13 +1,11 @@
 <template>
-    <AppSidebar />
-    <AppHeader />
-    <v-spacer class="page">
-      <v-spacer class="d-flex page box p-3">Group</v-spacer>
-      <v-spacer class="page content shadow p-3">
-        
-        <GroupModal types="Create"/>
-        <v-table>
-         
+  <AppSidebar />
+  <AppHeader />
+  <v-spacer class="page">
+    <v-spacer class="d-flex page box p-3">Group</v-spacer>
+    <v-spacer class="page content shadow p-3">
+      <GroupModal types="Create" :isEdit="!isEdit" :getGroup="getGroup" />
+      <v-table>
         <thead>
           <tr>
             <th class="text-left">S No. #</th>
@@ -24,56 +22,70 @@
             <td>{{ i + 1 }}.</td>
             <td>{{ item.gname }}</td>
             <td>{{ item.start_date }}</td>
-            <td>{{ item.end_date  }}</td>
+            <td>{{ item.end_date }}</td>
             <td>{{ isActive }}</td>
             <td>
-              <GroupModal types="Edit" :isEdit="isEdit"/>
+              <GroupModal
+                types="Edit"
+                :isEdit="isEdit"
+                :group="item"
+                :getGroup="getGroup"
+              />
             </td>
             <td>
-              <v-btn outlined plain size="x-small" icon>
+              <v-btn
+                outlined
+                plain
+                size="x-small"
+                icon
+                v-on:click="deleteGroup(item.id)"
+              >
                 <v-icon color="error">mdi-delete</v-icon>
               </v-btn>
             </td>
           </tr>
         </tbody>
       </v-table>
-      </v-spacer>
     </v-spacer>
-  </template>
-  
-  <script>
-  import AppSidebar from "./AppSidebar.vue";
+  </v-spacer>
+</template>
+
+<script>
+import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
-  import axios from "axios";
-    import GroupModal from "./GroupModal.vue";
-  export default {
-    name: "DashboardComponent",
-    components: {
-      AppSidebar,
-        AppHeader,
-        GroupModal,
-    },
-    data() {
-        return {
-            isEdit: true,
-            groupList: [],
-            isActive: false,
-      };
-    },
-    mounted() {
+import axios from "axios";
+import GroupModal from "./GroupModal.vue";
+export default {
+  name: "GroupComponent",
+  components: {
+    AppSidebar,
+    AppHeader,
+    GroupModal,
+  },
+  data() {
+    return {
+      isEdit: true,
+      groupList: [],
+      isActive: false,
+    };
+  },
+  mounted() {
     this.getGroup();
   },
-    methods: {
-        async getGroup() {
-            let getGroupURL = await axios.get(
-                "http://127.0.0.1:8000/group_list/"
-            );
-            this.groupList = getGroupURL.data;
+  methods: {
+    async getGroup() {
+      let getGroupURL = await axios.get("http://127.0.0.1:8000/group_list/");
+      this.groupList = getGroupURL.data;
+    },
+    async deleteGroup(id) {
+      await axios.delete("http://127.0.0.1:8000/group_delete", {
+        data: {
+          id: id,
         },
-    }
-  };
-  </script>
-  <style>
-
-  </style>
-  
+      });
+      this.getGroup();
+    },
+  },
+};
+</script>
+<style></style>

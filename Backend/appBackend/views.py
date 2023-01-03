@@ -61,12 +61,6 @@ def category_create(request):
 @csrf_exempt
 def category_update(request):
     if request.method=='PUT':
-        # json_data = request.body # get the data from client side
-        # stream = io.BytesIO(json_data) # convert the data into stream
-        # pythondata = JSONParser().parse(stream) # convert the stream into python object
-        # id = pythondata.get('id') # get the id from python object
-        # cat = Category.objects.get(id=id) # get the data from database
-        # serializer = CategorySerializer(cat,data=pythondata,partial=True) # convert the data into python object
         json_data = eval(request.body) # get the data from client side
         cat = Category.objects.get(id=json_data['id']) # get the data from database
         serializer = CategorySerializer(cat,data=json_data,partial=True) # convert the data into python object
@@ -122,8 +116,8 @@ def expense_create(request):
 def expense_update(request):
     if request.method=='PUT':
         json_data = eval(request.body) # get the data from client side
-        exp = Income.objects.get(id=json_data['id']) # get the data from database
-        serializer = IncomeSerializer(exp,data=json_data,partial=True) # convert the data into python object
+        exp = Expense.objects.get(id=json_data['id']) # get the data from database
+        serializer = ExpenseSerializer(exp,data=json_data,partial=True) # convert the data into python object
         if serializer.is_valid(): # check the data is valid or not
          serializer.save() # save the data into database
          res={'msg':'data updated'}
@@ -214,10 +208,9 @@ def group_list(request):
 @csrf_exempt
 def group_create(request):
     if request.method=='POST':
-        json_data = request.body
-        stream = io.BytesIO(json_data)
-        pythondata = JSONParser().parse(stream)
-        serializer = GroupSerializer(data=pythondata,partial=True)
+        json_data = eval(request.body)
+        serializer = GroupSerializer(data=json_data,partial=True)
+        print("bbb",json_data)
         if serializer.is_valid():
          serializer.save()
          res={'msg':'data created'}
