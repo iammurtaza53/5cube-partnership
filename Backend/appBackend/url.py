@@ -23,4 +23,9 @@ urlpatterns=[
     path('income_create',views.income_create),
     path('income_delete',views.income_delete),
     path('income_update',views.income_update),
+    
+    path('group_list/',views.group_list),
+    path('group_create',views.group_create),
+    path('group_delete',views.group_delete),
+    path('group_update',views.group_update),
 ]

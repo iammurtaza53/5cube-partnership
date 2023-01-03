@@ -7,7 +7,8 @@
           <v-btn color="success" class="ma-4" v-bind="props">{{ types }}</v-btn>
         </div>
         <div v-if="isEdit">
-          <v-btn outlined plain size="x-small" icon v-bind="props">
+          <v-btn v-on:click="getdata({category})"
+          outlined plain size="x-small" icon v-bind="props">
             <v-icon color="indigo">mdi-pencil</v-icon>
           </v-btn>
         </div>
@@ -52,21 +53,38 @@ export default {
     types: String,
     getCategories: Function,
     isEdit:Boolean,
+    category:Object,
   },
   data() {
     return {
       dialog: false,
       cname: "",
       ctype: "",
+     
     };
   },
+  
 
   methods: {
-    async updateCategories() {
-      await axios.put("http://127.0.0.1:8000/category_update", {
-        cname: this.cname,
-        ctype: this.ctype,
-      });
+    // async updateCategories(id) {
+    //   await axios.put("http://127.0.0.1:8000/category_update" , {
+    //      id:id,
+        
+    //   }).then ((resp)=>{
+    //     console.log(resp);
+    //     this.cname='';
+    //     this.ctype='';
+    //    this.getCategories();
+    //   })
+      
+    // },
+     getdata(category){
+      this.cname=category.cname,
+      this.ctype=category.ctype,
+      console.log("filldata",this.category)
+      
+      
+      
     },
     async createCategories() {
       await axios.post("http://127.0.0.1:8000/category_create", {

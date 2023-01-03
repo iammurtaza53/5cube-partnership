@@ -48,13 +48,10 @@ export default {
 
       routes: [
         { path: "/", name: "Expense Management", icon: "mdi-view-dashboard" },
-        {
-          path: "/category",
-          name: "Category",
-          icon: "mdi-format-list-bulleted-square",
-        },
+        { path: "/category", name: "Category", icon: "mdi-format-list-bulleted-square"},
         { path: "/expense", name: "Expense", icon: "mdi-arrow-left-circle" },
         { path: "/income", name: "Income", icon: "mdi-arrow-right-circle" },
+        { path:"/group", name: "Group", icon: "mdi-chart-line-variant"},
         { path: "/share", name: "Share", icon: "mdi-currency-usd"},
         { path:"/report", name: "Report", icon: "mdi-chart-line-variant"},
       ],

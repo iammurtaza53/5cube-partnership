@@ -1,7 +1,7 @@
 import io
 from django.shortcuts import render, HttpResponse
-from appBackend.models import Category, Expense, Income
-from .serializers import CategorySerializer, ExpenseSerializer, IncomeSerializer
+from appBackend.models import Category, Expense, Income, Group
+from .serializers import CategorySerializer, ExpenseSerializer, GroupSerializer, IncomeSerializer
 from rest_framework.renderers import JSONRenderer
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
@@ -68,8 +68,8 @@ def category_update(request):
         # cat = Category.objects.get(id=id) # get the data from database
         # serializer = CategorySerializer(cat,data=pythondata,partial=True) # convert the data into python object
         json_data = eval(request.body) # get the data from client side
-        cat = Income.objects.get(id=json_data['id']) # get the data from database
-        serializer = IncomeSerializer(cat,data=json_data,partial=True) # convert the data into python object
+        cat = Category.objects.get(id=json_data['id']) # get the data from database
+        serializer = CategorySerializer(cat,data=json_data,partial=True) # convert the data into python object
         if serializer.is_valid(): # check the data is valid or not
          serializer.save() # save the data into database
          res={'msg':'data updated'}
@@ -199,4 +199,58 @@ def income_delete(request):
         json_data=JSONRenderer().render(res)
         return HttpResponse(json_data,content_type='application/json')     
  
+ 
+
+# -----------------------------------Group----------------------------------------
+#Query - set All cateory data 
+def group_list(request):
+    grp=Group.objects.all()#get the data from database by primary key through url
+    serializer=GroupSerializer(grp,many=True)#convert the queryset into python object
+    json_data=JSONRenderer().render(serializer.data)#convert the python object into json
+    return HttpResponse(json_data,content_type='application/json')#send the json data to the 
+    # or
+    # return JsonResponse(serializer.data,safe=False)
+
+@csrf_exempt
+def group_create(request):
+    if request.method=='POST':
+        json_data = request.body
+        stream = io.BytesIO(json_data)
+        pythondata = JSONParser().parse(stream)
+        serializer = GroupSerializer(data=pythondata,partial=True)
+        if serializer.is_valid():
+         serializer.save()
+         res={'msg':'data created'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json') 
+        json_data=JSONRenderer().render(serializer.errors)
+        return HttpResponse(json_data,content_type='application/json')
+
+@csrf_exempt
+def group_update(request):
+    if request.method == 'PUT':
+        json_data = eval(request.body) # get the data from client side eval is used to convert the string into dictionary
+        grp = Group.objects.get(id=json_data['id']) # get the data from database
+        serializer = GroupSerializer(grp,data=json_data,partial=True) # convert the data into python object
+        if serializer.is_valid(): # check the data is valid or not
+         serializer.save() # save the data into database
+         res={'msg':'data updated'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json') 
+        json_data=JSONRenderer().render(serializer.errors)
+        return HttpResponse(json_data,content_type='application/json')
+    
+@csrf_exempt 
+def group_delete(request):
+    if request.method == 'DELETE':
+        json_data = request.body
+        stream = io.BytesIO(json_data)
+        pythondata = JSONParser().parse(stream)
+        id = pythondata.get('id')# get the id from python object
+        grp = Group.objects.get(id=id)
+        grp.delete()
+        res={'msg':'data deleted!!'}
+        json_data=JSONRenderer().render(res)
+        return HttpResponse(json_data,content_type='application/json')     
+
     
