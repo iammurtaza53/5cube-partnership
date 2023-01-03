@@ -132,3 +132,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+# REST_FRAMEWORK = {
+#     "DATE_INPUT_FORMATS": ["%Y-%m-%d"],
+#     "DATE_FORMAT": "%Y-%m-%d",
+# }
+
+DATE_INPUT_FORMATS = [
+    ("%Y-%m-%d"),
+]

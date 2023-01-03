@@ -28,7 +28,7 @@
             <td>{{ item.cname }}</td>
             <td>{{ item.ctype }}</td>
             <td>
-              <AppModal :isEdit="isEdit" types="Edit" :category="item" :getCategories="getCategories"/>
+              <AppModal :isEdit="isEdit" types="Edit" :category="item" />
             </td>
             <td>
               <v-btn
@@ -73,7 +73,6 @@ export default {
     },
 
     async deleteCategories(id) {
-      console.log("deleteCategories", id);
       await axios.delete("http://127.0.0.1:8000/category_delete", {
         data: {
           id: id,

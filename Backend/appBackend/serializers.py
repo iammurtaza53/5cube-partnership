@@ -65,8 +65,9 @@ class IncomeSerializer(serializers.Serializer):
 class GroupSerializer(serializers.Serializer):
     id=serializers.IntegerField()
     gname = serializers.CharField(max_length=100)
-    start_date= serializers.DateField(default=datetime.date.today) 
-    end_date= serializers.DateField()  
+    start_date= serializers.DateField() 
+    end_date= serializers.DateField()
+    # format="%Y-%m-%d", input_formats=['%Y-%m-%d',]  
     def create(self,validated_data):
         return Group.objects.create(**validated_data)
     

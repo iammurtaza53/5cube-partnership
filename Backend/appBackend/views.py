@@ -122,8 +122,8 @@ def expense_create(request):
 def expense_update(request):
     if request.method=='PUT':
         json_data = eval(request.body) # get the data from client side
-        exp = Income.objects.get(id=json_data['id']) # get the data from database
-        serializer = IncomeSerializer(exp,data=json_data,partial=True) # convert the data into python object
+        exp = Expense.objects.get(id=json_data['id']) # get the data from database
+        serializer = ExpenseSerializer(exp,data=json_data,partial=True) # convert the data into python object
         if serializer.is_valid(): # check the data is valid or not
          serializer.save() # save the data into database
          res={'msg':'data updated'}

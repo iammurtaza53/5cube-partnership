@@ -26,6 +26,7 @@
           </tr>
         </tbody>
       </v-table>
+     
       <v-table class="border-bottom">
         <thead class="bg">
           <tr class="font-weight-bold">
@@ -48,6 +49,7 @@
           </tr>
         </tbody>
       </v-table>
+    
       <v-row>
         <v-col sm="6">
           <v-table>
@@ -143,21 +145,16 @@ export default {
     async getidata() {
       let result = await axios.get("http://127.0.0.1:8000/income_list/");
       this.income = result.data;
-   
-
-      console.log(this.income);
 
     },
      getincome() {
       this.income.iamount=this.income.map((e)=>e.iamount)
-      console.log("aa",this.income)
            return this.income.reduce((total, itm) => itm.iamount + total, 0);
 
       
     },
     getexpenses() {
       this.expense.eamount=this.expense.map((e)=>e.eamount)
-      console.log("bb",this.expense)
       return this.expense.reduce((total,itm)=>itm.eamount +total,0);
     },
     calculateShares() {

@@ -11,8 +11,8 @@
                     <th class="text-left">Person</th>
                     <th class="text-left">Salary</th>
                     <th class="text-left">Share</th>
-                    <th class="text-left" width="20px" >Edit</th>
-                    <th class="text-left" width="20px" >Delete</th>
+                    <!-- <th class="text-left" width="20px" >Edit</th>
+                    <th class="text-left" width="20px" >Delete</th> -->
                 </tr>
             </thead>
                 <tbody>
