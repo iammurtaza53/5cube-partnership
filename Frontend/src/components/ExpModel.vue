@@ -89,7 +89,7 @@ export default {
       });
       this.postCategories= result.data;
       console.log (this.postCategories)
-
+         this.reset()
        
     },
      reset() {
