@@ -26,6 +26,7 @@
           </tr>
         </tbody>
       </v-table>
+     
       <v-table class="border-bottom">
         <thead class="bg">
           <tr class="font-weight-bold">
@@ -48,6 +49,7 @@
           </tr>
         </tbody>
       </v-table>
+    
       <v-row>
         <v-col sm="6">
           <v-table>

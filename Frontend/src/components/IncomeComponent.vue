@@ -25,7 +25,7 @@
             <td>Rs {{ item.iamount  }}/-</td>
             <td>{{ Date() }}</td>
             <td>
-              <IncomeModal type="Edit" :isEdit="isEdit"/>
+              <IncomeModal type="Edit" :isEdit="isEdit" :isprefill="item"/>
             </td>
             <td>
               <v-btn v-on:click="deldetails(item.id)" outlined plain size="x-small" icon>

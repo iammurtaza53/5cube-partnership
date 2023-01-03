@@ -25,7 +25,7 @@
             <td>Rs {{ item.eamount }}/-</td>
             <td>{{ today.getDate() }}</td>
             <td>
-              <ExpModel type="Edit" :isEdit="isEdit" />
+              <ExpModel type="Edit" :isEdit="isEdit" :ecategory="item" />
             </td>
             <td>
               <v-btn 
