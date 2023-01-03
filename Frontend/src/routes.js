@@ -7,6 +7,7 @@ import IncomeComponent from "./components/IncomeComponent.vue";
 import LogIn from "./components/LogIn.vue";
 import ShareComponent from "./components/ShareComponent.vue";
 import ReportComponent from "./components/ReportComponent.vue";
+import GroupComponent from "./components/GroupComponent.vue";
 
 const routes = [
     {
@@ -43,6 +44,11 @@ const routes = [
         name: "report",
         path: "/report",
         component:ReportComponent,
+    },
+    {
+        name: "group",
+        path: "/group",
+        component:GroupComponent,
     }
    
 ]

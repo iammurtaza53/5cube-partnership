@@ -29,4 +29,13 @@ class Category(models.Model):
     
     def __str__(self):
         return self.cname
+    
+    
+class Group(models.Model):
+    gname= models.CharField(max_length=100)
+    start_date= models.DateField(("Date"), default=datetime.date.today) 
+    end_date= models.DateField()   
+    
+    def __str__(self):
+        return self.gname
         

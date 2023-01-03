@@ -24,24 +24,37 @@
             <v-container>
               <v-row>
                 <v-col>
+                  <datepicker
+                    v-model="start_date"
+                    class="date-picker"
+                    placeholder="Select Starting Date"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <datepicker
+                    v-model="end_date"
+                    class="date-picker"
+                    placeholder="Select Ending Date"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
                   <v-text-field
-                    label="Category Name*"
-                    placeholder="Enter Category Name"
+                    label="Name*"
+                    placeholder="Enter Group Name"
                     required
-                    v-model="cname"
+                    v-model="gname"
                   ></v-text-field>
                 </v-col>
               </v-row>
-              <v-row no-gutters>
-                <v-col>
-                  <v-select
-                  v-model="ctype"
-                  :items="['Expense', 'Income']"
-                  label="Category type*"
-                  required
-                ></v-select>
-                </v-col>
-              </v-row>
+
+              <br />
+              <br />
+           
+             
             </v-container>
             <!-- </form> -->
             <small>*indicates required field</small>
@@ -63,7 +76,7 @@
               elevation="4"
               :disabled="disablebtn"
               @click="
-                createCategories();
+                createGroup();
                 dialog = false;
               "
             >
@@ -85,17 +98,16 @@
               <v-row>
                 <v-col>
                   <v-text-field
-                    :v-model="category.cname"
+                    :value="category.cname"
                     placeholder="Enter Category Name"
                     required
-                    
                   ></v-text-field>
                 </v-col>
               </v-row>
               <v-row no-gutters>
                 <v-col>
                   <v-select
-                  :value="category.ctype"
+                    :value="category.ctype"
                     :items="['Expense', 'Income']"
                     required
                   ></v-select>
@@ -136,54 +148,58 @@
 </template>
 <script>
 import axios from "axios";
+// import Datepicker from "  ";
+import Datepicker from "vue3-datepicker";
 export default {
+  components: {
+    Datepicker,
+    // datepicker,
+  },
   props: {
     types: String,
     getCategories: Function,
     category: Object,
   },
+
   mounted() {
-    
-    // if (this.types == "Edit") {
-      // this.getCategoryById(this.categoryId);
+    // if (this.types == "Ed") {
+    // this.getCategoryById(this.categoryId);
     // }
-  }
-  ,
+  },
   data() {
     return {
       dialog: false,
-      cname: "",
-      ctype: "",
+      gname: "",
+      start_date: Date,
+      end_date: Date,
     };
   },
   methods: {
     // async getCategoryById(id) {
     //   await axios.get("http://127.0.0.1:8000/catinfo/" + id)
-        
     // }
-    
+
     async updateCategories() {
       await axios.put("http://127.0.0.1:8000/category_update", {
         cname: this.cname,
         ctype: this.ctype,
       });
     },
-    async createCategories() {
-      await axios.post("http://127.0.0.1:8000/category_create", {
-        cname: this.cname,
-        ctype: this.ctype,
+    async createGroup() {
+      await axios.post("http://127.0.0.1:8000/group_create", {
+        gname:this.gname,
+        start_date: this.start_date,
+        end_date: this.end_date,
       });
-      this.getCategories();
-      this.reset();
+      // this.reset();
     },
-    reset() {
-      this.cname = "";
-      this.ctype = "";
-    },
+    // reset() {
+    //   this.gname = "";
+    // },
   },
   computed: {
     disablebtn() {
-      return this.cname == "" || this.ctype == "";
+      return this.gname == "" || this.start_date.value == "" || this.end_date.value == "";
     },
   },
 };
@@ -191,5 +207,24 @@ export default {
 <style scope>
 .aaa {
   border: 3px solid red;
+}
+.date-picker {
+    font-size: 16px;
+  padding: 20px;
+  width: 100%;
+  border: 1px solid #8e8e8e;
+  background-color: #f0f0f0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.date-picker:hover {
+  background-color: #e8e8e8;
+  border-bottom: 1px solid black;
+}
+.date-picker:focus {
+  border-bottom: 2px solid black;
+  outline: none;
+  background-color: #e1e1e1;
 }
 </style>

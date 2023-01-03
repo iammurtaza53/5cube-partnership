@@ -4,7 +4,7 @@
   <div class="page">
     <div class="d-flex page box p-3">Income Details</div>
     <div class="page content shadow p-3 position-relative">
-      <ExpModel type="Create" comp="Income"/>
+      <IncomeModal type="Create" :isEdit="!isEdit"/>
       <v-table>
         <thead>
           <tr>
@@ -25,7 +25,7 @@
             <td>Rs {{ item.amount  }}/-</td>
             <td>{{ Date() }}</td>
             <td>
-              <ExpModel type="Edit" comp="Income" />
+              <IncomeModal type="Edit" :isEdit="isEdit"/>
             </td>
             <td>
               <v-btn outlined plain size="x-small" icon>
@@ -39,7 +39,7 @@
   </div>
 </template>
 <script>
-import ExpModel from "./ExpModel.vue";
+import IncomeModal from "./IncomeModal.vue";
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue"
 export default {
@@ -47,10 +47,11 @@ name: "IncomeComponent",
 components: {
 AppSidebar,
   AppHeader,
-  ExpModel,
+  IncomeModal,
 },
 data() {
 return {
+  isEdit:true,
   income: [
         {
           name: "Client",
