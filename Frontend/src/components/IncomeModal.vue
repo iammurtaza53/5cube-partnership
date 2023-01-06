@@ -62,7 +62,8 @@ export default {
     props:{
         type:String,
         isEdit:Boolean,
-        isprefill:Object,
+      isprefill: Object,
+      getincomeDetails: Function,
     },
     data(){
         return{
@@ -81,7 +82,7 @@ export default {
           idetail:this.idetail,
           iamount:this.iamount,
          });
-         this.getincome()
+         this.getincomeDetails()
           // console.log("udateincome",this.updateincome)
       },
      
@@ -105,11 +106,18 @@ export default {
         iname: this.iname,
         iamount:this.iamount,
         idetail:this.idetail,
-      });
-      this.postIncome= result.data;
+     });
+      
+           this.postIncome = result.data;
+           this.getincomeDetails()
+           this.refresh()
     },
         
-
+    refresh(){
+      this.iname = "";
+      this.idetail = "";
+      this.iamount = "";
+    },
 
     },
     computed:{

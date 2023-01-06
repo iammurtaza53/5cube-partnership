@@ -45,7 +45,6 @@
                     class="date-picker"
                     placeholder="Select Ending Date"
                     format="yyyy-MM-dd"
-                   
                   />
                 </v-col>
               </v-row>
@@ -129,7 +128,7 @@ export default {
         id:id,
         gname:this.gname,
         start_date: this.start_date.toISOString().substring(0, 10),
-        end_date: this.end_date.toISOString().substring(0, 10),
+        end_date:  this.end_date.toISOString().substring(0, 10),
       });
       this.getGroup();
     },
@@ -138,6 +137,7 @@ export default {
         gname:this.gname,
         start_date: this.start_date.toISOString().substring(0, 10),
         end_date: this.end_date.toISOString().substring(0, 10),
+        // end_date: this.end_date.toISOString().substring(0, 10),
       });
       this.getGroup();
       this.reset();

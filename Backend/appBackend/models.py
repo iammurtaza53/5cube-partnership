@@ -7,6 +7,7 @@ class Expense(models.Model):
     edetail= models.TextField(max_length=500)
     eamount= models.IntegerField()
     edate= models.DateField(("Date"), default=datetime.date.today) 
+    # groupID= models.ForeignKey('Group', on_delete=models.CASCADE, null=True,blank=True,)
     
     def __str__(self):
         return self.ename
@@ -16,6 +17,7 @@ class Income(models.Model):
     idetail= models.TextField(max_length=500)
     iamount= models.IntegerField()
     idate= models.DateField(("Date"), default=datetime.date.today) 
+    # groupID= models.ForeignKey('Group', on_delete=models.CASCADE, null=True,blank=True)
     
     def __str__(self):
         return self.iname
@@ -35,7 +37,7 @@ class Group(models.Model):
     gname= models.CharField(max_length=100)
     start_date= models.DateField()
     end_date= models.DateField()   
-    
+    isActivated= models.BooleanField(default=False)
     def __str__(self):
         return self.gname
         

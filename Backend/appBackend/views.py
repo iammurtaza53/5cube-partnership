@@ -100,10 +100,8 @@ def expense_list(request):
 @csrf_exempt
 def expense_create(request):
     if request.method=='POST':
-        json_data = request.body
-        stream = io.BytesIO(json_data)
-        pythondata = JSONParser().parse(stream)
-        serializer = ExpenseSerializer(data=pythondata,partial=True)
+        json_data = eval(request.body)
+        serializer = ExpenseSerializer(data=json_data,partial=True)
         if serializer.is_valid():
          serializer.save()
          res={'msg':'data created'}
@@ -154,10 +152,8 @@ def income_list(request):
 @csrf_exempt
 def income_create(request):
     if request.method=='POST':
-        json_data = request.body
-        stream = io.BytesIO(json_data)
-        pythondata = JSONParser().parse(stream)
-        serializer = IncomeSerializer(data=pythondata,partial=True)
+        json_data = eval(request.body)
+        serializer = IncomeSerializer(data=json_data,partial=True)
         if serializer.is_valid():
          serializer.save()
          res={'msg':'data created'}
@@ -198,6 +194,7 @@ def income_delete(request):
 # -----------------------------------Group----------------------------------------
 #Query - set All cateory data 
 def group_list(request):
+    grp=Group.objects.filter(id=8).update(isActivated=True)
     grp=Group.objects.all()#get the data from database by primary key through url
     serializer=GroupSerializer(grp,many=True)#convert the queryset into python object
     json_data=JSONRenderer().render(serializer.data)#convert the python object into json
@@ -210,7 +207,6 @@ def group_create(request):
     if request.method=='POST':
         json_data = eval(request.body)
         serializer = GroupSerializer(data=json_data,partial=True)
-        print("bbb",json_data)
         if serializer.is_valid():
          serializer.save()
          res={'msg':'data created'}
@@ -220,7 +216,7 @@ def group_create(request):
         return HttpResponse(json_data,content_type='application/json')
 
 @csrf_exempt
-def group_update(request):
+def group_update(request): 
     if request.method == 'PUT':
         json_data = eval(request.body) # get the data from client side eval is used to convert the string into dictionary
         grp = Group.objects.get(id=json_data['id']) # get the data from database

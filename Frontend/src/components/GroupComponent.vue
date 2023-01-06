@@ -23,7 +23,7 @@
             <td>{{ item.gname }}</td>
             <td>{{ item.start_date }}</td>
             <td>{{ item.end_date }}</td>
-            <td>{{ isActive }}</td>
+            <td>{{ item.isActivated}}</td>
             <td>
               <GroupModal
                 types="Edit"
@@ -66,7 +66,6 @@ export default {
     return {
       isEdit: true,
       groupList: [],
-      isActive: false,
     };
   },
   mounted() {

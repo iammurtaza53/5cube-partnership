@@ -28,6 +28,8 @@ class ExpenseSerializer(serializers.Serializer):
     edetail = serializers.CharField(max_length=100)
     eamount = serializers.IntegerField()
     edate = serializers.DateField(("Date"), default=datetime.date.today)
+    # groupID = serializers.ReadOnlyField(source='groupID.id')
+    # groupID = serializers.IntegerField()
     def create(self,validated_data):
         return Expense.objects.create(**validated_data)
     
@@ -36,6 +38,7 @@ class ExpenseSerializer(serializers.Serializer):
         instance.edetail=validated_data.get('edetail',instance.edetail)
         instance.eamount=validated_data.get('eamount',instance.eamount)
         instance.edate=validated_data.get('edate',instance.edate)
+        # groupID = serializers.ReadOnlyField(source='groupID.id')
         instance.save() # save the changes
         return instance
     
@@ -48,6 +51,7 @@ class IncomeSerializer(serializers.Serializer):
     idetail = serializers.CharField(max_length=100)
     iamount = serializers.IntegerField()
     idate = serializers.DateField(("Date"), default=datetime.date.today)
+    # groupID = serializers.IntegerField()
     def create(self,validated_data):
         return Income.objects.create(**validated_data)
     
@@ -67,7 +71,7 @@ class GroupSerializer(serializers.Serializer):
     gname = serializers.CharField(max_length=100)
     start_date= serializers.DateField() 
     end_date= serializers.DateField()
-    # format="%Y-%m-%d",input_formats=['%Y-%m-%d',] 
+    isActivated=serializers.BooleanField(default=False)
     def create(self,validated_data):
         return Group.objects.create(**validated_data)
     

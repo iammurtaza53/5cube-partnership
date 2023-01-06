@@ -4,7 +4,7 @@
   <div class="page">
     <div class="d-flex page box p-3">Expense Details</div>
     <div class="page content shadow p-3 position-relative">
-      <ExpModel type="Create" :isEdit="!isEdit" />
+      <ExpModel type="Create" :isEdit="!isEdit" :getexpenseDetails="getexpenseDetails"/>
       <v-table>
         <thead>
           <tr>
@@ -23,9 +23,9 @@
             <td>{{ item.ename }}</td>
             <td>{{ item.edetail }}</td>
             <td>Rs {{ item.eamount }}/-</td>
-            <td>{{ today.getDate() }}</td>
+            <td>{{ today.getFullYear()+' - '+(today.getMonth()+1)+' - '+today.getDate() }}</td>
             <td>
-              <ExpModel type="Edit" :isEdit="isEdit" :ecategory="item" />
+              <ExpModel type="Edit" :isEdit="isEdit" :ecategory="item" :getexpenseDetails="getexpenseDetails"/>
             </td>
             <td>
               <v-btn 
@@ -47,7 +47,7 @@ import axios from 'axios';
 
 export default {
   mounted(){
-    this.getdetails()
+    this.getexpenseDetails()
   },
   
   name: "ExpenseComponent",
@@ -61,11 +61,11 @@ export default {
     return {
       isEdit:true,
       expense: [],
-     
+      today : new Date()
     };
   },
   methods:{
-    async getdetails(){
+    async getexpenseDetails(){
       let result= await axios.get("http://127.0.0.1:8000/expense_list/");
       this.expense=result.data
     },
@@ -75,7 +75,7 @@ export default {
           id:id,
         },
       });
-      this.getdetails()
+      this.getexpenseDetails()
 
     }
 
