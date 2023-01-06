@@ -65,6 +65,7 @@ export default {
     type: String,
     isEdit:Boolean,
     ecategory:Object,
+    getdetail:Function,
   },
   data() {
     return {

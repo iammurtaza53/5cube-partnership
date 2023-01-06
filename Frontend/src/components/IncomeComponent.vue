@@ -4,7 +4,7 @@
   <div class="page">
     <div class="d-flex page box p-3">Income Details</div>
     <div class="page content shadow p-3 position-relative">
-      <IncomeModal type="Create" :isEdit="!isEdit"/>
+      <IncomeModal type="Create" :isEdit="!isEdit" :getincomeDetails="getincomeDetails" />
       <v-table>
         <thead>
           <tr>
@@ -25,7 +25,7 @@
             <td>Rs {{ item.iamount  }}/-</td>
             <td>{{ Date() }}</td>
             <td>
-              <IncomeModal type="Edit" :isEdit="isEdit" :isprefill="item"/>
+              <IncomeModal type="Edit" :isEdit="isEdit" :isprefill="item"  :getincomeDetails="getincomeDetails"/>
             </td>
             <td>
               <v-btn v-on:click="deldetails(item.id)" outlined plain size="x-small" icon>

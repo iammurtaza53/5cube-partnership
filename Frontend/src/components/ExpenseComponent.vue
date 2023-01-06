@@ -4,7 +4,7 @@
   <div class="page">
     <div class="d-flex page box p-3">Expense Details</div>
     <div class="page content shadow p-3 position-relative">
-      <ExpModel type="Create" :isEdit="!isEdit" />
+      <ExpModel type="Create" :isEdit="!isEdit" :getdetail="getdetail"/>
       <v-table>
         <thead>
           <tr>
@@ -25,7 +25,7 @@
             <td>Rs {{ item.eamount }}/-</td>
             <td>{{ Date() }}</td>
             <td>
-              <ExpModel type="Edit" :isEdit="isEdit" :ecategory="item" />
+              <ExpModel type="Edit" :isEdit="isEdit" :ecategory="item" :getdetail="getdetail" />
             </td>
             <td>
               <v-btn 

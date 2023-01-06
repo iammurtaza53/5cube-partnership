@@ -63,6 +63,7 @@ export default {
         type:String,
         isEdit:Boolean,
         isprefill:Object,
+       getincomeDetails:Function,
     },
     data(){
         return{
@@ -106,7 +107,9 @@ export default {
         iamount:this.iamount,
         idetail:this.idetail,
       });
+        
       this.postIncome= result.data;
+      this.getincome();
     },
         
 
