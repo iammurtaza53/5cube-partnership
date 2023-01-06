@@ -29,7 +29,6 @@ class ExpenseSerializer(serializers.Serializer):
     eamount = serializers.IntegerField()
     edate = serializers.DateField(("Date"), default=datetime.date.today)
     # groupID = serializers.ReadOnlyField(source='groupID.id')
-    # groupID = serializers.IntegerField()
     def create(self,validated_data):
         return Expense.objects.create(**validated_data)
     
@@ -51,7 +50,7 @@ class IncomeSerializer(serializers.Serializer):
     idetail = serializers.CharField(max_length=100)
     iamount = serializers.IntegerField()
     idate = serializers.DateField(("Date"), default=datetime.date.today)
-    # groupID = serializers.IntegerField()
+    # groupID = serializers.ReadOnlyField(source='groupID.id')
     def create(self,validated_data):
         return Income.objects.create(**validated_data)
     
