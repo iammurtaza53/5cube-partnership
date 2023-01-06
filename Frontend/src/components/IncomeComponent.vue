@@ -4,7 +4,7 @@
   <div class="page">
     <div class="d-flex page box p-3">Income Details</div>
     <div class="page content shadow p-3 position-relative">
-      <IncomeModal type="Create" :isEdit="!isEdit" :getincomeDetails="getincomeDetails" />
+      <IncomeModal type="Create" :isEdit="!isEdit" :getincomeDetails="getincomeDetails"/>
       <v-table>
         <thead>
           <tr>
@@ -23,9 +23,9 @@
             <td>{{ item.iname }}</td>
             <td>{{ item.idetail }}</td>
             <td>Rs {{ item.iamount  }}/-</td>
-            <td>{{ Date() }}</td>
+            <td>{{ today.getFullYear()+' - '+(today.getMonth()+1)+' - '+today.getDate() }}</td>
             <td>
-              <IncomeModal type="Edit" :isEdit="isEdit" :isprefill="item"  :getincomeDetails="getincomeDetails"/>
+              <IncomeModal type="Edit" :isEdit="isEdit" :isprefill="item" :getincomeDetails="getincomeDetails"/>
             </td>
             <td>
               <v-btn v-on:click="deldetails(item.id)" outlined plain size="x-small" icon>
@@ -59,7 +59,7 @@ data() {
 return {
   isEdit:true,
   income: [],
-      
+  today : new Date()
 }
 },
 methods:{

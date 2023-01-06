@@ -52,13 +52,13 @@ export default {
 
    {
       person:"Tom",
-      salary:10000,
-      share:40,
+      salary:50000,
+      share:30,
    },
    {
       person:"John",
-      salary:10000,
-      share:60,
+      salary:50000,
+      share:70,
    }
        ]
 

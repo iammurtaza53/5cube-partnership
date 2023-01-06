@@ -62,8 +62,8 @@ export default {
     props:{
         type:String,
         isEdit:Boolean,
-        isprefill:Object,
-       getincomeDetails:Function,
+      isprefill: Object,
+      getincomeDetails: Function,
     },
     data(){
         return{
@@ -82,7 +82,7 @@ export default {
           idetail:this.idetail,
           iamount:this.iamount,
          });
-         this.getincome()
+         this.getincomeDetails()
           // console.log("udateincome",this.updateincome)
       },
      
@@ -93,12 +93,13 @@ export default {
         this.iamount = isprefill.iamount,
         console.log("prefill form",isprefill)
       },
-        async getincome(){
+
+      async getincome(){
       let result = await axios.get(
         "http://localhost:8000/category_type?type=Income"
       ); 
-      this.Incategories = result.data;
-      this.Incategories = this.Incategories.map((item)=>(item.cname)
+       this.Incategories = result.data;
+       this.Incategories = this.Incategories.map((item)=>(item.cname)
       )
         },
          async postIncome(){
@@ -106,13 +107,18 @@ export default {
         iname: this.iname,
         iamount:this.iamount,
         idetail:this.idetail,
-      });
-        
-      this.postIncome= result.data;
-      this.getincome();
+     });
+      
+           this.postIncome = result.data;
+           this.getincomeDetails()
+           this.refresh()
     },
         
-
+    refresh(){
+      this.iname = "";
+      this.idetail = "";
+      this.iamount = "";
+    },
 
     },
     computed:{

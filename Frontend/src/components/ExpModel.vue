@@ -64,8 +64,8 @@ export default {
   props: {
     type: String,
     isEdit:Boolean,
-    ecategory:Object,
-    getdetail:Function,
+    ecategory: Object,
+    getexpenseDetails: Function,
   },
   data() {
     return {
@@ -88,7 +88,7 @@ export default {
         eamount:this.eamount,
 
        });
-       this.getCategories()
+      this.getexpenseDetails();
 
         console.log("aaa",result.data)
     },
@@ -96,10 +96,7 @@ export default {
       this.ename = ecategory.ename;
       this.edetail = ecategory.edetail;
       this.eamount = ecategory.eamount;
-      console.log("expcategory",ecategory)
-
-
-     
+      console.log("expcategory",ecategory) 
     },
     async getCategories() {
       let result = await axios.get(
@@ -115,9 +112,9 @@ export default {
         eamount:this.eamount,
         edetail:this.edetail,
       });
-      this.postCategories= result.data;
-         this.reset()
-       
+      this.postCategories = result.data;
+      this.getexpenseDetails()
+      this.reset();   
     },
      reset() {
       this.ename = "";
