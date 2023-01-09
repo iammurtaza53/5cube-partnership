@@ -27,10 +27,10 @@
       <v-divider color="white" class="divider"></v-divider>
       <v-card-text>
         <v-container>
-          <v-row>
+          <v-row >
             <v-col>
               <v-text-field
-                label=" Name*"
+                label="Name*"
                 placeholder="Enter Name"
                 required
                 v-model="cname"
@@ -77,7 +77,8 @@
   </v-dialog>
 </template>
 <script>
-import axios from "axios";
+
+import api from '@/api';
 export default {
   props: {
     types: String,
@@ -91,29 +92,37 @@ export default {
       dialog: false,
       cname: "",
       ctype: "",
+      
     };
   },
 
   methods: {
     async updateCategories(id) {
-      await axios.put("http://127.0.0.1:8000/category_update", {
-        id: id,
-        cname: this.cname,
-        ctype: this.ctype,
-      });
-      this.getCategories();
+      let data={
+        id:id,
+        cname:this.cname,
+        ctype:this.ctype,
+      };
+      api.put("category_update",data).then((response)=>{
+           this.getCategories()
+           this.reset()
+          return response.data
+      })
     },
     async prefillForm(category) {
       this.cname = category.cname;
       this.ctype = category.ctype;
     },
     async createCategories() {
-      await axios.post("http://127.0.0.1:8000/category_create", {
-        cname: this.cname,
-        ctype: this.ctype,
+      let data={
+         cname: this.cname,
+         ctype: this.ctype,
+      };
+      api.post("category_create",data).then((response)=>{
+        this.getCategories()
+        this.reset()
+          return response.data
       });
-      this.getCategories();
-      this.reset();
     },
     reset() {
       this.cname = "";

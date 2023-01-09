@@ -229,7 +229,7 @@ def group_update(request):
         json_data=JSONRenderer().render(serializer.errors)
         return HttpResponse(json_data,content_type='application/json')
     
-@csrf_exempt 
+@csrf_exempt
 def group_delete(request):
     if request.method == 'DELETE':
         json_data = request.body

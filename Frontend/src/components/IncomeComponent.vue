@@ -4,11 +4,12 @@
   <div class="page">
     <div class="d-flex page box p-3">Income Details</div>
     <div class="page content shadow p-3 position-relative">
-      <IncomeModal type="Create" :isEdit="!isEdit" :getincomeDetails="getincomeDetails"/>
+      <IncomeModal type="Create" :isEdit="!isEdit" :getincome="getincome"/>
       <v-table>
         <thead>
           <tr>
             <th class="text-left">S No. #</th>
+            <th class="text-left">Category</th>
             <th class="text-left">Name</th>
             <th class="text-left">Detail</th>
             <th class="text-left">Amount</th>
@@ -20,15 +21,16 @@
         <tbody>
           <tr v-for="(item, i) in income" :key="item.iname">
             <td>{{ i + 1 }}.</td>
+            <td>{{item.inccate}}</td>
             <td>{{ item.iname }}</td>
             <td>{{ item.idetail }}</td>
             <td>Rs {{ item.iamount  }}/-</td>
-            <td>{{ today.getFullYear()+' - '+(today.getMonth()+1)+' - '+today.getDate() }}</td>
+            <td>{{item.idate }}</td>
             <td>
-              <IncomeModal type="Edit" :isEdit="isEdit" :isprefill="item" :getincomeDetails="getincomeDetails"/>
+              <IncomeModal type="Edit" :isEdit="isEdit" :isprefill="item" :getincome="getincome"/>
             </td>
             <td>
-              <v-btn v-on:click="deldetails(item.id)" outlined plain size="x-small" icon>
+              <v-btn v-on:click="delincome(item.id)" outlined plain size="x-small" icon>
                 <v-icon color="error">mdi-delete</v-icon>
               </v-btn>
             </td>
@@ -40,13 +42,13 @@
 </template>
 
 <script>
-import axios from 'axios';
 import IncomeModal from "./IncomeModal.vue";
 import AppSidebar from "./AppSidebar.vue";
-import AppHeader from "./AppHeader.vue"
+import AppHeader from "./AppHeader.vue";
+import api from '@/api'
 export default {
   mounted(){
-    this.getincomeDetails()
+    this.getincome()
   },
 
 name: "IncomeComponent",
@@ -59,25 +61,27 @@ data() {
 return {
   isEdit:true,
   income: [],
-  today : new Date()
+  
 }
 },
 methods:{
-  async getincomeDetails(){
-  let result = await axios.get("http://127.0.0.1:8000/income_list");
-    this.income=result.data
+  async getincome(){
+    api.get("income_list/").then((response)=>{
+       this.income = response
+    });
+ 
   },
-  async deldetails(id){
-     await axios.delete("http://127.0.0.1:8000/income_delete",{
+  async delincome(id){
+    api.delete("income_delete",{
       data:{
-      id:id
+        id:id,
       }
-     });
-     this.getincomeDetails()
+    }).then ((response)=>{
+      this.getincome()
+      this.reset()
+         return response.data
+    })
   }
-  
-    
-
 },
 
 };

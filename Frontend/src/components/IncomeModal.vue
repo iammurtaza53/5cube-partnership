@@ -19,6 +19,14 @@
       <v-divider color="white" class="divider"></v-divider>
       <v-card-text>
         <v-container>
+              <v-row>
+            <v-text-field
+              v-model="inccate"
+              label="category*"
+              placeholder="Enter category"
+              required
+            ></v-text-field>
+          </v-row>
           <v-row>
             <v-select v-model="iname" :items="Incategories" label="Name*" required>
             </v-select>
@@ -42,7 +50,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="white" :style="{ backgroundColor: '#e91e62' }" elevation="4"
-          @click="dialog = false">Close</v-btn>
+          @click="dialog = false ; reset()">Close</v-btn>
         <v-btn color="white" :style="{ backgroundColor: 'blue' }" elevation="4" 
            :disabled="disablebtn"
             @click="isEdit ? updateincome(isprefill.id):postIncome(); 
@@ -52,18 +60,18 @@
   </v-dialog>
 </template>
 <script>
-
-import axios from 'axios'
+import api from '@/api'
+// import axios from 'axios'
 export default {
     mounted(){
-        this.getincome()
+     this.getincomecategory()
     },
 
     props:{
         type:String,
         isEdit:Boolean,
       isprefill: Object,
-      getincomeDetails: Function,
+      getincome: Function,
     },
     data(){
         return{
@@ -71,19 +79,23 @@ export default {
       iname: "",
       idetail: "",
       iamount: "",
+      inccate: "",
       Incategories: [],
     };  
     },
     methods:{
       async updateincome(id){
-         await axios.put("http://127.0.0.1:8000/income_update",{
-          id:id,
+        let data={
+           id:id,
           iname:this.iname,
           idetail:this.idetail,
           iamount:this.iamount,
-         });
-         this.getincomeDetails()
-          // console.log("udateincome",this.updateincome)
+        };
+        api.put("income_update",data).then((response)=>{
+           this.getincome()
+           this.reset()
+          return response.data
+        });
       },
      
 
@@ -94,27 +106,28 @@ export default {
         console.log("prefill form",isprefill)
       },
 
-      async getincome(){
-      let result = await axios.get(
-        "http://localhost:8000/category_type?type=Income"
-      ); 
-       this.Incategories = result.data;
-       this.Incategories = this.Incategories.map((item)=>(item.cname)
+      async getincomecategory(){
+        api.get("category_type?type=Income").then((response)=>{
+
+          this.Incategories = response
+          this.Incategories = this.Incategories.map((item)=>(item.cname)
       )
+        });
         },
          async postIncome(){
-     let result = await axios.post("http://127.0.0.1:8000/income_create",{
-        iname: this.iname,
-        iamount:this.iamount,
-        idetail:this.idetail,
-     });
-      
-           this.postIncome = result.data;
-           this.getincomeDetails()
-           this.refresh()
+          let data={
+             iname: this.iname,
+             iamount:this.iamount,
+             idetail:this.idetail,
+          };
+          api.post("income_create",data).then((response)=>{
+            this.getincome()
+            this.reset()
+            return response.data
+          });
     },
         
-    refresh(){
+    reset(){
       this.iname = "";
       this.idetail = "";
       this.iamount = "";
@@ -123,7 +136,7 @@ export default {
     },
     computed:{
       disablebtn(){
-       return (this.Name == "" || this.Detail == "" || this.Amount == "");
+       return (this.iname == "" || this.idetail == "" || this.iamount == "");
         
       }
     },

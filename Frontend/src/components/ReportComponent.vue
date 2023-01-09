@@ -142,6 +142,7 @@ export default {
     };
   },
   methods: {
+  
     async getedata() {
       let result = await axios.get("http://127.0.0.1:8000/expense_list/");
       this.expense = result.data;

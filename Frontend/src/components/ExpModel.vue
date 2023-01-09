@@ -19,6 +19,14 @@
       <v-divider color="white" class="divider"></v-divider>
       <v-card-text>
         <v-container>
+            <v-row>
+            <v-text-field
+              v-model="ecate"
+              label="category*"
+              placeholder="Enter category"
+              required
+            ></v-text-field>
+          </v-row>
           <v-row>
             <v-select v-model="ename" :items="categories" label="Name*" required>
             </v-select>
@@ -45,7 +53,7 @@
           @click="dialog = false">Close</v-btn>
         <v-btn color="white" :style="{ backgroundColor: 'blue' }" elevation="4" 
            :disabled="disablebtn" 
-           @click="isEdit ? update(ecategory.id):postCategories();
+           @click="isEdit ? updateexpense(ecategory.id):postexpense();
             dialog=false;">save</v-btn>
       </v-card-actions>
     </v-card> 
@@ -54,18 +62,19 @@
   </v-dialog>
 </template>
 <script>
-import axios from "axios";
+
+import api from '@/api';
 
 
 export default {
   mounted() {
-    this.getCategories();
+    this.getexpenseCategories();
   },
   props: {
     type: String,
     isEdit:Boolean,
     ecategory: Object,
-    getexpenseDetails: Function,
+    getexpenses: Function,
   },
   data() {
     return {
@@ -73,24 +82,25 @@ export default {
       ename: "",
       edetail: "",
       eamount: "",
+      ecate:"",
       categories: [],
 
     };
   },
   
   methods: {
-    async update(id){
-     
-     let result=  await axios.put("http://127.0.0.1:8000/expense_update",{
-        id:id,
+    async updateexpense(id){
+      let data={
+         id:id,
         ename:this.ename,
         edetail:this.edetail,
-        eamount:this.eamount,
-
-       });
-      this.getexpenseDetails();
-
-        console.log("aaa",result.data)
+        eamount:this.eamount
+      };
+      api.put("expense_update",data).then((response)=>{
+        this.getexpenses()
+        this.reset()
+        return response.data
+      });
     },
      async prefill(ecategory){
       this.ename = ecategory.ename;
@@ -98,23 +108,25 @@ export default {
       this.eamount = ecategory.eamount;
       console.log("expcategory",ecategory) 
     },
-    async getCategories() {
-      let result = await axios.get(
-        "http://localhost:8000/category_type?type=Expense"
-      ); 
-      this.categories = result.data;
-      this.categories = this.categories.map((item)=>(item.cname)
+    async getexpenseCategories() {
+       await api.get("category_type?type=Expense").then((response)=>{
+         this.categories = response
+        this.categories = this.categories.map((item)=>(item.cname)
       )
-    },
-    async postCategories(){
-     let result = await axios.post("http://127.0.0.1:8000/expense_create",{
-        ename: this.ename,
-        eamount:this.eamount,
-        edetail:this.edetail,
       });
-      this.postCategories = result.data;
-      this.getexpenseDetails()
-      this.reset();   
+      
+    },
+    async postexpense(){
+      let data={
+       ename: this.ename,
+       eamount:this.eamount,
+       edetail:this.edetail,
+      };
+      api.post("expense_create",data).then((response)=>{
+        this.getexpenses()
+        this.reset()
+        return response.data
+      }); 
     },
      reset() {
       this.ename = "";

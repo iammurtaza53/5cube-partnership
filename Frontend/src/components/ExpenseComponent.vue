@@ -4,11 +4,13 @@
   <div class="page">
     <div class="d-flex page box p-3">Expense Details</div>
     <div class="page content shadow p-3 position-relative">
-      <ExpModel type="Create" :isEdit="!isEdit" :getdetail="getdetail"/>
+      <ExpModel type="Create" :isEdit="!isEdit" :getexpenses="getexpenses"/>
       <v-table>
         <thead>
           <tr>
             <th class="text-left">S No. #</th>
+
+            <th class="text-left">category</th>
             <th class="text-left">Name</th>
             <th class="text-left">Detail</th>
             <th class="text-left">Amount</th>
@@ -20,16 +22,17 @@
         <tbody>
           <tr v-for="(item, i) in expense" :key="item.name">
             <td>{{ i + 1 }}.</td>
+             <td>{{ item.cname }}</td>
             <td>{{ item.ename }}</td>
             <td>{{ item.edetail }}</td>
             <td>Rs {{ item.eamount }}/-</td>
-            <td>{{ Date() }}</td>
+            <td>{{ item.edate }}</td>
             <td>
-              <ExpModel type="Edit" :isEdit="isEdit" :ecategory="item" :getdetail="getdetail" />
+              <ExpModel type="Edit" :isEdit="isEdit" :ecategory="item" :getexpenses="getexpenses" />
             </td>
             <td>
               <v-btn 
-                 v-on:click="deldetails(item.id)" outlined plain size="x-small" icon>
+                 v-on:click="delexpenses(item.id)" outlined plain size="x-small" icon>
                 <v-icon color="error">mdi-delete</v-icon>
               </v-btn>
             </td>
@@ -43,11 +46,12 @@
 import ExpModel from "./ExpModel.vue";
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
-import axios from 'axios';
+import api from '@/api'
+
 
 export default {
   mounted(){
-    this.getdetails()
+    this.getexpenses()
   },
   
   name: "ExpenseComponent",
@@ -61,23 +65,26 @@ export default {
     return {
       isEdit:true,
       expense: [],
+      
      
     };
   },
   methods:{
-    async getdetails(){
-      let result= await axios.get("http://127.0.0.1:8000/expense_list/");
-      this.expense=result.data
+    async getexpenses(){
+       api.get('expense_list/').then((response)=>{
+        this.expense = response
+      });
     },
-    async deldetails(id){
-       await axios.delete("http://127.0.0.1:8000/expense_delete",{
+    async delexpenses(id){
+      api .delete("expense_delete",{
         data:{
           id:id,
-        },
+        }
+      }).then((response)=>{
+        this.getexpenses()
+        return response.data
       });
-      this.getdetails()
-
-    }
+    },
 
 
   },

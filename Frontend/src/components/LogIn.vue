@@ -10,8 +10,11 @@
       <v-row align="center" justify="center">
         <v-col cols="12" sm="10">
           <v-text-field
-            prepend-inner-icon="mdi-email"
+            v-model="email"
+            :rule="emailRule"
             label="Email"
+            required
+            prepend-inner-icon="mdi-email"
             hint="Enter your Email to access this website"
           ></v-text-field>
         </v-col>
@@ -19,15 +22,18 @@
       <v-row align="center" justify="center">
         <v-col cols="12" sm="10">
           <v-text-field
-            prepend-inner-icon="mdi-lock"
+            v-model= "password"
+            :rules="passwordRule"
             label="Password"
+            required
+            prepend-inner-icon="mdi-lock"
             hint="Enter your password to access this website"
           ></v-text-field>
         </v-col>
       </v-row>
       <v-row align="center" justify="center">
         <v-col justify="center" cols="12" sm="10">
-          <v-btn class="Loginbtn" prepend-icon="mdi-vuetify" color="error"
+          <v-btn class="Loginbtn" prepend-icon="mdi-vuetify" color="error" @click="submit()"
             >Login</v-btn
           >
         </v-col>
@@ -36,7 +42,33 @@
     </v-sheet>
   </v-container>
 </template>
-<script></script>
+<script>
+export default{
+  name:"LoginComponent",
+  data(){
+    return{
+     email:"",
+     emailRule:[
+     (v) => !!v || "email is required",
+     (v) => /.+@.+/.test(v) || "e-mail must be valid",
+     ],
+     password:"",
+     passworRule:[
+       (v) => !!v || "password is required",
+     ],
+    };
+  },
+  methods:{
+    submit(){
+      if(this.email !=="" && this.password !==""){
+      this.$router.push({path:"/"})
+    }
+
+  }
+
+},
+}
+</script>
 
 
 <style scoped>

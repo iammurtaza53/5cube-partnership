@@ -16,7 +16,7 @@
         <thead>
           <tr>
             <th class="text-left">S No. #</th>
-            <th class="text-left">Name</th>
+             <th class="text-left">Name</th>
             <th class="text-left">Type</th>
             <th class="text-left" width="20px">Edit</th>
             <th class="text-left" width="20px">Delete</th>
@@ -27,6 +27,8 @@
             <td>{{ i+1 }}</td>
             <td>{{ item.cname }}</td>
             <td>{{ item.ctype }}</td>
+           
+            
             <td>
               <AppModal :isEdit="isEdit" types="Edit" :category="item" :getCategories="getCategories"/>
             </td>
@@ -46,7 +48,8 @@
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
 import AppModal from "./AppModal.vue";
-import axios from "axios";
+import api from '../api';
+
 export default {
   name: "CategoryComponent",
   components: {
@@ -66,19 +69,22 @@ export default {
   },
   methods: {
     async getCategories() {
-      let getCategoryURL = await axios.get(
-        "http://127.0.0.1:8000/category_list/"
-      );
-      this.categoryList = getCategoryURL.data;
-    },
 
-    async deleteCategories(id) {
-      await axios.delete("http://127.0.0.1:8000/category_delete", {
-        data: {
-          id: id,
-        },
+      api.get("category_list")
+      .then((response)=>{
+          this.categoryList = response
       });
-      this.getCategories();
+    },
+    async deleteCategories(id) {
+      api.delete("category_delete",{
+        data:{
+          id:id
+        }
+      }).then((response)=>{
+        this.getCategories();
+          return response.data
+      })
+     
     },
   },
 };

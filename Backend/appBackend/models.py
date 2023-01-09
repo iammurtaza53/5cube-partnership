@@ -17,7 +17,7 @@ class Income(models.Model):
     idetail= models.TextField(max_length=500)
     iamount= models.IntegerField()
     idate= models.DateField(("Date"), default=datetime.date.today) 
-    # groupID= models.ForeignKey('Group', on_delete=models.CASCADE, null=True,blank=True)
+    # groupID= models.ForeignKey('Group', on_delete=models.CASCADE, null=True,default=None)
     
     def __str__(self):
         return self.iname

@@ -26,45 +26,43 @@
       </v-card-title>
       <v-divider color="white" class="divider"></v-divider>
       <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col>
-                  <datepicker
-                    v-model="start_date"
-                    class="date-picker"
-                    placeholder="Select Starting Date"
-                    format="yyyy-MM-dd"
-                    
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <datepicker
-                    v-model="end_date"
-                    class="date-picker"
-                    placeholder="Select Ending Date"
-                    format="yyyy-MM-dd"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-text-field
-                    label="Name*"
-                    placeholder="Enter Group Name"
-                    required
-                    v-model="gname"
-                    
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <br />
-              <br />
-            </v-container>
-            <!-- </form> -->
-            <small>*indicates required field</small>
-          </v-card-text>
+        <v-container>
+          <v-row>
+            <v-col>
+              <datepicker
+                v-model="start_date"
+                class="date-picker"
+                placeholder="Select Starting Date"
+                format="yyyy-MM-dd"
+              />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <datepicker
+                v-model="end_date"
+                class="date-picker"
+                placeholder="Select Ending Date"
+                format="yyyy-MM-dd"
+              />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Name*"
+                placeholder="Enter Group Name"
+                required
+                v-model="gname"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <br />
+          <br />
+        </v-container>
+        <!-- </form> -->
+        <small>*indicates required field</small>
+      </v-card-text>
       <v-divider color="white" class="divider"></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -81,7 +79,7 @@
           elevation="4"
           :disabled="disablebtn"
           @click="
-            isEdit ? updateGroup(group.id) :  createGroup();
+            isEdit ? updateGroup(group.id) : createGroup();
             dialog = false;
           "
           >Save</v-btn
@@ -95,8 +93,10 @@
 
 
 <script>
-import axios from "axios";
 import Datepicker from "vue3-datepicker";
+import api from "../api";
+
+
 export default {
   components: {
     Datepicker,
@@ -113,8 +113,8 @@ export default {
     return {
       dialog: false,
       gname: "",
-      start_date: null ,
-      end_date:null,
+      start_date: null,
+      end_date: null,
     };
   },
   methods: {
@@ -124,23 +124,35 @@ export default {
       this.end_date = group.end_date;
     },
     async updateGroup(id) {
-      await axios.put("http://127.0.0.1:8000/group_update", {
+      let data = {
         id:id,
-        gname:this.gname,
-        start_date: this.start_date.toISOString().substring(0, 10),
-        end_date:  this.end_date.toISOString().substring(0, 10),
-      });
-      this.getGroup();
-    },
-    async createGroup() {
-      await axios.post("http://127.0.0.1:8000/group_create", {
-        gname:this.gname,
+        gname: this.gname,
         start_date: this.start_date.toISOString().substring(0, 10),
         end_date: this.end_date.toISOString().substring(0, 10),
-        // end_date: this.end_date.toISOString().substring(0, 10),
+      };
+      api.put("group_update", data).then((response) => {
+        response.data["status"] = 200;
+        this.getGroup();
+        this.reset();
+        
+        return response.data;
       });
-      this.getGroup();
-      this.reset();
+
+    },
+    async createGroup() {
+       let data = {
+        gname: this.gname,
+        start_date: this.start_date.toISOString().substring(0, 10),
+        end_date: this.end_date.toISOString().substring(0, 10),
+
+      };
+      api.post("group_create", data).then((response) => {
+        response.data["status"] = 200;
+        this.getGroup();
+        this.reset();
+        return response.data;
+          
+      });
     },
     reset() {
       this.gname = "";
@@ -150,7 +162,11 @@ export default {
   },
   computed: {
     disablebtn() {
-      return this.gname == "" || this.start_date.value == "" || this.end_date.value == "";
+      return (
+        this.gname == "" ||
+        this.start_date.value == "" ||
+        this.end_date.value == ""
+      );
     },
   },
 };
@@ -160,7 +176,7 @@ export default {
   border: 3px solid red;
 }
 .date-picker {
-    font-size: 16px;
+  font-size: 16px;
   padding: 20px;
   width: 100%;
   border: 1px solid #8e8e8e;

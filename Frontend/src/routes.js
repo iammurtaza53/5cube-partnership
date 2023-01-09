@@ -8,6 +8,7 @@ import LogIn from "./components/LogIn.vue";
 import ShareComponent from "./components/ShareComponent.vue";
 import ReportComponent from "./components/ReportComponent.vue";
 import GroupComponent from "./components/GroupComponent.vue";
+import SignUp from "./components/SignUp";
 
 const routes = [
     {
@@ -49,6 +50,11 @@ const routes = [
         name: "group",
         path: "/group",
         component:GroupComponent,
+    },
+    {
+        name:"SignUp",
+        path:"/signup",
+        component:SignUp,
     }
    
 ]
