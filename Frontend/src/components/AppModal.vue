@@ -33,14 +33,14 @@
                 label=" Name*"
                 placeholder="Enter Name"
                 required
-                v-model="cname"
+                v-model="name"
               ></v-text-field>
             </v-col>
           </v-row>
           <v-row no-gutters>
             <v-col>
               <v-select
-                v-model="ctype"
+                v-model="type"
                 :items="['Expense', 'Income']"
                 label="Category type*"
                 required
@@ -89,8 +89,8 @@ export default {
   data() {
     return {
       dialog: false,
-      cname: "",
-      ctype: "",
+      name: "",
+      type: "",
     };
   },
 
@@ -98,31 +98,31 @@ export default {
     async updateCategories(id) {
       await axios.put("http://127.0.0.1:8000/category_update", {
         id: id,
-        cname: this.cname,
-        ctype: this.ctype,
+        name: this.name,
+        type: this.type,
       });
       this.getCategories();
     },
     async prefillForm(category) {
-      this.cname = category.cname;
-      this.ctype = category.ctype;
+      this.name = category.name;
+      this.type = category.type;
     },
     async createCategories() {
       await axios.post("http://127.0.0.1:8000/category_create", {
-        cname: this.cname,
-        ctype: this.ctype,
+        name: this.name,
+        type: this.type,
       });
       this.getCategories();
       this.reset();
     },
     reset() {
-      this.cname = "";
-      this.ctype = "";
+      this.name = "";
+      this.type = "";
     },
   },
   computed: {
     disablebtn() {
-      return this.cname == "" || this.ctype == "";
+      return this.name == "" || this.type == "";
     },
   },
 };

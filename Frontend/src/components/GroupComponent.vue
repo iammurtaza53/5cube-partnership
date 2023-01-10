@@ -20,7 +20,7 @@
         <tbody>
           <tr v-for="(item, i) in groupList" :key="item.name">
             <td>{{ i + 1 }}.</td>
-            <td>{{ item.gname }}</td>
+            <td>{{ item.name }}</td>
             <td>{{ item.start_date }}</td>
             <td>{{ item.end_date }}</td>
             <td>{{ item.isActivated}}</td>

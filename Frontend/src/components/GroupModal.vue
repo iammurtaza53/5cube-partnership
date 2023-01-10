@@ -29,23 +29,12 @@
             <v-container>
               <v-row>
                 <v-col>
-                  <datepicker
-                    v-model="start_date"
-                    class="date-picker"
-                    placeholder="Select Starting Date"
-                    format="yyyy-MM-dd"
-                    
-                  />
+                  <v-text-field type="date" v-model="start_date"></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <datepicker
-                    v-model="end_date"
-                    class="date-picker"
-                    placeholder="Select Ending Date"
-                    format="yyyy-MM-dd"
-                  />
+                  <v-text-field type="date" v-model="end_date"></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
@@ -54,7 +43,7 @@
                     label="Name*"
                     placeholder="Enter Group Name"
                     required
-                    v-model="gname"
+                    v-model="name"
                     
                   ></v-text-field>
                 </v-col>
@@ -72,7 +61,7 @@
           color="white"
           :style="{ backgroundColor: '#e91e62' }"
           elevation="4"
-          @click="dialog = false"
+          @click="dialog = false; reset()"
           >Close</v-btn
         >
         <v-btn
@@ -96,10 +85,11 @@
 
 <script>
 import axios from "axios";
-import Datepicker from "vue3-datepicker";
+// import Datepicker from "vue3-datepicker";
 export default {
+  name: "GroupModal",
   components: {
-    Datepicker,
+    // Datepicker,
     // datepicker,
   },
   props: {
@@ -112,45 +102,45 @@ export default {
   data() {
     return {
       dialog: false,
-      gname: "",
+      name: "",
       start_date: null ,
-      end_date:null,
+      end_date: null,
     };
   },
   methods: {
     prefillForm(group) {
-      this.gname = group.gname;
+      this.name = group.name;
       this.start_date = group.start_date;
       this.end_date = group.end_date;
     },
     async updateGroup(id) {
       await axios.put("http://127.0.0.1:8000/group_update", {
         id:id,
-        gname:this.gname,
-        start_date: this.start_date.toISOString().substring(0, 10),
-        end_date:  this.end_date.toISOString().substring(0, 10),
+        name:this.name,
+        start_date: this.start_date,
+        end_date:  this.end_date
       });
+      
       this.getGroup();
     },
     async createGroup() {
       await axios.post("http://127.0.0.1:8000/group_create", {
-        gname:this.gname,
-        start_date: this.start_date.toISOString().substring(0, 10),
-        end_date: this.end_date.toISOString().substring(0, 10),
-        // end_date: this.end_date.toISOString().substring(0, 10),
+        name:this.name,
+        start_date: this.start_date,
+        end_date: this.end_date
       });
       this.getGroup();
       this.reset();
     },
     reset() {
-      this.gname = "";
+      this.name = "";
       this.start_date = null;
       this.end_date = null;
     },
   },
   computed: {
     disablebtn() {
-      return this.gname == "" || this.start_date.value == "" || this.end_date.value == "";
+      return this.name == "" || this.start_date == "" || this.end_date== "";
     },
   },
 };

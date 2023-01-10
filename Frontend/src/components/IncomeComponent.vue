@@ -9,6 +9,7 @@
         <thead>
           <tr>
             <th class="text-left">S No. #</th>
+            <th class="text-left">Category</th>
             <th class="text-left">Name</th>
             <th class="text-left">Detail</th>
             <th class="text-left">Amount</th>
@@ -18,14 +19,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, i) in income" :key="item.iname">
+          <tr v-for="(item, i) in income" :key="item.name">
             <td>{{ i + 1 }}.</td>
-            <td>{{ item.iname }}</td>
-            <td>{{ item.idetail }}</td>
-            <td>Rs {{ item.iamount  }}/-</td>
-            <td>{{ today.getFullYear()+' - '+(today.getMonth()+1)+' - '+today.getDate() }}</td>
+            <td>{{ item.category_name }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.description }}</td>
+            <td>Rs {{ item.amount  }}/-</td>
+            <td>{{ item.date }}</td>
             <td>
-              <IncomeModal type="Edit" :isEdit="isEdit" :isprefill="item" :getincomeDetails="getincomeDetails"/>
+              <IncomeModal type="Edit" :isEdit="isEdit" :income="item" :getincomeDetails="getincomeDetails"/>
             </td>
             <td>
               <v-btn v-on:click="deldetails(item.id)" outlined plain size="x-small" icon>
@@ -59,13 +61,13 @@ data() {
 return {
   isEdit:true,
   income: [],
-  today : new Date()
 }
 },
 methods:{
   async getincomeDetails(){
   let result = await axios.get("http://127.0.0.1:8000/income_list");
-    this.income=result.data
+    this.income = result.data
+   
   },
   async deldetails(id){
      await axios.delete("http://127.0.0.1:8000/income_delete",{
