@@ -11,7 +11,7 @@
         <v-col cols="12" sm="10">
           <v-text-field
             v-model="email"
-            :rule="emailRule"
+            :rules="emailRules"
             label="Email"
             required
             prepend-inner-icon="mdi-email"
@@ -23,7 +23,7 @@
         <v-col cols="12" sm="10">
           <v-text-field
             v-model= "password"
-            :rules="passwordRule"
+            :rules="passwordRules"
             label="Password"
             required
             prepend-inner-icon="mdi-lock"
@@ -47,13 +47,14 @@ export default{
   name:"LoginComponent",
   data(){
     return{
+      valid:false,
      email:"",
-     emailRule:[
+     emailRules:[
      (v) => !!v || "email is required",
      (v) => /.+@.+/.test(v) || "e-mail must be valid",
      ],
      password:"",
-     passworRule:[
+     passworRules:[
        (v) => !!v || "password is required",
      ],
     };
@@ -71,7 +72,7 @@ export default{
 </script>
 
 
-<style scoped>
+<style>
 
 .container {
     width: 34%;
