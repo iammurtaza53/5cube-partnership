@@ -27,10 +27,10 @@
       <v-divider color="white" class="divider"></v-divider>
       <v-card-text>
         <v-container>
-          <v-row>
+          <v-row >
             <v-col>
               <v-text-field
-                label=" Name*"
+                label="Name*"
                 placeholder="Enter Name"
                 required
                 v-model="name"
@@ -77,7 +77,8 @@
   </v-dialog>
 </template>
 <script>
-import axios from "axios";
+
+import api from '@/api';
 export default {
   props: {
     types: String,
@@ -96,24 +97,31 @@ export default {
 
   methods: {
     async updateCategories(id) {
-      await axios.put("http://127.0.0.1:8000/category_update", {
-        id: id,
-        name: this.name,
-        type: this.type,
-      });
-      this.getCategories();
+      let data={
+        id:id,
+        name:this.name,
+        type:this.type,
+      };
+      api.put("category_update",data).then((response)=>{
+           this.getCategories()
+           this.reset()
+          return response.data
+      })
     },
     async prefillForm(category) {
       this.name = category.name;
       this.type = category.type;
     },
     async createCategories() {
-      await axios.post("http://127.0.0.1:8000/category_create", {
-        name: this.name,
-        type: this.type,
+      let data={
+         name: this.name,
+         type: this.type,
+      };
+      api.post("category_create",data).then((response)=>{
+        this.getCategories()
+        this.reset()
+          return response.data
       });
-      this.getCategories();
-      this.reset();
     },
     reset() {
       this.name = "";

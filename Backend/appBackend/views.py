@@ -4,7 +4,6 @@ import json
 from django.http import HttpResponse
 from django.shortcuts import HttpResponse, render
 from django.views.decorators.csrf import csrf_exempt
-# from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 
 from appBackend.models import Category, Expense, Group, Income
@@ -89,7 +88,12 @@ def expense_list(request):
 @csrf_exempt
 def expense_create(request):
     if request.method=='POST':
+        data = Group.objects.get(isActivated=True)
+        
         json_data = json.loads(request.body)
+        
+        json_data['group'] = data.id
+        
         serializer = ExpenseSerializer(data=json_data,partial=True)
         if serializer.is_valid():
          serializer.save()
@@ -105,6 +109,7 @@ def expense_update(request):
         json_data = json.loads(request.body) # get the data from client side
         exp = Expense.objects.get(id=json_data['id']) # get the data from database
         serializer = ExpenseSerializer(exp,data=json_data,partial=True) # convert the data into python object
+        print(json_data,serializer.is_valid())
         if serializer.is_valid(): # check the data is valid or not
          serializer.save() # save the data into database
          res={'msg':'data updated'}
@@ -218,7 +223,7 @@ def group_update(request):
         json_data=JSONRenderer().render(serializer.errors)
         return HttpResponse(json_data,content_type='application/json')
     
-@csrf_exempt 
+@csrf_exempt
 def group_delete(request):
     if request.method == 'DELETE':
         json_data = json.loads(request.body)

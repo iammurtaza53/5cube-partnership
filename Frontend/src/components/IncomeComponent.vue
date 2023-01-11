@@ -4,7 +4,7 @@
   <div class="page">
     <div class="d-flex page box p-3">Income Details</div>
     <div class="page content shadow p-3 position-relative">
-      <IncomeModal type="Create" :isEdit="!isEdit" :getincomeDetails="getincomeDetails"/>
+      <IncomeModal type="Create" :isEdit="!isEdit" :getincome="getincome"/>
       <v-table>
         <thead>
           <tr>
@@ -27,10 +27,10 @@
             <td>Rs {{ item.amount  }}/-</td>
             <td>{{ item.date }}</td>
             <td>
-              <IncomeModal type="Edit" :isEdit="isEdit" :income="item" :getincomeDetails="getincomeDetails"/>
+              <IncomeModal type="Edit" :isEdit="isEdit" :income="item" :getincome="getincome"/>
             </td>
             <td>
-              <v-btn v-on:click="deldetails(item.id)" outlined plain size="x-small" icon>
+              <v-btn v-on:click="delincome(item.id)" outlined plain size="x-small" icon>
                 <v-icon color="error">mdi-delete</v-icon>
               </v-btn>
             </td>
@@ -42,13 +42,13 @@
 </template>
 
 <script>
-import axios from 'axios';
 import IncomeModal from "./IncomeModal.vue";
 import AppSidebar from "./AppSidebar.vue";
-import AppHeader from "./AppHeader.vue"
+import AppHeader from "./AppHeader.vue";
+import api from '@/api'
 export default {
   mounted(){
-    this.getincomeDetails()
+    this.getincome()
   },
 
 name: "IncomeComponent",
@@ -64,27 +64,26 @@ return {
 }
 },
 methods:{
-  async getincomeDetails(){
-  let result = await axios.get("http://127.0.0.1:8000/income_list");
-    this.income = result.data
-   
+  async getincome(){
+    api.get("income_list/").then((response)=>{
+       this.income = response
+    });
   },
-  async deldetails(id){
-     await axios.delete("http://127.0.0.1:8000/income_delete",{
+  async delincome(id){
+    api.delete("income_delete",{
       data:{
-      id:id
+        id:id,
       }
-     });
-     this.getincomeDetails()
+    }).then ((response)=>{
+      this.getincome()
+      this.reset()
+         return response.data
+    })
   }
-  
-    
-
 },
 
 };
 </script>
 
 <style>
-
 </style>

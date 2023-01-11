@@ -2,6 +2,9 @@ import datetime
 from .models import Category,Expense,Income,Group
 from rest_framework import serializers
 
+
+# --------------------Category-------------------------------   
+
 class CategorySerializer(serializers.Serializer):
     id=serializers.IntegerField()
     name = serializers.CharField(max_length=100)
@@ -20,7 +23,7 @@ class CategorySerializer(serializers.Serializer):
         instance.save() # save the changes
         return instance
     
-# ---------------------------------------------------   
+# --------------------Expense-------------------------------   
 
 class ExpenseSerializer(serializers.ModelSerializer):
     id=serializers.IntegerField()
@@ -29,11 +32,12 @@ class ExpenseSerializer(serializers.ModelSerializer):
     amount = serializers.IntegerField()
     date = serializers.DateField(initial=datetime.date.today)
     category_name = serializers.ReadOnlyField(source='category.name')
+    # category = serializers.CharField(source='category.id')
     
     class Meta:
         model = Expense
         fields = '__all__'
-        
+    
     def create(self,validated_data):
         return Expense.objects.create(**validated_data)
     
@@ -42,11 +46,12 @@ class ExpenseSerializer(serializers.ModelSerializer):
         instance.description=validated_data.get('description',instance.description)
         instance.amount=validated_data.get('amount',instance.amount)
         instance.date=validated_data.get('date',instance.date)
+        instance.category=validated_data.get('category',instance.category)
         instance.save()
         return instance
     
     
-# ---------------------------------------------------   
+# ----------------------Income-----------------------------   
 
 class IncomeSerializer(serializers.ModelSerializer):
     id=serializers.IntegerField()
@@ -55,8 +60,7 @@ class IncomeSerializer(serializers.ModelSerializer):
     amount = serializers.IntegerField()
     date = serializers.DateField(initial=datetime.date.today)
     category_name = serializers.ReadOnlyField(source='category.name')
-    # category = serializers.CharField(source='category.name')
-    # groupID = serializers.ReadOnlyField(source='groupID.id')
+
     
     class Meta:
         model = Income
@@ -68,14 +72,15 @@ class IncomeSerializer(serializers.ModelSerializer):
     
     def update(self,instance,validated_data):
         instance.name=validated_data.get('name',instance.name) 
-        instance.description=validated_data.get('description',instance.detail)
+        instance.description=validated_data.get('description',instance.description)
         instance.amount=validated_data.get('amount',instance.amount)
         instance.date=validated_data.get('date',instance.date)
+        instance.category=validated_data.get('category',instance.category)
         instance.save()
         return instance
     
     
-# ---------------------------------------------------   
+# ---------------------Group------------------------------   
 
 class GroupSerializer(serializers.Serializer):
     id=serializers.IntegerField()

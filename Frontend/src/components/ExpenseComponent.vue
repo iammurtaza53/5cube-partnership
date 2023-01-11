@@ -4,7 +4,7 @@
   <div class="page">
     <div class="d-flex page box p-3">Expense Details</div>
     <div class="page content shadow p-3 position-relative">
-      <ExpModel type="Create" :isEdit="!isEdit" :getexpenseDetails="getexpenseDetails"/>
+      <ExpModel type="Create" :isEdit="!isEdit" :getexpenses="getexpenses"/>
       <v-table style="width:100%">
         <thead>
           <tr>
@@ -27,11 +27,11 @@
             <td>Rs {{ item.amount }}/-</td>
             <td>{{ item.date}}</td>
             <td>
-              <ExpModel type="Edit" :isEdit="isEdit" :expense="item" :getexpenseDetails="getexpenseDetails"/>
+              <ExpModel type="Edit" :isEdit="isEdit" :expense="item" :getexpenses="getexpenses"/>
             </td>
             <td>
               <v-btn 
-                 v-on:click="deldetails(item.id)" outlined plain size="x-small" icon>
+                 v-on:click="delexpenses(item.id)" outlined plain size="x-small" icon>
                 <v-icon color="error">mdi-delete</v-icon>
               </v-btn>
             </td>
@@ -45,11 +45,12 @@
 import ExpModel from "./ExpModel.vue";
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
-import axios from 'axios';
+import api from '@/api'
+
 
 export default {
   mounted(){
-    this.getexpenseDetails()
+    this.getexpenses()
   },
   
   name: "ExpenseComponent",
@@ -66,20 +67,21 @@ export default {
     };
   },
   methods:{
-    async getexpenseDetails(){
-      let result= await axios.get("http://127.0.0.1:8000/expense_list/");
-      this.expense = result.data
-      console.log(this.expense)
+    async getexpenses(){
+       api.get('expense_list/').then((response)=>{
+         this.expense = response
+      });
     },
-    async deldetails(id){
-       await axios.delete("http://127.0.0.1:8000/expense_delete",{
+    async delexpenses(id){
+      api.delete("expense_delete",{
         data:{
           id:id,
-        },
+        }
+      }).then((response)=>{
+        this.getexpenses()
+        return response.data
       });
-      this.getexpenseDetails()
-
-    }
+    },
 
 
   },

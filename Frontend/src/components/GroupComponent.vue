@@ -53,7 +53,8 @@
 <script>
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
-import axios from "axios";
+import api from "../api";
+
 import GroupModal from "./GroupModal.vue";
 export default {
   name: "GroupComponent",
@@ -70,21 +71,32 @@ export default {
   },
   mounted() {
     this.getGroup();
+    console.log(this.groupList)
   },
   methods: {
     async getGroup() {
-      let getGroupURL = await axios.get("http://127.0.0.1:8000/group_list/");
-      this.groupList = getGroupURL.data;
-    },
-    async deleteGroup(id) {
-      await axios.delete("http://127.0.0.1:8000/group_delete", {
-        data: {
-          id: id,
-        },
+    
+       await api.get("group_list")
+       .then((response) => {
+   
+        this.groupList=response
       });
-      this.getGroup();
     },
-  },
-};
+
+     async deleteGroup(id) {
+       await api.delete("group_delete",{
+        data:{
+          id:id,
+        }
+       }).then((response) => {
+        this.getGroup();
+        return response.data;
+      });
+    },
+      
+      
+    },
+  };
+
 </script>
 <style></style>

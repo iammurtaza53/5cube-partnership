@@ -77,7 +77,7 @@
           elevation="4"
           :disabled="disablebtn"
           @click="
-            isEdit ? update(category.id) : postCategories();
+            isEdit ? updateexpense(expense.id) : postexpense();
             dialog = false;
           "
           >save</v-btn
@@ -87,14 +87,14 @@
   </v-dialog>
 </template>
 <script>
-import axios from "axios";
+import api from "../api";
 
 export default {
   props: {
     type: String,
     isEdit: Boolean,
     expense: Object,
-    getexpenseDetails: Function,
+    getexpenses: Function,
   },
   data() {
     return {
@@ -107,38 +107,42 @@ export default {
     };
   },
   mounted() {
-    this.getCategories();
+    this.getexpenseCategories();
   },
   methods: {
-    async update(id) {
-      await axios.put("http://127.0.0.1:8000/expense_update", {
+    async getexpenseCategories() {
+      await api.get("category_type?type=Expense").then((response) => {
+        this.categories = response;
+      });
+    },
+    async postexpense() {
+      let data = {
+        category: this.category,
+        name: this.name,
+        description: this.description,
+        amount: this.amount,
+      };
+      api.post("expense_create", data).then((response) => {
+        this.getexpenses();
+        this.reset();
+        return response.data;
+      });
+    },
+    async updateexpense(id) {
+      let data = {
         id: id,
         category: this.category,
         name: this.name,
         description: this.description,
         amount: this.amount,
+      };
+      api.put("expense_update", data).then((response) => {
+        this.getexpenses();
+        return response;
       });
-      this.getexpenseDetails();
-    },
-
-    async getCategories() {
-      let result = await axios.get(
-        "http://localhost:8000/category_type?type=Expense"
-      );
-      this.categories = result.data;
-    },
-    async postCategories() {
-      await axios.post("http://127.0.0.1:8000/expense_create", {
-        category: this.category,
-        name: this.name,
-        amount: this.amount,
-        description: this.description,
-      });
-      this.getexpenseDetails();
-      this.reset();
     },
     prefill(category) {
-      this.category = category.category_name;
+      this.category = category.category;
       this.name = category.name;
       this.description = category.description;
       this.amount = category.amount;

@@ -40,7 +40,11 @@
             <v-textarea v-model="name" label="Name*" rows="1"></v-textarea>
           </v-row>
           <v-row>
-            <v-textarea v-model="description" label="Detail*" rows="1"></v-textarea>
+            <v-textarea
+              v-model="description"
+              label="Detail*"
+              rows="1"
+            ></v-textarea>
           </v-row>
           <v-row>
             <v-text-field
@@ -61,7 +65,10 @@
           color="white"
           :style="{ backgroundColor: '#e91e62' }"
           elevation="4"
-          @click="dialog = false; reset();"
+          @click="
+            dialog = false;
+            reset();
+          "
           >Close</v-btn
         >
         <v-btn
@@ -80,19 +87,17 @@
   </v-dialog>
 </template>
 <script>
-import axios from "axios";
+import api from "@/api";
 export default {
-  async mounted() {
-    this.getincome();
-    // console.log(this.income);
-    
+  mounted() {
+    this.getincomecategory();
   },
 
   props: {
     type: String,
     isEdit: Boolean,
     income: Object,
-    getincomeDetails: Function,
+    getincome: Function,
   },
   data() {
     return {
@@ -105,41 +110,46 @@ export default {
     };
   },
   methods: {
-    
+    async getincomecategory() {
+      api.get("category_type?type=Income").then((response) => {
+        this.categories = response;
+      });
+    },
     async updateincome(id) {
-      await axios.put("http://127.0.0.1:8000/income_update", {
+      let data = {
         id: id,
         category: this.category,
         name: this.name,
         description: this.description,
         amount: this.amount,
+      };
+      api.put("income_update", data).then((response) => {
+        this.getincome();
+        return response.data;
       });
-      this.getincomeDetails();
     },
-    async prefillForm(category) {
-      this.category = category.category_name;
-      this.name = category.name;
-      this.description = category.description;
-      this.amount = category.amount;
-    },
-    async getincome() {
-      let result = await axios.get(
-        "http://localhost:8000/category_type?type=Income"
-      );
-      this.categories = result.data
-    },
+
+    
+
     async postIncome() {
-      let result = await axios.post("http://127.0.0.1:8000/income_create", {
+      let data = {
         category: this.category,
         name: this.name,
         amount: this.amount,
         description: this.description,
+      };
+      api.post("income_create", data).then((response) => {
+        this.getincome();
+        this.reset();
+        return response.data;
       });
-      this.postIncome = result.data;
-      this.getincomeDetails();
-      this.reset();
     },
-
+    prefillForm(category) {
+      this.category = category.category;
+      this.name = category.name;
+      this.description = category.description;
+      this.amount = category.amount;
+    },
     reset() {
       this.category = "";
       this.name = "";

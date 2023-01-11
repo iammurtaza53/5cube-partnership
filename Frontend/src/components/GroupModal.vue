@@ -26,34 +26,33 @@
       </v-card-title>
       <v-divider color="white" class="divider"></v-divider>
       <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col>
-                  <v-text-field type="date" v-model="start_date"></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-text-field type="date" v-model="end_date"></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-text-field
-                    label="Name*"
-                    placeholder="Enter Group Name"
-                    required
-                    v-model="name"
-                    
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <br />
-              <br />
-            </v-container>
-            <!-- </form> -->
-            <small>*indicates required field</small>
-          </v-card-text>
+        <v-container>
+          <v-row>
+            <v-col>
+              <v-text-field type="date" v-model="start_date"></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field type="date" v-model="end_date"></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Name*"
+                placeholder="Enter Group Name"
+                required
+                v-model="name"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <br />
+          <br />
+        </v-container>
+        <!-- </form> -->
+        <small>*indicates required field</small>
+      </v-card-text>
       <v-divider color="white" class="divider"></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -61,7 +60,10 @@
           color="white"
           :style="{ backgroundColor: '#e91e62' }"
           elevation="4"
-          @click="dialog = false; reset()"
+          @click="
+            dialog = false;
+            reset();
+          "
           >Close</v-btn
         >
         <v-btn
@@ -70,7 +72,7 @@
           elevation="4"
           :disabled="disablebtn"
           @click="
-            isEdit ? updateGroup(group.id) :  createGroup();
+            isEdit ? updateGroup(group.id) : createGroup();
             dialog = false;
           "
           >Save</v-btn
@@ -80,17 +82,14 @@
   </v-dialog>
 </template>
 
-
-
-
 <script>
-import axios from "axios";
-// import Datepicker from "vue3-datepicker";
+import api from "../api";
+
+
 export default {
   name: "GroupModal",
   components: {
-    // Datepicker,
-    // datepicker,
+    
   },
   props: {
     types: String,
@@ -114,30 +113,44 @@ export default {
       this.end_date = group.end_date;
     },
     async updateGroup(id) {
-      await axios.put("http://127.0.0.1:8000/group_update", {
+      let data = {
         id:id,
         name:this.name,
         start_date: this.start_date,
         end_date:  this.end_date
+      };
+      api.put("group_update", data).then((response) => {
+        response.data["status"] = 200;
+        this.getGroup();
+        this.reset();
+
+        return response.data;
       });
-      
-      this.getGroup();
     },
+
     async createGroup() {
-      await axios.post("http://127.0.0.1:8000/group_create", {
+       let data = {
         name:this.name,
         start_date: this.start_date,
         end_date: this.end_date
+
+      };
+      api.post("group_create", data).then((response) => {
+        response.data["status"] = 200;
+        this.getGroup();
+        this.reset();
+        return response.data;
+
       });
-      this.getGroup();
-      this.reset();
     },
     reset() {
       this.name = "";
       this.start_date = null;
       this.end_date = null;
     },
-  },
+    },
+
+
   computed: {
     disablebtn() {
       return this.name == "" || this.start_date == "" || this.end_date== "";
@@ -150,7 +163,7 @@ export default {
   border: 3px solid red;
 }
 .date-picker {
-    font-size: 16px;
+  font-size: 16px;
   padding: 20px;
   width: 100%;
   border: 1px solid #8e8e8e;
