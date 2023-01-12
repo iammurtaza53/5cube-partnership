@@ -23,16 +23,18 @@
             <td>{{ item.name }}</td>
             <td>{{ item.start_date }}</td>
             <td>{{ item.end_date }}</td>
-            <!-- <div v-if="isactivated"> -->
-            <td @click="update_activation(item.id)">{{ item.isActivated }}</td>
+            <!-- <div v-if="isActivated"> -->
+             
+            <td v-if="isActivated">{{item.isActivated}}</td>
+              
              
             <!-- </div> -->
-            <!-- <div v-if="!isactivated">
-            <td><v-btn color="white" flat @click="update_activation(item.id)">false
+             
+            <td v-if="!isActivated"><v-btn color="white" flat @click="update_activation(item.id)">{{item.isActivated}}
               
               
-              </v-btn></td>
-            </div> -->
+              </v-btn></td> 
+           
             <td>
               <GroupModal
                 types="Edit"
@@ -76,7 +78,7 @@ export default {
     return {
       isEdit: true,
       groupList: [],
-      // isactivated: false,
+      isActivated:false
     };
   },
   mounted() {
@@ -105,6 +107,8 @@ export default {
     },
      async update_activation(id) {
       
+    
+      
       let data = {
         id:id,
         // name:this.name,
@@ -113,7 +117,7 @@ export default {
       };
       api.put('group_activate', data).then((response) => {
         console.log("group_activate",data)
-        // response.data["status"] = 200;
+        response.data["status"] = 200;
         this.getGroup();
    
 
