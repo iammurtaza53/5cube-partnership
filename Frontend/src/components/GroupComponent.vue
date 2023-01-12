@@ -20,11 +20,19 @@
         <tbody>
           <tr v-for="(item, i) in groupList" :key="item.name">
             <td>{{ i + 1 }}.</td>
-            <td>{{ item.gname }}</td>
+            <td>{{ item.name }}</td>
             <td>{{ item.start_date }}</td>
             <td>{{ item.end_date }}</td>
-            <td>{{ item.isActivated}}</td>
-            <td><button>False</button></td>
+            <!-- <div v-if="isactivated"> -->
+            <td @click="update_activation(item.id)">{{ item.isActivated }}</td>
+             
+            <!-- </div> -->
+            <!-- <div v-if="!isactivated">
+            <td><v-btn color="white" flat @click="update_activation(item.id)">false
+              
+              
+              </v-btn></td>
+            </div> -->
             <td>
               <GroupModal
                 types="Edit"
@@ -68,7 +76,7 @@ export default {
     return {
       isEdit: true,
       groupList: [],
-      isactivated: true,
+      // isactivated: false,
     };
   },
   mounted() {
@@ -86,14 +94,29 @@ export default {
     },
 
      async deleteGroup(id) {
-      console.log("id",id) 
        await api.delete("group_delete",{
         data:{
           id:id,
         }
        }).then((response) => {
-        console.log("aa",response.data)
         this.getGroup();
+        return response.data;
+      });
+    },
+     async update_activation(id) {
+      
+      let data = {
+        id:id,
+        // name:this.name,
+        // start_date: this.start_date,
+        // end_date:  this.end_date
+      };
+      api.put('group_activate', data).then((response) => {
+        console.log("group_activate",data)
+        // response.data["status"] = 200;
+        this.getGroup();
+   
+
         return response.data;
       });
     },
