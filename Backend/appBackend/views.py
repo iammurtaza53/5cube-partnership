@@ -188,8 +188,9 @@ def income_delete(request):
 # -----------------------------------Group----------------------------------------
 #Query - set All cateory data 
 def group_list(request):
-    grp=Group.objects.filter(id=8).update(isActivated=True)
+    
     grp=Group.objects.all()#get the data from database by primary key through url
+    
     serializer=GroupSerializer(grp,many=True)#convert the queryset into python object
     json_data=JSONRenderer().render(serializer.data)#convert the python object into json
     return HttpResponse(json_data,content_type='application/json')#send the json data to the 
@@ -212,9 +213,12 @@ def group_create(request):
 @csrf_exempt
 def group_update(request): 
     if request.method == 'PUT':
+        
         json_data = json.loads(request.body) # get the data from client side json.loads is used to convert the string into dictionary
+        
         grp = Group.objects.get(id=json_data['id']) # get the data from database
         serializer = GroupSerializer(grp,data=json_data,partial=True) # convert the data into python object
+        # breakpoint();
         if serializer.is_valid(): # check the data is valid or not
          serializer.save() # save the data into database
          res={'msg':'data updated'}
@@ -235,13 +239,14 @@ def group_delete(request):
 
 @csrf_exempt
 def group_activate(request):
-    if request.method == 'PUT':
+    if request.method == 'POST':
+        grp=Group.objects.filter(id=8).update(isActivated=True)  
         data = Group.objects.get(isActivated=True)
-        data.isActivated=False
+        if data.isActivated==True:
+            data.isActivated=False
         
         json_data = json.loads(request.body)
-        
-        
+        grp=Group.objects.filter(id=json_data['id']).update(isActivated=True)
         grp = Group.objects.get(id=json_data['id'])
         serializer = GroupSerializer(grp,data=json_data,partial=True) # convert the data into python object
         if serializer.is_valid(): # check the data is valid or not

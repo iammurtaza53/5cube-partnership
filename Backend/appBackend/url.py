@@ -25,4 +25,5 @@ urlpatterns=[
     path('group_create',views.group_create),
     path('group_delete',views.group_delete),
     path('group_update',views.group_update),
+    path('group_activate',views.group_activate),
 ]
