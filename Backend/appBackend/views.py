@@ -233,4 +233,24 @@ def group_delete(request):
         json_data=JSONRenderer().render(res)
         return HttpResponse(json_data,content_type='application/json')     
 
+@csrf_exempt
+def group_activate(request):
+    if request.method == 'PUT':
+        data = Group.objects.get(isActivated=True)
+        data.isActivated=False
+        
+        json_data = json.loads(request.body)
+        
+        
+        grp = Group.objects.get(id=json_data['id'])
+        serializer = GroupSerializer(grp,data=json_data,partial=True) # convert the data into python object
+        if serializer.is_valid(): # check the data is valid or not
+         serializer.save() # save the data into database
+         res={'msg':'data updated'}
+         json_data=JSONRenderer().render(res)
+         return HttpResponse(json_data,content_type='application/json') 
+        json_data=JSONRenderer().render(serializer.errors)
+        return HttpResponse(json_data,content_type='application/json')
+        
+        
     
