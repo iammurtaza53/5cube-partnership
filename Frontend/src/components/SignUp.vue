@@ -1,106 +1,105 @@
 <template>
   <v-container class="container mt-6">
     <v-sheet class="pb-12 signupsheet" elevation="4">
-    
-          <v-row align="center" justify="center">
-            <v-col  sm="4" class="signupfield ma-10 pa-4">
-              <v-img src="../assets/5CUBE-logo.png"></v-img>
-            </v-col>
-          
-         
-          <v-form v-model="isformvalid">
-            <v-row class="mx-4" align="center" justify="center">
-              <v-col cols="12" sm="10">
-                <v-text-field
-                  v-model="fullname"
-                  :rules="nameRules"
-                  label="FullName"
-                
-                  prepend-inner-icon="mdi-account"
-                  required
-                ></v-text-field>
+      <v-row align="center" justify="center">
+        <v-col sm="4" class="signupfield ma-10 pa-4">
+          <v-img src="../assets/5CUBE-logo.png"></v-img>
+        </v-col>
+      </v-row>
 
-                <v-text-field
-                  v-model="email"
-                  :rules="emailRules"
-                  label="Email"
-                  prepend-inner-icon="mdi-email"
-                  required
-                >
-                </v-text-field>
-                <v-text-field
-                  v-model="password"
-                  :rules="passwordRules"
-                  label="Password"
-                  type="password"
-                  prepend-inner-icon="mdi-key"
-                  required
-                >
-                </v-text-field>
+      <v-form v-model="isformvalid">
+        <v-row class="mx-4" align="center" justify="center">
+          <v-col cols="12" sm="10">
+            <v-text-field
+              v-model="fullname"
+              :rules="nameRules"
+              label="FullName"
+              prepend-inner-icon="mdi-account"
+              required
+            ></v-text-field>
 
-                <v-btn
-                  class="signupbtn mt-4"
-                  prepend-icon="mdi-vuetify"
-                  color="error"
-                  :disabled="!isformvalid"
-                   @click="signup()"
-                  >SignUp</v-btn
-                >
-              </v-col>
-            </v-row>
-          </v-form> 
-          </v-row>
+            <v-text-field
+              v-model="email"
+              :rules="emailRules"
+              label="Email"
+              prepend-inner-icon="mdi-email"
+              required
+            >
+            </v-text-field>
+            <v-text-field
+              v-model="password"
+              :rules="passwordRules"
+              label="Password"
+              type="password"
+              prepend-inner-icon="mdi-key"
+              required
+            >
+            </v-text-field>
 
-          
-          
-         
+            <v-btn
+              class="signupbtn mt-4"
+              prepend-icon="mdi-vuetify"
+              color="error"
+              :disabled="!isformvalid"
+              @click="signup()"
+              >Sign up</v-btn
+            >
+
+            <div class="singinbtn mt-3" align="center" justify="center">
+              <h6>if you are already member?</h6>
+              <v-btn to="/" color="white" flat>
+                <span>sign in</span>
+              </v-btn>
+            </div>
+          </v-col>
+        </v-row>
+      </v-form>
     </v-sheet>
   </v-container>
 </template>
 <script>
-
 export default {
-    data(){
-        return{
-            
-            isformvalid:false,
-            fullname:"",
-            nameRules: [
-        v => !!v || 'Name is required',
-        v => v.length <= 15 || 'Name must be less than 15 characters',
+  data() {
+    return {
+    
+
+      isformvalid: false,
+      fullname: "",
+      nameRules: [
+        (v) => !!v || "Name is required",
+        (v) => v.length <= 15 || "Name must be less than 15 characters",
       ],
-            email:"",
-            emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid',
+      email: "",
+      emailRules: [
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+/.test(v) || "E-mail must be valid",
       ],
-            password:"",
-            passwordRules: [
-           v=> !!v ||'password is required',
-           v=> v.length <=10 || 'password length must be less than 10',
-          //  v=> typeof(v)==String || 'password must be int and character'
-            ],
-        };
-      
+      password: "",
+      passwordRules: [
+        (v) => !!v || "password is required",
+        (v) => v.length <= 10 || "password length must be less than 10",
+      ],
+    };
+  },
+  methods: {
+    signup() {
+      // if (this.isformvalid)
+
+      {
+        localStorage.setItem("isLoggedIn", true);
+
+        this.$router.push({ path: "/dashboard" });
+      }
     },
-    methods:{
-        signup(){
-            if (this.fullname!=="" && this.email !=="" && this.password !=="")
-                  if (this.nameRules && this.passwordRules  && this.emailRules)
-            {
-                this.$router.push({path:"/login"})
-            }
-        }
-    },
-    computed:{
-        // disablebtn(){
-        //     return (this.fullname =="" || this.email =="" || this.password =="")
-        // }
-
-
-    }
-
-
+  },
+  //       mounted()
+  //       {
+  //         let user=localStorage.getItem("userdata")
+  //             console.log('aaa',user)
+  //             if(user){
+  //                 this.$router.push({path:'/dashboard'})
+  // }
+  //       }
 };
 </script>
 <style>

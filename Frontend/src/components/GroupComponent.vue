@@ -24,6 +24,7 @@
             <td>{{ item.start_date }}</td>
             <td>{{ item.end_date }}</td>
             <td>{{ item.isActivated}}</td>
+            <td><button>False</button></td>
             <td>
               <GroupModal
                 types="Edit"
@@ -67,6 +68,7 @@ export default {
     return {
       isEdit: true,
       groupList: [],
+      isactivated: true,
     };
   },
   mounted() {
