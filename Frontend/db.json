@@ -2,15 +2,15 @@
   "categorylist": [
     {
       "id": 3,
-      "cname": "laptop",
-      "ctype": "expense",
-      "cdate": "2022-12-25"
+      "name": "laptop",
+      "type": "expense",
+      "date": "2022-12-25"
     },
     {
       "id": 3,
-      "cname": "client",
-      "ctype": "Income",
-      "cdate": "2022-12-26"
+      "name": "client",
+      "type": "Income",
+      "date": "2022-12-26"
     }
   ]
 }

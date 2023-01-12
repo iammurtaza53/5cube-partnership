@@ -33,14 +33,14 @@
                 label="Name*"
                 placeholder="Enter Name"
                 required
-                v-model="cname"
+                v-model="name"
               ></v-text-field>
             </v-col>
           </v-row>
           <v-row no-gutters>
             <v-col>
               <v-select
-                v-model="ctype"
+                v-model="type"
                 :items="['Expense', 'Income']"
                 label="Category type*"
                 required
@@ -90,9 +90,8 @@ export default {
   data() {
     return {
       dialog: false,
-      cname: "",
-      ctype: "",
-      
+      name: "",
+      type: "",
     };
   },
 
@@ -100,8 +99,8 @@ export default {
     async updateCategories(id) {
       let data={
         id:id,
-        cname:this.cname,
-        ctype:this.ctype,
+        name:this.name,
+        type:this.type,
       };
       api.put("category_update",data).then((response)=>{
            this.getCategories()
@@ -110,13 +109,13 @@ export default {
       })
     },
     async prefillForm(category) {
-      this.cname = category.cname;
-      this.ctype = category.ctype;
+      this.name = category.name;
+      this.type = category.type;
     },
     async createCategories() {
       let data={
-         cname: this.cname,
-         ctype: this.ctype,
+         name: this.name,
+         type: this.type,
       };
       api.post("category_create",data).then((response)=>{
         this.getCategories()
@@ -125,13 +124,13 @@ export default {
       });
     },
     reset() {
-      this.cname = "";
-      this.ctype = "";
+      this.name = "";
+      this.type = "";
     },
   },
   computed: {
     disablebtn() {
-      return this.cname == "" || this.ctype == "";
+      return this.name == "" || this.type == "";
     },
   },
 };

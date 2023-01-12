@@ -16,10 +16,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, i) in expense" :key="item.eamount">
+          <tr v-for="(item, i) in expense" :key="item.amount">
             <td>{{ i + 1 }}</td>
-            <td>{{ item.ename }}</td>
-            <td>Rs {{ item.eamount }}/-</td>
+            <td>{{ item.name }}</td>
+            <td>Rs {{ item.amount }}/-</td>
           </tr>
           <tr class="font-weight-bold">
             <td></td>
@@ -39,10 +39,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(itm, i) in income" :key="itm.iamount">
+          <tr v-for="(itm, i) in income" :key="itm.amount">
             <td>{{ i + 1 }}.</td>
-            <td>{{ itm.iname }}</td>
-            <td>Rs {{ itm.iamount }}/-</td>
+            <td>{{ itm.name }}</td>
+            <td>Rs {{ itm.amount }}/-</td>
           </tr>
 
           <tr class="font-weight-bold">
@@ -110,9 +110,6 @@ export default {
     this.getedata();
     this.getidata();
     this.calculateShares();
-   
- 
-
   },
   name: "ReportComponent",
   components: {
@@ -153,14 +150,14 @@ export default {
 
     },
      getincome() {
-      this.income.iamount=this.income.map((e)=>e.iamount)
-           return this.income.reduce((total, itm) => itm.iamount + total, 0);
+      this.income.amount=this.income.map((e)=>e.amount)
+           return this.income.reduce((total, itm) => itm.amount + total, 0);
 
       
     },
     getexpenses() {
-      this.expense.eamount=this.expense.map((e)=>e.eamount)
-      return this.expense.reduce((total,itm)=>itm.eamount +total,0);
+      this.expense.amount=this.expense.map((e)=>e.amount)
+      return this.expense.reduce((total,itm)=>itm.amount +total,0);
     },
     calculateShares() {
       setTimeout(()=>{
@@ -183,8 +180,7 @@ export default {
       return this.getincome() - this.totalsalary - this.getexpenses();
     },
     totalsalary() {
-      return this.items.reduce((total, itm) => itm.salary + total, 0);
-         
+      return this.items.reduce((total, itm) => itm.salary + total, 0);   
     },
    
   },

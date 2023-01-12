@@ -3,8 +3,6 @@ from django.urls import path
 from appBackend import views
 
 urlpatterns=[
-    path("",views.index, name ='home'),
-    path("about",views.about, name ='about'),
     # path("catinfo",views.category_detail),
     path('catinfo/<int:pk>',views.category_detail),
     path('category_list/',views.category_list),
@@ -12,7 +10,6 @@ urlpatterns=[
     path('category_delete',views.category_delete),
     path('category_update',views.category_update),
     path('category_type',views.category_type),
-    
     
     path('expense_list/',views.expense_list),
     path('expense_create',views.expense_create),

@@ -19,15 +19,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, i) in income" :key="item.iname">
+          <tr v-for="(item, i) in income" :key="item.name">
             <td>{{ i + 1 }}.</td>
-            <td>{{item.inccate}}</td>
-            <td>{{ item.iname }}</td>
-            <td>{{ item.idetail }}</td>
-            <td>Rs {{ item.iamount  }}/-</td>
-            <td>{{item.idate }}</td>
+            <td>{{ item.category_name }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.description }}</td>
+            <td>Rs {{ item.amount  }}/-</td>
+            <td>{{ item.date }}</td>
             <td>
-              <IncomeModal type="Edit" :isEdit="isEdit" :isprefill="item" :getincome="getincome"/>
+              <IncomeModal type="Edit" :isEdit="isEdit" :income="item" :getincome="getincome"/>
             </td>
             <td>
               <v-btn v-on:click="delincome(item.id)" outlined plain size="x-small" icon>
@@ -61,7 +61,6 @@ data() {
 return {
   isEdit:true,
   income: [],
-  
 }
 },
 methods:{
@@ -69,7 +68,6 @@ methods:{
     api.get("income_list/").then((response)=>{
        this.income = response
     });
- 
   },
   async delincome(id){
     api.delete("income_delete",{
@@ -88,5 +86,4 @@ methods:{
 </script>
 
 <style>
-
 </style>

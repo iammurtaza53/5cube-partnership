@@ -67,7 +67,7 @@ export default {
                 return response.data;
             })
             .catch((err) => {
-                console.log(err.response.data);
+                console.log("err==>",err.response.data);
                 return err;
             });
     },

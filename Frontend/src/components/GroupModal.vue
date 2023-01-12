@@ -29,22 +29,12 @@
         <v-container>
           <v-row>
             <v-col>
-              <datepicker
-                v-model="start_date"
-                class="date-picker"
-                placeholder="Select Starting Date"
-                format="yyyy-MM-dd"
-              />
+              <v-text-field type="date" v-model="start_date"></v-text-field>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <datepicker
-                v-model="end_date"
-                class="date-picker"
-                placeholder="Select Ending Date"
-                format="yyyy-MM-dd"
-              />
+              <v-text-field type="date" v-model="end_date"></v-text-field>
             </v-col>
           </v-row>
           <v-row>
@@ -53,7 +43,7 @@
                 label="Name*"
                 placeholder="Enter Group Name"
                 required
-                v-model="gname"
+                v-model="name"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -70,7 +60,10 @@
           color="white"
           :style="{ backgroundColor: '#e91e62' }"
           elevation="4"
-          @click="dialog = false"
+          @click="
+            dialog = false;
+            reset();
+          "
           >Close</v-btn
         >
         <v-btn
@@ -89,18 +82,14 @@
   </v-dialog>
 </template>
 
-
-
-
 <script>
-import Datepicker from "vue3-datepicker";
 import api from "../api";
 
 
 export default {
+  name: "GroupModal",
   components: {
-    Datepicker,
-    // datepicker,
+    
   },
   props: {
     types: String,
@@ -112,38 +101,38 @@ export default {
   data() {
     return {
       dialog: false,
-      gname: "",
-      start_date: null,
+      name: "",
+      start_date: null ,
       end_date: null,
     };
   },
   methods: {
     prefillForm(group) {
-      this.gname = group.gname;
+      this.name = group.name;
       this.start_date = group.start_date;
       this.end_date = group.end_date;
     },
     async updateGroup(id) {
       let data = {
         id:id,
-        gname: this.gname,
-        start_date: this.start_date.toISOString().substring(0, 10),
-        end_date: this.end_date.toISOString().substring(0, 10),
+        name:this.name,
+        start_date: this.start_date,
+        end_date:  this.end_date
       };
       api.put("group_update", data).then((response) => {
         response.data["status"] = 200;
         this.getGroup();
         this.reset();
-        
+
         return response.data;
       });
-
     },
+
     async createGroup() {
        let data = {
-        gname: this.gname,
-        start_date: this.start_date.toISOString().substring(0, 10),
-        end_date: this.end_date.toISOString().substring(0, 10),
+        name:this.name,
+        start_date: this.start_date,
+        end_date: this.end_date
 
       };
       api.post("group_create", data).then((response) => {
@@ -151,22 +140,20 @@ export default {
         this.getGroup();
         this.reset();
         return response.data;
-          
+
       });
     },
     reset() {
-      this.gname = "";
+      this.name = "";
       this.start_date = null;
       this.end_date = null;
     },
-  },
+    },
+
+
   computed: {
     disablebtn() {
-      return (
-        this.gname == "" ||
-        this.start_date.value == "" ||
-        this.end_date.value == ""
-      );
+      return this.name == "" || this.start_date == "" || this.end_date== "";
     },
   },
 };

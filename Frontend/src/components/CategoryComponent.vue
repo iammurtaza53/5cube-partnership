@@ -25,10 +25,8 @@
         <tbody>
           <tr v-for="(item,i) in categoryList" :key="item.id">
             <td>{{ i+1 }}</td>
-            <td>{{ item.cname }}</td>
-            <td>{{ item.ctype }}</td>
-           
-            
+            <td>{{ item.name }}</td>
+            <td>{{ item.type }}</td>
             <td>
               <AppModal :isEdit="isEdit" types="Edit" :category="item" :getCategories="getCategories"/>
             </td>
@@ -69,7 +67,6 @@ export default {
   },
   methods: {
     async getCategories() {
-
       api.get("category_list")
       .then((response)=>{
           this.categoryList = response

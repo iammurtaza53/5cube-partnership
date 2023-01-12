@@ -1,73 +1,90 @@
 import datetime
 from .models import Category,Expense,Income,Group
 from rest_framework import serializers
-# from models import Category
+
+
+# --------------------Category-------------------------------   
 
 class CategorySerializer(serializers.Serializer):
     id=serializers.IntegerField()
-    cname = serializers.CharField(max_length=100)
-    ctype = serializers.CharField(max_length=100)
-    cdate = serializers.DateField(("Date"), default=datetime.date.today)
+    name = serializers.CharField(max_length=100)
+    type = serializers.CharField(max_length=100)
+    date = serializers.DateField(initial=datetime.date.today)
+    
     def create(self,validated_data):
         return Category.objects.create(**validated_data)
     
     def update(self,instance,validated_data):
-        print("instance.cname",instance.cname)
-        instance.cname=validated_data.get('cname',instance.cname) # get the value from validated_data and update the instance
-        print("validated data",instance.cname)
-        instance.ctype=validated_data.get('ctype',instance.ctype)
-        instance.cdate=validated_data.get('cdate',instance.cdate)
+        # print("instance.cname",instance.cname)
+        instance.name=validated_data.get('name',instance.name) # get the value from validated_data and update the instance
+        # print("validated data",instance.cname)
+        instance.type=validated_data.get('type',instance.type)
+        instance.date=validated_data.get('date',instance.date)
         instance.save() # save the changes
         return instance
     
-# ---------------------------------------------------   
+# --------------------Expense-------------------------------   
 
-class ExpenseSerializer(serializers.Serializer):
+class ExpenseSerializer(serializers.ModelSerializer):
     id=serializers.IntegerField()
-    ename = serializers.CharField(max_length=100)
-    edetail = serializers.CharField(max_length=100)
-    eamount = serializers.IntegerField()
-    edate = serializers.DateField(initial=datetime.date.today)
-    # groupID = serializers.ReadOnlyField(source='groupID.id')
+    name = serializers.CharField(max_length=100)
+    description = serializers.CharField(max_length=100)
+    amount = serializers.IntegerField()
+    date = serializers.DateField(initial=datetime.date.today)
+    category_name = serializers.ReadOnlyField(source='category.name')
+    # category = serializers.CharField(source='category.id')
+    
+    class Meta:
+        model = Expense
+        fields = '__all__'
+    
     def create(self,validated_data):
         return Expense.objects.create(**validated_data)
     
     def update(self,instance,validated_data):
-        instance.ename=validated_data.get('ename',instance.ename) # get the value from validated_data and update the instance
-        instance.edetail=validated_data.get('edetail',instance.edetail)
-        instance.eamount=validated_data.get('eamount',instance.eamount)
-        instance.edate=validated_data.get('edate',instance.edate)
-        # groupID = serializers.ReadOnlyField(source='groupID.id')
-        instance.save() # save the changes
+        instance.name=validated_data.get('name',instance.name)
+        instance.description=validated_data.get('description',instance.description)
+        instance.amount=validated_data.get('amount',instance.amount)
+        instance.date=validated_data.get('date',instance.date)
+        instance.category=validated_data.get('category',instance.category)
+        instance.save()
         return instance
     
     
-# ---------------------------------------------------   
+# ----------------------Income-----------------------------   
 
-class IncomeSerializer(serializers.Serializer):
+class IncomeSerializer(serializers.ModelSerializer):
     id=serializers.IntegerField()
-    iname = serializers.CharField(max_length=100)
-    idetail = serializers.CharField(max_length=100)
-    iamount = serializers.IntegerField()
-    idate = serializers.DateField(initial=datetime.date.today)
-    # groupID = serializers.ReadOnlyField(source='groupID.id')
+    name = serializers.CharField(max_length=100)
+    description = serializers.CharField(max_length=100)
+    amount = serializers.IntegerField()
+    date = serializers.DateField(initial=datetime.date.today)
+    category_name = serializers.ReadOnlyField(source='category.name')
+
+    
+    class Meta:
+        model = Income
+        # fields = ('id','idetail','iamount','idate','groupID', 'groupID_name')
+        fields = '__all__'
+    
     def create(self,validated_data):
         return Income.objects.create(**validated_data)
     
     def update(self,instance,validated_data):
-        instance.iname=validated_data.get('iname',instance.iname) # get the value from validated_data and update the instance
-        instance.idetail=validated_data.get('idetail',instance.idetail)
-        instance.iamount=validated_data.get('iamount',instance.iamount)
-        instance.idate=validated_data.get('idate',instance.idate)
-        instance.save() # save the changes
+        instance.name=validated_data.get('name',instance.name) 
+        instance.description=validated_data.get('description',instance.description)
+        instance.amount=validated_data.get('amount',instance.amount)
+        instance.date=validated_data.get('date',instance.date)
+        instance.category=validated_data.get('category',instance.category)
+        instance.save()
         return instance
     
     
-# ---------------------------------------------------   
+# ---------------------Group------------------------------   
 
 class GroupSerializer(serializers.Serializer):
     id=serializers.IntegerField()
-    gname = serializers.CharField(max_length=100)
+    name = serializers.CharField(max_length=100)
     start_date= serializers.DateField() 
     end_date= serializers.DateField()
     isActivated=serializers.BooleanField(default=False)
@@ -75,11 +92,9 @@ class GroupSerializer(serializers.Serializer):
         return Group.objects.create(**validated_data)
     
     def update(self,instance,validated_data):
-        print("instance.ename",instance.gname)
-        instance.gname=validated_data.get('gname',instance.gname) # get the value from validated_data and update the instance
-        print("validated data",instance.gname)
+        instance.name=validated_data.get('name',instance.name)
         instance.start_date=validated_data.get('start_date',instance.start_date)
         instance.end_date=validated_data.get('end_date',instance.end_date)
-        instance.save() # save the changes
+        instance.save()
         return instance
 
