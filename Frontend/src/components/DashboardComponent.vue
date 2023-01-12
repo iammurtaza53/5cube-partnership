@@ -14,6 +14,7 @@
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
 
+
 export default {
   name: "DashboardComponent",
   components: {
@@ -22,8 +23,21 @@ export default {
   },
   data() {
     return {};
+   
   },
-};
+ 
+    //    mounted()
+    //       {
+    //         let userdata=localStorage.getItem("user")
+    //             console.log('aaa')
+    //             if(!userdata){
+    //                 this.$router.push({path:'/signup'})
+    // }
+    //       }
+    
+  };
+
+
 </script>
 <style>
 .page {

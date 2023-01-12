@@ -6,7 +6,7 @@
           <v-img src="../assets/5CUBE-logo.png" ></v-img>
         </v-col>
       </v-row>
-      <v-form>
+      <v-form v-model="isvalid">
       <v-row align="center" justify="center">
         <v-col cols="12" sm="10">
           <v-text-field
@@ -25,17 +25,29 @@
             v-model= "password"
             :rules="passwordRules"
             label="Password"
-            required
+            type="password"
             prepend-inner-icon="mdi-lock"
+            required
             hint="Enter your password to access this website"
           ></v-text-field>
         </v-col>
       </v-row>
       <v-row align="center" justify="center">
         <v-col justify="center" cols="12" sm="10">
-          <v-btn class="Loginbtn" prepend-icon="mdi-vuetify" color="error" @click="submit()"
-            >Login</v-btn
+          <v-btn class="Loginbtn" prepend-icon="mdi-vuetify" color="error"
+          :disabled="!isvalid"
+           @click="submit()"
+            >Sign in</v-btn
           >
+          <div class="signup mt-2" align="center" justify="center">
+            <h6>if you are not a memeber? sign up</h6>
+          <v-btn to="/signup"
+          color="white"
+          flat>
+          <span>sign up</span>
+
+          </v-btn>
+          </div>
         </v-col>
       </v-row>
     </v-form>
@@ -47,28 +59,35 @@ export default{
   name:"LoginComponent",
   data(){
     return{
-      valid:false,
+      isvalid:false,
      email:"",
      emailRules:[
      (v) => !!v || "email is required",
      (v) => /.+@.+/.test(v) || "e-mail must be valid",
      ],
      password:"",
-     passworRules:[
+     passwordRules:[
        (v) => !!v || "password is required",
+       v=> v.length <=10 || "password is required 10 length"
+
      ],
     };
   },
   methods:{
     submit(){
-      if(this.email !=="" && this.password !==""){
-      this.$router.push({path:"/"})
+      if(this.email == "fariha@gmail.com" && this.password == "test123"){
+           
+      this.$router.push({path:"/dashboard"})
+      }
+     
+    
+
     }
 
   }
 
-},
-}
+};
+
 </script>
 
 

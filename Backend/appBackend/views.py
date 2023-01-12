@@ -188,7 +188,7 @@ def income_delete(request):
 # -----------------------------------Group----------------------------------------
 #Query - set All cateory data 
 def group_list(request):
-    
+    # grp=Group.objects.filter(id=8).update(isActivated=True)  
     grp=Group.objects.all()#get the data from database by primary key through url
     
     serializer=GroupSerializer(grp,many=True)#convert the queryset into python object
@@ -239,13 +239,15 @@ def group_delete(request):
 
 @csrf_exempt
 def group_activate(request):
-    if request.method == 'POST':
-        grp=Group.objects.filter(id=8).update(isActivated=True)  
-        data = Group.objects.get(isActivated=True)
-        if data.isActivated==True:
-            data.isActivated=False
-        
+    if request.method == 'PUT':
+        # breakpoint();
         json_data = json.loads(request.body)
+        data = Group.objects.filter(isActivated=True)
+        for data in data:
+            if data.id != json_data['id']:
+                data.isActivated=False
+                data.save()
+        # breakpoint()
         grp=Group.objects.filter(id=json_data['id']).update(isActivated=True)
         grp = Group.objects.get(id=json_data['id'])
         serializer = GroupSerializer(grp,data=json_data,partial=True) # convert the data into python object
@@ -257,5 +259,3 @@ def group_activate(request):
         json_data=JSONRenderer().render(serializer.errors)
         return HttpResponse(json_data,content_type='application/json')
         
-        
-    

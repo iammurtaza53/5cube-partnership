@@ -5,7 +5,7 @@
       <span class="font-weight-bold text-color">5Cube Expense Management</span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn to="/login" class="text-color">
+    <v-btn to="/" class="text-color">
       <span>Exit</span>
       <v-icon>mdi-exit-to-app</v-icon>
     </v-btn>

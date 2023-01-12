@@ -133,10 +133,8 @@ export default {
         name:this.name,
         start_date: this.start_date,
         end_date: this.end_date
-
       };
       api.post("group_create", data).then((response) => {
-        response.data["status"] = 200;
         this.getGroup();
         this.reset();
         return response.data;

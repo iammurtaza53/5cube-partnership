@@ -13,12 +13,12 @@ import SignUp from "./components/SignUp";
 const routes = [
     {
         name: "dashboard",
-        path: "/",
+        path: "/dashboard",
         component:DashboardComponent,
     },
     {
-        name: "login",
-        path: "/login",
+        name: "Signin",
+        path: "/",
         component:LogIn,
     },
     {
@@ -63,4 +63,22 @@ const router = createRouter({
     history: createWebHistory(),
     routes,
 })
+// router.beforeEach((to, from, next) => {
+
+//     let isLoggedIn = localStorage.getItem('isLoggedIn')
+//     if(!isLoggedIn){
+//         next({path:'/'})
+//     }
+//     else{
+//         next()
+//     }
+     
+
+    // if ( from.matched.some(record => record.meta.requiresAuth) ) {
+    
+    //   next('/');
+    // } else {
+    //   next();
+    // }
+//   });
 export default router

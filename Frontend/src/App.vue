@@ -17,6 +17,7 @@ export default {
   },
   data: () => ({
   }),
+  
 };
 </script>
 <style scoped>
