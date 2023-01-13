@@ -59,10 +59,19 @@
 </template>
 <script>
 export default {
+  mounted() {
+    if (localStorage.fullname) {
+      this.name=localStorage.name;
+    }
+    if (localStorage.email) {
+      this.email=localStorage.email;
+    }
+    if (localStorage.password) {
+      this.password = localStorage.password;
+    }
+  },
   data() {
     return {
-    
-
       isformvalid: false,
       fullname: "",
       nameRules: [
@@ -83,23 +92,12 @@ export default {
   },
   methods: {
     signup() {
-      // if (this.isformvalid)
-
       {
-        localStorage.setItem("isLoggedIn", true);
-
-        this.$router.push({ path: "/dashboard" });
+       localStorage.setItem("token", localStorage.name=this.fullname, localStorage.email=this.email, localStorage.password=this.password);
+        this.$router.push("/signin");
       }
     },
   },
-  //       mounted()
-  //       {
-  //         let user=localStorage.getItem("userdata")
-  //             console.log('aaa',user)
-  //             if(user){
-  //                 this.$router.push({path:'/dashboard'})
-  // }
-  //       }
 };
 </script>
 <style>

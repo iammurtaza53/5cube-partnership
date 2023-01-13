@@ -5,10 +5,12 @@
       <span class="font-weight-bold text-color">5Cube Expense Management</span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn to="/" class="text-color">
+  <div>
+    <v-btn class="text-color" @click="logout()">
       <span>Exit</span>
       <v-icon>mdi-exit-to-app</v-icon>
     </v-btn>
+  </div>
   </v-app-bar>
 </template>
 <script>
@@ -17,12 +19,16 @@ export default {
   components: {
     },
     data() {
-        return {
+      return {
         }
-    },
-    methods: {
-       
-    },
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      this.$router.push("/signin");
+    }
+  },
     props: {
     },
 }

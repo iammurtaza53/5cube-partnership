@@ -59,7 +59,7 @@ export default{
   name:"LoginComponent",
   data(){
     return{
-      isvalid:false,
+     isvalid:false,
      email:"",
      emailRules:[
      (v) => !!v || "email is required",
@@ -74,14 +74,16 @@ export default{
     };
   },
   methods:{
-    submit(){
-      if(this.email == "fariha@gmail.com" && this.password == "test123"){
-           
-      this.$router.push({path:"/dashboard"})
-      }
-     
-    
+    submit() {
+      
+      if (localStorage.getItem("email") == this.email && localStorage.getItem("password") == this.password) {
 
+        this.$router.push('/category')
+
+      }
+      else{
+        alert("invalid email or password")
+      } 
     }
 
   }

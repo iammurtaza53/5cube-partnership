@@ -44,10 +44,11 @@ export default {
   data() {
     
     return {
+      
       drawers: true,
 
       routes: [
-        { path: "/", name: "Expense Management", icon: "mdi-view-dashboard" },
+        // { path: "/dashboard", name: "Expense Management", icon: "mdi-view-dashboard" },
         { path: "/category", name: "Category", icon: "mdi-format-list-bulleted-square"},
         { path: "/expense", name: "Expense", icon: "mdi-arrow-left-circle" },
         { path: "/income", name: "Income", icon: "mdi-arrow-right-circle" },
@@ -58,6 +59,7 @@ export default {
       rail: false,
     };
   },
+ 
 };
 </script>
 
