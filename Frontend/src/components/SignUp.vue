@@ -83,24 +83,26 @@ export default {
   },
   methods: {
     signup() {
-      // if (this.isformvalid)
 
       {
-        localStorage.setItem("isLoggedIn", true);
-
-        this.$router.push({ path: "/dashboard" });
+        localStorage.setItem(  "isLoggedIn",localStorage.name=this.fullname,
+        localStorage.email=this.email,localStorage.password=this.password)
+        // localStorage.name=this.fullname
+        // localStorage.email=this.email
+        // localStorage.password=this.password
+        this.$router.push({path: "/"})
       }
-    },
+      
+    //   {
+    //     localStorage.setItem("isLoggedIn", true);
+
+    //     this.$router.push({ path: "/category" });
+    //   }
+    // },
   },
-  //       mounted()
-  //       {
-  //         let user=localStorage.getItem("userdata")
-  //             console.log('aaa',user)
-  //             if(user){
-  //                 this.$router.push({path:'/dashboard'})
-  // }
-  //       }
-};
+ 
+}
+}
 </script>
 <style>
 .container {

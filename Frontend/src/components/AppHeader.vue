@@ -5,26 +5,37 @@
       <span class="font-weight-bold text-color">5Cube Expense Management</span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn to="/" class="text-color">
+    <v-btn @click="logout()" class="text-color">
       <span>Exit</span>
       <v-icon>mdi-exit-to-app</v-icon>
     </v-btn>
   </v-app-bar>
 </template>
 <script>
+export default{
+  name:'AppHeader',
+  data(){
+    return{
 
-export default {
-  components: {
-    },
-    data() {
-        return {
-        }
-    },
-    methods: {
-       
-    },
-    props: {
-    },
+    }
+  },
+  methods:{
+    logout()
+    
+    
+    {
+      console.log('isLoggedout')
+      localStorage.clear();
+      this.$router.push({path:'/'})
+    }
+
+  }
+
+
+  
+
+  
+
 }
 </script>
 

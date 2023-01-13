@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 
-import DashboardComponent from "./components/DashboardComponent.vue";
+// import DashboardComponent from "./components/DashboardComponent.vue";
 import CategoryComponent from "./components/CategoryComponent.vue";
 import ExpenseComponent from "./components/ExpenseComponent.vue";
 import IncomeComponent from "./components/IncomeComponent.vue";
@@ -10,75 +10,117 @@ import ReportComponent from "./components/ReportComponent.vue";
 import GroupComponent from "./components/GroupComponent.vue";
 import SignUp from "./components/SignUp";
 
+
 const routes = [
     {
         name: "dashboard",
         path: "/dashboard",
-        component:DashboardComponent,
+        // component: DashboardComponent,
+        meta: {
+            isRequired: true
+        }
     },
     {
         name: "Signin",
         path: "/",
-        component:LogIn,
+        component: LogIn,
+        meta: {
+            isRequired: false
+        }
     },
     {
         name: "category",
         path: "/category",
-        component:CategoryComponent,
-    },  
+        component: CategoryComponent,
+        meta: {
+            isRequired: true
+        }
+    },
     {
         name: "expense",
         path: "/expense",
-        component:ExpenseComponent,
+        component: ExpenseComponent,
+        meta: {
+            isRequired: true
+        }
     },
     {
         name: "income",
         path: "/income",
-        component:IncomeComponent,
+        component: IncomeComponent,
+        meta: {
+            isRequired: true
+        }
     },
     {
         name: "share",
         path: "/share",
-        component:ShareComponent,
+        component: ShareComponent,
+        meta: {
+            isRequired: true
+        }
     },
     {
         name: "report",
         path: "/report",
-        component:ReportComponent,
+        component: ReportComponent,
+        meta: {
+            isRequired: true
+        }
     },
     {
         name: "group",
         path: "/group",
-        component:GroupComponent,
+        component: GroupComponent,
+        meta: {
+            isRequired: true
+        }
     },
     {
-        name:"SignUp",
-        path:"/signup",
-        component:SignUp,
+        name: "SignUp",
+        path: "/signup",
+        component: SignUp,
+        meta: {
+            isRequired: false
+        }
     }
-   
+
 ]
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
 })
+
+
+
+
 router.beforeEach((to, from, next) => {
-
     let isLoggedIn = localStorage.getItem('isLoggedIn')
-    if(!isLoggedIn){
-        next({path:'/'})
-    }
-    else{
-        next()
-    }
-     
+    let isAuthenticationRequired = to.meta['isRequired']
 
-    // if ( from.matched.some(record => record.meta.requiresAuth) ) {
+    if(isAuthenticationRequired)
+      if(isLoggedIn){
+        next();
+      }else {
+        next("/");
+      }
     
-    //   next('/');
+     else{
+        next();
+
+     }
+
+    // if (isLoggedIn && isAuthenticationRequired) 
+    // {
+    //     return next({path:'/dashboard'})
+    // } else if (!isLoggedIn && isAuthenticationRequired) {
+    //     return next({path:'/'})
     // } else {
-    //   next();
+    //     next()
     // }
-  });
+
+}
+);
+
 export default router
