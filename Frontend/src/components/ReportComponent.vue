@@ -98,12 +98,16 @@
       
     </v-spacer>
   </v-spacer>
+  <div>
+  <apexchart width="500" type="bar" :options="options" :series="series"></apexchart>
+</div>
 </template>
 
 <script>
 import axios from "axios";
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
+
 
 import api from "../api";
 export default {
@@ -120,7 +124,18 @@ export default {
   },
   data() {
     return {
-    
+      options: {
+        chart: {
+          id: 'vuechart-example'
+        },
+        xaxis: {
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+        }
+      },
+      series: [{
+        name: 'series-1',
+        data: [30, 40, 45, 50, 49, 60, 70, 91]
+      }],
       expense: [],
       income: [],
       items: [
