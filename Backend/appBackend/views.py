@@ -133,6 +133,7 @@ def expense_delete(request):
 # -----------------------------------Income----------------------------------------
 #Query - set All cateory data 
 def income_list(request):
+    
     inc=Income.objects.all()#get the data from database by primary key through url
     serializer=IncomeSerializer(inc,many=True)#convert the queryset into python object
     json_data=JSONRenderer().render(serializer.data)#convert the python object into json
@@ -163,8 +164,9 @@ def income_create(request):
 def income_update(request):
     if request.method == 'PUT':
         json_data = json.loads(request.body) # get the data from client side
+        
         inc = Income.objects.get(id=json_data['id']) # get the data from database
-        serializer = IncomeSerializer(inc,data=json_data,partial=True) # convert the data into python object
+        serializer = IncomeSerializer(inc,data=json_data,partial=True) # convert the data into python object.
         if serializer.is_valid(): # check the data is valid or not
          serializer.save() # save the data into database
          res={'msg':'data updated'}
@@ -240,14 +242,12 @@ def group_delete(request):
 @csrf_exempt
 def group_activate(request):
     if request.method == 'PUT':
-        # breakpoint();
         json_data = json.loads(request.body)
         data = Group.objects.filter(isActivated=True)
         for data in data:
             if data.id != json_data['id']:
                 data.isActivated=False
                 data.save()
-        # breakpoint()
         grp=Group.objects.filter(id=json_data['id']).update(isActivated=True)
         grp = Group.objects.get(id=json_data['id'])
         serializer = GroupSerializer(grp,data=json_data,partial=True) # convert the data into python object

@@ -5,10 +5,12 @@
       <span class="font-weight-bold text-color">5Cube Expense Management</span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn @click="logout()" class="text-color">
+  <div>
+    <v-btn class="text-color" @click="logout()">
       <span>Exit</span>
       <v-icon>mdi-exit-to-app</v-icon>
     </v-btn>
+  </div>
   </v-app-bar>
 </template>
 <script>

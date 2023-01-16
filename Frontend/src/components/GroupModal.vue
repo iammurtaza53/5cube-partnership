@@ -120,7 +120,7 @@ export default {
         end_date:  this.end_date
       };
       api.put("group_update", data).then((response) => {
-        response.data["status"] = 200;
+     
         this.getGroup();
         this.reset();
 

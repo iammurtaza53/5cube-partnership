@@ -12,17 +12,14 @@ import SignUp from "./components/SignUp";
 
 
 const routes = [
+    // {
+    //     name: "dashboard",
+    //     path: "/dashboard",
+    //     component:DashboardComponent,
+    // },
     {
-        name: "dashboard",
-        path: "/dashboard",
-        // component: DashboardComponent,
-        meta: {
-            isRequired: true
-        }
-    },
-    {
-        name: "Signin",
-        path: "/",
+        name: "login",
+        path: "/signin",
         component: LogIn,
         meta: {
             isRequired: false
@@ -35,7 +32,7 @@ const routes = [
         meta: {
             isRequired: true
         }
-    },
+    },  
     {
         name: "expense",
         path: "/expense",
@@ -77,12 +74,16 @@ const routes = [
         }
     },
     {
-        name: "SignUp",
-        path: "/signup",
+        name:"signup",
+        path:"/signup",
         component: SignUp,
         meta: {
             isRequired: false
         }
+    },
+    {
+        path: '',
+        redirect: '/signin'
     }
 
 ]
@@ -91,36 +92,16 @@ const router = createRouter({
     history: createWebHistory(),
     routes,
 })
-
-
-
-
 router.beforeEach((to, from, next) => {
-    let isLoggedIn = localStorage.getItem('isLoggedIn')
-    let isAuthenticationRequired = to.meta['isRequired']
-
-    if(isAuthenticationRequired)
-      if(isLoggedIn){
-        next();
-      }else {
-        next("/");
-      }
-    
-     else{
-        next();
-
-     }
-
-    // if (isLoggedIn && isAuthenticationRequired) 
-    // {
-    //     return next({path:'/dashboard'})
-    // } else if (!isLoggedIn && isAuthenticationRequired) {
-    //     return next({path:'/'})
-    // } else {
-    //     next()
-    // }
-
-}
-);
-
+    if (to.meta.isRequired) {
+        if (localStorage.getItem('isLoggedIn')) {
+            next()
+        } else {
+            next('/')
+        }
+    } else {
+        console.log('else')
+        next()
+    }
+})
 export default router

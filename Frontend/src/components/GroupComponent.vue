@@ -23,20 +23,10 @@
             <td>{{ item.name }}</td>
             <td>{{ item.start_date }}</td>
             <td>{{ item.end_date }}</td>
-            
-            <!-- <td class="font-weight-bold" v-if="item.isActivated" >{{item.isActivated}}</td> -->
-       <td v-if="item.isActivated"><v-btn class="text-lowercase "
-             color="green" size="small" rounded="pill" flat
-           >{{item.isActivated}}
-              </v-btn></td>
-     
-            <td v-if="!item.isActivated"><v-btn class="text-lowercase "
-             color="error" size="small" rounded="pill" flat
-             @click="update_activation(item.id)">{{item.isActivated}}
-              </v-btn></td>
-        
-             
-            <td>
+            <td v-if="item.isActivated"><v-btn width="50" color="success" size="x-small">{{item.isActivated}}</v-btn></td>
+
+            <td v-if="!item.isActivated"><v-btn  color="error" size="x-small" @click="update_activation(item.id)">{{item.isActivated}}</v-btn></td>
+            <td> 
               <GroupModal
                 types="Edit"
                 :isEdit="isEdit"
@@ -46,16 +36,38 @@
             </td>
            
             <td>
-              <v-btn
-                outlined
-                plain
-                size="x-small"
-                icon
-                v-on:click="deleteGroup(item.id)"
+              <v-menu v-model="dialogNote[item.id] "
+                location="end" 
               >
+                <template v-slot:activator="{ props }">
+              <v-btn 
+                 outlined plain size="x-small" icon v-bind="props">
                 <v-icon color="error">mdi-delete</v-icon>
               </v-btn>
+            </template>
+              <v-card min-width="300">
+                  <v-list>
+                    <v-list-item>
+                      Delete Confirmation
+                    </v-list-item>
+                  </v-list>
+                  <v-divider></v-divider>
+                  <v-list>
+                    <v-list-item>
+                     Are you sure you want to delete this category?
+                    </v-list-item> 
+                  </v-list>
 
+                    <v-spacer></v-spacer>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn variant="text"> Cancel </v-btn>
+                    <v-btn color="primary" variant="text" @click="deleteGroup(item.id)">
+                      Delete
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-menu>
             </td>
              
           </tr>
@@ -82,6 +94,7 @@ export default {
     return {
       isEdit: true,
       groupList: [],
+      dialogNote: {},
     };
   },
   mounted() {
@@ -93,7 +106,6 @@ export default {
     
        await api.get("group_list")
        .then((response) => {
-   
         this.groupList=response
       });
     },
@@ -116,21 +128,12 @@ export default {
       
       let data = {
         id:id,
-       
       };
       api.put('group_activate', data).then((response) => {
-        console.log("group_activate",data)
-      
         this.getGroup();
-   
-
         return response.data;
       });
     },
-      
-    
-
-    
     },
   };
 

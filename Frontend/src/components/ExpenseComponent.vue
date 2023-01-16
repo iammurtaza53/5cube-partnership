@@ -30,10 +30,38 @@
               <ExpModel type="Edit" :isEdit="isEdit" :expense="item" :getexpenses="getexpenses"/>
             </td>
             <td>
+              <v-menu v-model="dialogNote[item.id] "
+                location="end" 
+              >
+                <template v-slot:activator="{ props }">
               <v-btn 
-                 v-on:click="delexpenses(item.id)" outlined plain size="x-small" icon>
+                 outlined plain size="x-small" icon v-bind="props">
                 <v-icon color="error">mdi-delete</v-icon>
               </v-btn>
+            </template>
+              <v-card min-width="300">
+                  <v-list>
+                    <v-list-item>
+                      Delete Confirmation
+                    </v-list-item>
+                  </v-list>
+                  <v-divider></v-divider>
+                  <v-list>
+                    <v-list-item>
+                     Are you sure you want to delete this category?
+                    </v-list-item> 
+                  </v-list>
+
+                    <v-spacer></v-spacer>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn variant="text"> Cancel </v-btn>
+                    <v-btn color="primary" variant="text" @click="delexpenses(item.id)">
+                      Delete
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-menu>
             </td>
           </tr>
         </tbody>
@@ -64,6 +92,7 @@ export default {
     return {
       isEdit:true,
       expense: [],
+      dialogNote: {},
     };
   },
   methods:{
