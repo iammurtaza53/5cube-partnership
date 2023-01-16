@@ -120,10 +120,7 @@ export default {
         end_date:  this.end_date
       };
       api.put("group_update", data).then((response) => {
-        response.data["status"] = 200;
         this.getGroup();
-        this.reset();
-
         return response.data;
       });
     },
@@ -160,23 +157,5 @@ export default {
 .aaa {
   border: 3px solid red;
 }
-.date-picker {
-  font-size: 16px;
-  padding: 20px;
-  width: 100%;
-  border: 1px solid #8e8e8e;
-  background-color: #f0f0f0;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-}
-.date-picker:hover {
-  background-color: #e8e8e8;
-  border-bottom: 1px solid black;
-}
-.date-picker:focus {
-  border-bottom: 2px solid black;
-  outline: none;
-  background-color: #e1e1e1;
-}
+
 </style>

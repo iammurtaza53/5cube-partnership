@@ -59,17 +59,17 @@
 </template>
 <script>
 export default {
-  mounted() {
-    if (localStorage.fullname) {
-      this.name=localStorage.name;
-    }
-    if (localStorage.email) {
-      this.email=localStorage.email;
-    }
-    if (localStorage.password) {
-      this.password = localStorage.password;
-    }
-  },
+  // mounted() {
+  //   if (localStorage.fullname) {
+  //     this.name=localStorage.name;
+  //   }
+  //   if (localStorage.email) {
+  //     this.email=localStorage.email;
+  //   }
+  //   if (localStorage.password) {
+  //     this.password = localStorage.password;
+  //   }
+  // },
   data() {
     return {
       isformvalid: false,

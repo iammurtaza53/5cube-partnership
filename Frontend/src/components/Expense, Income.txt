@@ -3,3 +3,9 @@ id, name, category_id=>Category, date, description, amount, group_id=>Group
 
 Group
 id, name, start_date, end_date, is_active
+
+Report
+show active group Details
+
+statistics
+show filtered group details using dropdown

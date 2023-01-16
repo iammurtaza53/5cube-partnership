@@ -1,5 +1,5 @@
 import datetime
-from .models import Category,Expense,Income,Group
+from .models import Category,Expense,Income,Group,Share
 from rest_framework import serializers
 
 
@@ -69,6 +69,36 @@ class IncomeSerializer(serializers.ModelSerializer):
     
     def create(self,validated_data):
         return Income.objects.create(**validated_data)
+    
+    def update(self,instance,validated_data):
+        instance.name=validated_data.get('name',instance.name) 
+        instance.description=validated_data.get('description',instance.description)
+        instance.amount=validated_data.get('amount',instance.amount)
+        instance.date=validated_data.get('date',instance.date)
+        instance.category=validated_data.get('category',instance.category)
+        instance.save()
+        return instance
+    
+    
+    
+# ----------------------Share-----------------------------   
+
+class ShareSerializer(serializers.ModelSerializer):
+    id=serializers.IntegerField()
+    name = serializers.CharField(max_length=100)
+    description = serializers.CharField(max_length=100)
+    amount = serializers.IntegerField()
+    date = serializers.DateField(initial=datetime.date.today)
+    category_name = serializers.ReadOnlyField(source='category.name')
+
+    
+    class Meta:
+        model = Share
+        # fields = ('id','idetail','iamount','idate','groupID', 'groupID_name')
+        fields = '__all__'
+    
+    def create(self,validated_data):
+        return Share.objects.create(**validated_data)
     
     def update(self,instance,validated_data):
         instance.name=validated_data.get('name',instance.name) 

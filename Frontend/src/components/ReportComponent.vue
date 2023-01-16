@@ -105,11 +105,13 @@ import axios from "axios";
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
 
+import api from "../api";
 export default {
   mounted() {
     this.getedata();
     this.getidata();
     this.calculateShares();
+    this.activegroup_filter();
   },
   name: "ReportComponent",
   components: {
@@ -139,7 +141,11 @@ export default {
     };
   },
   methods: {
-  
+    async activegroup_filter() {
+      await api.get("activegroup_filter").then((response) => {
+        console.log("response",response);
+      });
+    },
     async getedata() {
       let result = await axios.get("http://127.0.0.1:8000/expense_list/");
       this.expense = result.data;
@@ -147,13 +153,11 @@ export default {
     async getidata() {
       let result = await axios.get("http://127.0.0.1:8000/income_list/");
       this.income = result.data;
-
     },
+    
      getincome() {
       this.income.amount=this.income.map((e)=>e.amount)
            return this.income.reduce((total, itm) => itm.amount + total, 0);
-
-      
     },
     getexpenses() {
       this.expense.amount=this.expense.map((e)=>e.amount)
@@ -186,13 +190,15 @@ export default {
   },
 };
 </script>
-<style>
+<style scope>
 .border-bottom {
   border-bottom: 1px solid rgb(216, 216, 216);
 }
 .bg {
   background-color: rgb(250, 208, 191);
+  border-radius: none;
 }
+
 </style>
 
 
