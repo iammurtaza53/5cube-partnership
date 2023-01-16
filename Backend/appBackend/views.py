@@ -8,8 +8,7 @@ from rest_framework.renderers import JSONRenderer
 
 from appBackend.models import Category, Expense, Group, Income,Share
 
-from .serializers import (CategorySerializer, ExpenseSerializer,
-                          GroupSerializer, IncomeSerializer,ShareSerializer)
+from .serializers import CategorySerializer, ExpenseSerializer,GroupSerializer, IncomeSerializer,ShareSerializer
 
 
 # Query - set All cateory data
@@ -189,11 +188,9 @@ def income_delete(request):
 #Query - set All cateory data 
 def share_list(request):
     share=Share.objects.all()
-    serializer=ShareSerializer(share,many=True)#convert the queryset into python object
-    json_data=JSONRenderer().render(serializer.data)#convert the python object into json
-    return HttpResponse(json_data,content_type='application/json')#send the json data to the 
-    # or
-    # return JsonResponse(serializer.data,safe=False)
+    serializer=ShareSerializer(share,many=True)
+    json_data=JSONRenderer().render(serializer.data)
+    return HttpResponse(json_data,content_type='application/json') 
 
 @csrf_exempt
 def share_create(request):
@@ -212,13 +209,11 @@ def share_create(request):
 def share_update(request): 
     if request.method == 'PUT':
         
-        json_data = json.loads(request.body) # get the data from client side json.loads is used to convert the string into dictionary
-        
-        share = Share.objects.get(id=json_data['id']) # get the data from database
-        serializer = ShareSerializer(share,data=json_data,partial=True) # convert the data into python object
-        # breakpoint();
-        if serializer.is_valid(): # check the data is valid or not
-         serializer.save() # save the data into database
+        json_data = json.loads(request.body) 
+        share = Share.objects.get(id=json_data['id']) 
+        serializer = ShareSerializer(share,data=json_data,partial=True)
+        if serializer.is_valid():
+         serializer.save()
          res={'msg':'data updated'}
          json_data=JSONRenderer().render(res)
          return HttpResponse(json_data,content_type='application/json') 

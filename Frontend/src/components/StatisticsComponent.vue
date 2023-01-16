@@ -14,8 +14,25 @@
       >
       </v-select>
       <v-btn @click="filter_data_by_groupId(group)">Filter</v-btn>
+      <v-table>
+    <thead>
+      <tr>
+        <th class="text-left">S No.#</th>
+        <th class="text-left">Expense</th>
+        <th class="text-left">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, i) in filter.expense" :key="item.person">
+        <td>{{ i + 1 }}.</td>
+        <td>{{ item.name }}</td>
+        <td>Rs {{ item.amount }}/-</td>
+      </tr>
+    </tbody>
+  </v-table>
     </div>
   </div>
+  
 </template>
 <script>
 import AppSidebar from "./AppSidebar.vue";
@@ -36,6 +53,7 @@ export default {
     return {
       group: "",
       groupList: [],
+      filter: [],
     };
   },
   methods: {
@@ -46,7 +64,8 @@ export default {
     },
     async filter_data_by_groupId(id) {
       await api.get("stats_filter/" + id).then((response) => {
-        console.log(response);
+        this.filter = response;
+        console.log(this.filter);
       });
     },
   },
