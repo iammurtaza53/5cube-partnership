@@ -5,11 +5,8 @@
   <v-spacer class="page">
     <v-spacer class="d-flex page box p-3">Report</v-spacer>
     <v-spacer class="page content shadow p-3">
-
-    
     <v-container>
     <v-row>
-     
     <v-container>
       <v-row >
         <v-col sm="6" class="height">
@@ -32,8 +29,8 @@
                 <tr class="font-weight-bold">
                   <td></td>
                   <td class="aa">Total</td>
-                  <td class="aa">Rs 7777/-</td>
-                  <!-- <td class="aa">Rs {{ getexpenses() }}/-</td> -->
+                  <!-- <td class="aa">Rs 7777/-</td> -->
+                  <td class="aa">Rs {{total_expense }}/-</td>
                 </tr>
               </tbody>
             </v-table>
@@ -61,8 +58,8 @@
                 <tr class="font-weight-bold">
                   <td></td>
                   <td class="aa">Total</td>
-                  <!-- <td class="aa">Rs{{ getincome() }}/-</td> -->
-                  <td class="aa">Rs898/-</td>
+                  <td class="aa">Rs {{ total_income }}/-</td>
+                  <!-- <td class="aa">Rs898/-</td> -->
                 </tr>
               </tbody>
             </v-table>
@@ -72,7 +69,9 @@
     </v-container>
     <v-col sm="6" >
          <v-sheet class=" card pt-4" elevation="4">
-            <div>
+         
+            <div class="mx-2">
+              
     <apexchart :options="chartOptions" :series="chartData" type="pie"></apexchart>
   </div>
          </v-sheet>
@@ -83,19 +82,19 @@
           <tbody>
             <tr class="bg">
               <th>Total Income</th>
-              <!-- <td >Rs {{ getincome() }}/-</td> -->
-              <td >Rs 222/-</td>
+              <td >Rs {{ total_income }}/-</td>
+              <!-- <td >Rs 222/-</td> -->
 
             </tr>
             <tr class="bg">
               <th>Total Expense</th>
-              <!-- <td>Rs {{ getexpenses() }}/-</td> -->
-              <td>Rs 333/-</td>
+              <td>Rs {{ total_expense }}/-</td>
+              <!-- <td>Rs 333/-</td> -->
             </tr>
             <tr class="bg">
               <th>Net Profit</th>
-              <!-- <td>Rs {{ alltotal }}/-</td> -->
-              <td>Rs 444/-</td>
+              <td>Rs {{ total_net_profit}}/-</td>
+              <!-- <td>Rs 444/-</td> -->
             </tr>
           </tbody>
         </v-table>
@@ -114,15 +113,13 @@
 import AppSidebar from "./AppSidebar.vue";
 import AppHeader from "./AppHeader.vue";
 import api from "../api"
-
-
 export default {
   mounted() {
     // this.getedata();
     // this.getidata();
     // this.calculateShares();
     this.active_group_data();
- 
+    this.getShares_data();
   },
   name: "ReportComponent",
   components: {
@@ -133,36 +130,26 @@ export default {
   data() {
     return {
       filter: [],
-      // income: [],
-      items: [
-        {
-          person: "Tom",
-          salary: 50000,
-          share: 30,
-          shares: 0,
-        },
-        {
-          person: "John",
-          salary: 50000,
-          share: 70,
-          shares: 0,
-        },
-      ],
+     
+      
     chartOptions: {
       chart: {
         width: 280,
    
         type: 'pie',
             },
+        title:{
+          text:"Share Holder's Income"
+        },
       labels: [],
-      colors:['#510f13', '#dc8c8c'],
+      colors:['#510f13','#dc8c8c','#f9f1f1'],
         },
     chartData: [],
-      
-    
-    
-
-
+    shareList:[],
+    total_income:0,
+    total_expense:0,
+    total_net_profit:0,
+    total_salary:0
 
     };
   },
@@ -170,9 +157,29 @@ export default {
     async active_group_data(){
          await api.get("activegroup_filter").then((response) => {
         this.filter = response;
-        console.log(this.filter)
       });
+      this.total_income=this.filter.total_income;
+      this.total_expense=this.filter.total_expense;
+   
     },
+     async getShares_data() {
+      setTimeout(()=>{
+      api.get("share_list/").then((response) => {
+        response.map((e)=>{
+             
+        
+          this.chartOptions.labels.push(e.name)
+        this.total_salary= response.reduce((total,item)=>item.salary+total,0)
+        this.total_net_profit= (this.total_income - this.total_expense) - this.total_salary
+           this.chartData.push((this.total_net_profit*e.share)/100 +e.salary)
+           
+
+        })
+     
+      });
+      },1000)
+    },
+
     // async getedata() {
     //   let result = await axios.get("http://127.0.0.1:8000/expense_list/");
     //   this.expense = result.data;
@@ -181,9 +188,13 @@ export default {
     //   let result = await axios.get("http://127.0.0.1:8000/income_list/");
     //   this.income = result.data;
     // },
-    // getincome() {
-    //   this.income.amount = this.income.map((e) => e.amount);
-    //   return this.income.reduce((total, itm) => itm.amount + total, 0);
+    // total_income() {
+    //   // this.filter.income.map((e) => {
+    //   //   console.log(e.amount)
+    //   // });
+    //   console.log('dd',this.filter.income)
+    //   // return this.filter.income.reduce((total, itm) => itm.amount + total, 0);
+     
     // },
     // getexpenses() {
     //   this.expense.amount = this.expense.map((e) => e.amount);
@@ -212,17 +223,17 @@ export default {
       
 //
 //     }
-  // },
-
-
-//   computed: {
-//     alltotal() {
-//       return this.getincome() - this.totalsalary - this.getexpenses();
-//     },
-//     totalsalary() {
-//       return this.items.reduce((total, itm) => itm.salary + total, 0);
-//     },
   },
+
+
+  // computed: {
+  //   // alltotal() {
+  //   //   return this.getincome() - this.totalsalary - this.getexpenses();
+  //   // },
+  //   totalsalary() {
+  //     return this.items.reduce((total, itm) => response.salary + total, 0);
+  //   },
+  // },
 };
 </script>
 <style scoped>
@@ -247,6 +258,9 @@ export default {
 .text-color{
   color: #501519f1;
 
+}
+.content{
+  background-color: #fff1f1;
 }
 
 th{

@@ -41,8 +41,8 @@
               >
                 <template v-slot:activator="{ props }">
               <v-btn 
-                 outlined plain size="x-small" icon v-bind="props">
-                <v-icon color="error">mdi-delete</v-icon>
+                 outlined plain size="28" icon v-bind="props">
+                <v-icon size="15" color="error">mdi-delete</v-icon>
               </v-btn>
             </template>
               <v-card min-width="300">

@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import HttpResponse, render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
-
+from django.db.models import Sum
 from appBackend.models import Category, Expense, Group, Income,Share
 
 from .serializers import CategorySerializer, ExpenseSerializer,GroupSerializer, IncomeSerializer,ShareSerializer
@@ -323,11 +323,14 @@ def fiter_active_group_data(request):
         grp = Group.objects.get(isActivated=True)
         
         income=Income.objects.filter(group=grp.id)
+        total_income = income.aggregate(Sum('amount'))
         income_serializer = IncomeSerializer(income,many=True)
         
         expense=Expense.objects.filter(group=grp.id)
+        total_expense = expense.aggregate(Sum('amount'))
         expense_serializer = ExpenseSerializer(expense,many=True)
+       
+        json_data = JSONRenderer().render({'income':income_serializer.data,'expense':expense_serializer.data,'total_income':total_income['amount__sum'],'total_expense':total_expense['amount__sum']})
         
-        json_data = JSONRenderer().render({'income':income_serializer.data,'expense':expense_serializer.data})
         return HttpResponse(json_data,content_type='application/json')        
         

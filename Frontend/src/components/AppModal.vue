@@ -10,12 +10,12 @@
         <v-btn
           outlined
           plain
-          size="x-small"
+          size="28px"
           icon
           v-bind="props"
           @click="prefillForm(category)"
         >
-          <v-icon color="indigo">mdi-pencil</v-icon>
+          <v-icon size="15" color="indigo">mdi-pencil</v-icon>
         </v-btn>
       </div>
     </template>

@@ -50,11 +50,12 @@
                   <v-btn
                     outlined
                     plain
-                    size="x-small"
+                    size="28"
+                    
                     icon
                     v-bind="props"
                   >
-                    <v-icon color="error">mdi-delete</v-icon>
+                    <v-icon size="15" color="error">mdi-delete</v-icon>
                   </v-btn>
                 </template>
                 
@@ -138,7 +139,7 @@ export default {
 
 <style>
 td{
-  height: 30px !important;
+  height: 35px !important;
   font-size: 12px !important;
 }
 .page {
