@@ -137,6 +137,10 @@ export default {
 </script>
 
 <style>
+td{
+  height: 30px !important;
+  font-size: 12px !important;
+}
 .page {
   color: white;
   padding: 0 1rem;

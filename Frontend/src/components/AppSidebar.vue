@@ -55,11 +55,11 @@ export default {
         { path:"/group", name: "Group", icon: " mdi-calendar-month-outline"},
         { path: "/share", name: "Share", icon: "mdi-currency-usd"},
         { path:"/report", name: "Report", icon: "mdi-chart-line-variant"},
+        { path:"/statistic", name: "Statistic", icon: "mdi-chart-line-variant"},
       ],
       rail: false,
     };
   },
- 
 };
 </script>
 

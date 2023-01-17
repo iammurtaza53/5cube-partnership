@@ -9,6 +9,7 @@ import ShareComponent from "./components/ShareComponent.vue";
 import ReportComponent from "./components/ReportComponent.vue";
 import GroupComponent from "./components/GroupComponent.vue";
 import SignUp from "./components/SignUp";
+import StatisticsComponent from "./components/StatisticsComponent.vue";
 
 
 const routes = [
@@ -82,6 +83,14 @@ const routes = [
         }
     },
     {
+        name:"statistic",
+        path:"/statistic",
+        component: StatisticsComponent,
+        meta: {
+            isRequired: false
+        }
+    },
+    {
         path: '',
         redirect: '/signin'
     }
@@ -100,7 +109,6 @@ router.beforeEach((to, from, next) => {
             next('/')
         }
     } else {
-        console.log('else')
         next()
     }
 })

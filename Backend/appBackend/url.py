@@ -3,7 +3,7 @@ from django.urls import path
 from appBackend import views
 
 urlpatterns=[
-    # path("catinfo",views.category_detail),
+
     path('catinfo/<int:pk>',views.category_detail),
     path('category_list/',views.category_list),
     path('category_create',views.category_create),
@@ -26,4 +26,12 @@ urlpatterns=[
     path('group_delete',views.group_delete),
     path('group_update',views.group_update),
     path('group_activate',views.group_activate),
+    
+    path('share_list/',views.share_list),
+    path('share_create',views.share_create),
+    path('share_delete',views.share_delete),
+    path('share_update',views.share_update),
+    
+    path('stats_filter/<int:pk>',views.filter_data_by_groupId),
+    path('activegroup_filter',views.fiter_active_group_data)
 ]
