@@ -15,24 +15,39 @@
       </v-select>
       <v-btn @click="filter_data_by_groupId(group)">Filter</v-btn>
       <v-table>
-    <thead>
-      <tr>
-        <th class="text-left">S No.#</th>
-        <th class="text-left">Expense</th>
-        <th class="text-left">Amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(item, i) in filter.expense" :key="item.person">
-        <td>{{ i + 1 }}.</td>
-        <td>{{ item.name }}</td>
-        <td>Rs {{ item.amount }}/-</td>
-      </tr>
-    </tbody>
-  </v-table>
+        <thead>
+          <tr>
+            <th class="text-left">S No.#</th>
+            <th class="text-left">Expense</th>
+            <th class="text-left">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, i) in filter.expense" :key="item.person">
+            <td>{{ i + 1 }}.</td>
+            <td>{{ item.name }}</td>
+            <td>Rs {{ item.amount }}/-</td>
+          </tr>
+        </tbody>
+      </v-table>
+      <v-table>
+        <thead>
+          <tr>
+            <th class="text-left">S No.#</th>
+            <th class="text-left">Income</th>
+            <th class="text-left">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, i) in filter.income" :key="item.person">
+            <td>{{ i + 1 }}.</td>
+            <td>{{ item.name }}</td>
+            <td>Rs {{ item.amount }}/-</td>
+          </tr>
+        </tbody>
+      </v-table>
     </div>
   </div>
-  
 </template>
 <script>
 import AppSidebar from "./AppSidebar.vue";
@@ -73,13 +88,5 @@ export default {
 </script>
 
 <style scope>
-/* .content {
-  min-height: calc(100vh - 178px);
-  border-radius: none !important;
-  margin-top: 0;
-  background: white;
-  color: black;
-  font-size: 1rem;
-  padding-top: 20px;
-} */
+
 </style>

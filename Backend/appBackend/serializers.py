@@ -89,6 +89,10 @@ class ShareSerializer(serializers.ModelSerializer):
     salary = serializers.IntegerField()
     share = serializers.IntegerField()
     
+    class Meta:
+        model = Share
+        fields = '__all__'
+    
     def create(self,validated_data):
         return Share.objects.create(**validated_data)
     

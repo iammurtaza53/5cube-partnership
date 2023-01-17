@@ -6,7 +6,7 @@
   <AppHeader />
 
   <div app class="page">
-    <!-- <div class="d-flex page box p-3">Categories</div> -->
+    <div class="d-flex page box p-3">Categories</div>
     <div class="content page shadow p-3 position-relative">
       <!-- app-modal component is used to show the modal to create category with type="Create" and to edit category with type="Edit" -->
 
@@ -104,7 +104,7 @@ export default {
 
   data() {
     return {
-      categoryList: [],
+      shareList: [],
       isEdit: true,
       dialogNote: {},
     };
